@@ -1,5 +1,18 @@
 {
-  "name": "health-track",
-  "version": "0.1",
-  "description": "testing",
-  "main": "index.html"}
+  "name": "new-site",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 1234\" \"open http://localhost:1234\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "http-server": "^14.1.1"
+  }
+}
+

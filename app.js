@@ -4,6 +4,7 @@ button.addEventListener('click', function() {
     // Perform an action when the button is clicked
     const username = document.getElementById('usr').value;
     const pwd = document.getElementById('pwd').value;
-    alert(username + pwd);
+    window.location.href ='landing.html';
 
 });
+
