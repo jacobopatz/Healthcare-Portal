@@ -77,3 +77,8 @@ body {
     align-self: center;
     text-align: center;
 }
+.logout {
+    position: absolute;
+    right:10vh;
+}
+
