@@ -6,6 +6,13 @@ body, html {
     box-sizing: border-box;
 }
 
+input {
+    height: 5vh;
+    width: 40vh;
+    border-radius: 10px;
+    border: none;
+    margin: 2%;
+}
 .flex-container {
     display: flex;
 }
