@@ -28,10 +28,10 @@ body {
 .menu {
     position: fixed;
     top:0;
-    left: -20vw;
+    left: -40vw;
     display: flex;
     flex-direction: column;
-    height: 200vh;
+    height: 100vh;
     width: 20vw;
     background-color: #cdb29e;
     transition: left 0.3s ease;
@@ -69,11 +69,10 @@ body {
 
 }
 .menu-item {
-    top:2vh;
-    margin-bottom: 5vh;
+    flex:1 1;
     color: #5392ac;
     text-decoration: none;
-    font-size: xx-large;
+    font-size: X-large;
     justify-self: center;
     align-self: center;
     text-align: center;
