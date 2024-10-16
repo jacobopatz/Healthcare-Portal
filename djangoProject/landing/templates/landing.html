@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>landing</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}">
+    <link rel="stylesheet" href="https://use.typekit.net/ezv3bxp.css">
+</head>
+<body>
+    <header class="header">
+        <img class = "logo"  src= "{% static 'img/Logo.png' %}">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class='logout' type="submit">Logout</button>
+        </form>
+    </header>
+    <div class="flex-container">
+        <h1>Welcome, {{ user.username }}</h1>
+            
+            
+        <form class="flex-container" method="post" action="{% url 'landing' %}">
+            {% csrf_token %}
+        <button type = "submit" name='site' value='schedule' class="box">Physician Scheduler (SCHED)</button>
+        <button type = "submit" name='site' value='patientRecord'class="box" id="ER" class="box">Electronic Patient Record (ER)</button>
+        <button type = "submit" name='site' value='labOrder'class="box" id ="LT">Lab Order Tracking (LT)</button>
+        <button type = "submit" name='site' value='pharmacy'class="box" id="PT">Pharmacy Order Tracking (PT)</button>
+        <button type = "submit" name='site' value='insurance'class="box" id="IB">Insurance Billing (IB)</button>
+        <button type = "submit" name='site' value='equipment'class="box" id="EQ">Equipment Inventory and Maintenance (EQ)</button>
+    </form>
+
+    
+    <!-- <script src="{% static 'js/landing.js' %}"></script> -->
+</body>
+</html>

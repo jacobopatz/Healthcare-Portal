@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/template.css' %}">
+    <title>Equipment Inventory and Maintenance</title>
+</head>
+<body>
+    <!-- header with logo -->
+    <header class="header">
+    <img class="menu-toggle" id="menu-toggle" src="{% static 'img/menu.png' %}">
+     <img class = "logo"  src= "{% static 'img/logo.png' %}">
+     <div class="accountMenu">
+     <p>User: {{ user.username }}</p>
+     <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class='logout' type="submit">Logout</button>
+    </form>
+    </div>
+    </header>
+    <!-- sliding menu-->
+    <div id="menu" class ="menu">
+        <div class="menu-bar">
+           <img class="menu-toggle exit" id="menu-exit" src="{% static 'img/exit.png' %}">
+        </div>
+        <!-- links to other pages-->
+        <a href="/landing" id="landing" class="menu-item"> Home</a>
+        <a href="/patientRecord/" id="ER" class="menu-item">Electronic Patient Record</a>
+        <a href="/schedule" id ="SCHED" class="menu-item">Physician Scheduler</a>
+        <a href="/labOrder" id ="LT" class="menu-item">Lab Order Tracking</a>
+        <a href="/pharmacy" id = "PT"class="menu-item">Pharmacy Order Tracking</a>
+        <a href="/insurance" id="IB" class="menu-item">Insurance Billing</a>
+        <a href="/equipment" id="EQ" class="menu-item">Equipment Inventory and Maintenance</a>
+    </div>
+    <div class="main-page">
+        <!--code for page goes here!!! rest is a template-->
+        
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+    <script src="{% static 'js/template.js' %}"></script>
+    
+</body>
+</html>

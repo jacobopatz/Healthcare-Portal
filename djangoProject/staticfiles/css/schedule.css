@@ -1,0 +1,21 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+.flex-container {
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sched_background {
+    background-color: #cdb29e;
+    height: 80vh;
+    width:95vw;
+    border-radius: 2%;
+    margin-top: 10vh;
+}

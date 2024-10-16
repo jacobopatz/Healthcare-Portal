@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f4ed;
+    color: #333;
+}
+
+.header {
+    background-color: #032838;
+    width: 100vw;
+    height: 15vh;
+    margin-bottom: 3vh;
+    display: flex;
+    justify-content: space-between; /* Space between logo and account menu */
+    align-items: center;
+    padding: 0 10px; /* Add some padding */
+}
+
+.logo {
+    max-height: 100%;
+}
+
+.accountMenu {
+    display: flex; /* Use flex to layout username and logout */
+    align-items: center; /* Center vertically */
+}
+
+.logout {
+    margin-left: 10px; /* Space between username and logout button */
+}
+
+/* Menu styles remain unchanged */
+.menu {
+    position: fixed;
+    top: 0;
+    left: -40vw;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 20vw;
+    background-color: #cdb29e;
+    transition: left 0.3s ease;
+    border-right: 2px solid #3e3e3e;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    height: 5vh;
+    width: 5vh;
+}
+
+.menu-open {
+    left: 0;
+}
+
+.menu-bar {
+    height: 15vh;
+    width: 100%;
+    background-color: #032838;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #3e3e3e;
+}
+
+.menu-item {
+    display: flex;
+    flex: 1;
+    color: #5392ac;
+    text-decoration: none;
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 25% 25% 0 0; /* Rounded top corners */
+}
+
+.menu-item:hover {
+    background-color: #ae9481;
+    color: #5392ac;
+}
