@@ -38,7 +38,8 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-
+def load(request):
+    return redirect('login')
 
 
 # A function to process the input text
