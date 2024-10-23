@@ -10,37 +10,52 @@ html, body {
 .flex-container {
     display: flex;
     flex-wrap: wrap;
-    
+    justify-content: space-between;
+    padding: 15px;
+    align-items: stretch;
     
 }
 .box {
-    flex: 1 1 30vw;
+    flex: 1 1 25vw;
     background-color: #5392ac;
-    border-radius: 30px;
+    border-radius: 20px;
     height: 30vw;
     margin: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: x-large;
+    font-size: 2vw;
     color:black;
+    overflow: hidden;
+    padding: 10px
     
-
 }
+@media (max-width: 600px) {
+    .box {
+        width: calc(100%-30px); 
+        font-size: 5vw; 
+        height: auto; 
 
-
+    }
+    .flex-container {
+        flex-direction: column; 
+        align-items: stretch; 
+        padding:15px;
+    }
+    
+}
 .header {
+   display: flex;
    background-color: #032838;
    width:100vw;
    height:15vh;
    margin-bottom: 3vh;
-   display: flex;
-    flex-direction: row;
-    align-items: center;   /* Vertical alignment */
-    justify-content: center;
+   flex-direction: row;
+   align-items: center;   /* Vertical alignment */
+   justify-content: center;
 }
 .header img {
     max-height: 100%;
 }
 .logout {
     position: absolute;
-    right:10vh;
+    right:5vh;
 }

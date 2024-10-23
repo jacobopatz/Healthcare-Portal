@@ -39,7 +39,6 @@ body {
     border-right-color: #3e3e3e;
     border-right-width: 2px;
     border-right-style: solid;
-    
 
 }
 .menu-toggle{
@@ -48,8 +47,6 @@ body {
     height:5vh;
     width:5vh;
     left:10px;
-
-    
 
 }
 .menu-open {
