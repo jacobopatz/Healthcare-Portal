@@ -21,4 +21,6 @@ repeat # 1 - 3 above for each team member (not yourself)
 **What we did:**
 
 **Sebastian** - Equipment subsystem UI Design - solely, Requirements analysis - co-develop
+
+
 **James** - Database - soley
