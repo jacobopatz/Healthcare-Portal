@@ -24,3 +24,5 @@ repeat # 1 - 3 above for each team member (not yourself)
 
 
 **James Stockwell** - Database - soley
+
+**Nomar Salom** - Project Notebook Test and Code - solely, Lab Orders Subsystem UI Design - solely, Project Planning - contributed
