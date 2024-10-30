@@ -20,9 +20,9 @@ repeat # 1 - 3 above for each team member (not yourself)
 
 **What we did:**
 
-**Sebastian** - Equipment subsystem UI Design - solely, Project Planning - Contributed, UI general design - Contributed
+**Sebastian Majsa** - Equipment subsystem UI Design - solely, Project Planning - Contributed, UI general design - Contributed
 
 
-**James Stockwell** - Database - soley
+**James Stockwell** - Database - soley, Project Planning - contributed
 
 **Nomar Salom** - Project Notebook Test and Code - solely, Lab Orders Subsystem UI Design - solely, Project Planning - contributed
