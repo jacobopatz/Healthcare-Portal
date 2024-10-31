@@ -26,4 +26,5 @@ repeat # 1 - 3 above for each team member (not yourself)
 **James Stockwell** - Database - soley, Project Planning - contributed
 
 **Nomar Salom** - Project Notebook Test and Code - solely, Lab Orders Subsystem UI Design - solely, Project Planning - contributed
+
 **Han Luu** - Insurance and billing UI design- solely
