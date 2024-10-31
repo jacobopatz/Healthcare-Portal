@@ -7,7 +7,42 @@
 {% block content %}
 <h1>Physician Scheduler</h1>
 <div class="flex-container">
-    <div class="sched_background"></div>
-    <div class="sched_background"></div>
-</div>
+    <div class="sched_background">
+        <form method="GET" action="{% url 'schedule' %}">
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="sched_background">
+        <h2>Available Appointment Slots for Next Week</h2>
+        <table class="calendar-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Available Slots</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for day, slots in available_slots.items %}
+                    <tr>
+                        <td>{{ day|date:"Y-m-d" }}</td>
+                        <td>
+                            {% if slots %}
+                                <ul>
+                                    {% for slot in slots %}
+                                        <li>
+                                            <button class="appointment-time" data-time="{{ slot|time:"H:i" }}">{{ slot|time:"H:i" }}</button>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No available slots</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
 {% endblock %}
