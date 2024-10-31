@@ -28,4 +28,4 @@ repeat # 1 - 3 above for each team member (not yourself)
 **Nomar Salom** - Project Notebook Test and Code - solely, Lab Orders Subsystem UI Design - solely, Project Planning - contributed
 
 **Han Luu** - Insurance and billing UI design- solely
-**Jacob Opatz** - Schedule UI design (Soley), implemented database in django (Co-Develop), Django set-up (solely),
+**Jacob Opatz** - Schedule UI design (Soley), Patient record UI design(Soley)implemented database in django (Co-Develop), Django set-up (solely),
