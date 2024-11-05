@@ -157,6 +157,8 @@ class PatientRecord(models.Model):
     class Meta:
          
         db_table = 'patient record'
+    def __str__(self):
+        return f"{self.lastname}, {self.firstname}"
 
 
 class PharmacyOrder(models.Model):

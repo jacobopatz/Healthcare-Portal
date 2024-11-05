@@ -7,12 +7,19 @@
 {% block content %}
 <h1>Physician Scheduler</h1>
 <div class="flex-container">
-    <div class="sched_background">
-        <form method="GET" action="{% url 'schedule' %}">
+    <div class="select-background">
+        <div class="select-right">
+        <form method="GET" action="{% url 'schedule' %}" class="select-form">
+            {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Submit</button>
         </form>
+        
     </div>
+    <div class="select-left" >
+        <h2> Selected Appointment: </h2>
+    </div>
+</div>
     <div class="sched_background">
         <h2>Available Appointment Slots for Next Week</h2>
         <table class="calendar-table">
@@ -28,16 +35,23 @@
                         <td>{{ day|date:"Y-m-d" }}</td>
                         <td>
                             {% if slots %}
-                                <ul>
-                                    {% for slot in slots %}
-                                        <li>
-                                            <button class="appointment-time" data-time="{{ slot|time:"H:i" }}">{{ slot|time:"H:i" }}</button>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <p>No available slots</p>
-                            {% endif %}
+                            <ul>
+                                {% for slot in slots %}
+                                <li class="test">
+                                    
+                                        <button class="appointment-time {% if slot.is_booked %}booked{% else %}available{% endif %}" 
+                                                data-time="{{ slot.time|time:"H:i" }}">
+                                            {{ slot.time|time:"H:i" }} - 
+                                            {% if slot.is_booked %}Booked{% else %}Available{% endif %}
+                                        </button>
+                                
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No available slots</p>
+                        {% endif %}
+                        
                         </td>
                     </tr>
                 {% endfor %}

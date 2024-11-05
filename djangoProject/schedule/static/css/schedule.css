@@ -4,49 +4,119 @@ body, html {
     height: 100%;
     box-sizing: border-box;
 }
+
 .flex-container {
-    height: auto;
-    width: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .sched_background {
     background-color: #cdb29e;
     min-height: 80vh;
     overflow: auto;
-    width:95vw;
+    width: 95vw;
     border-radius: 2%;
     margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
-.calendar-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+.select-background {
+    background-color: #cdb29e;
+    min-height: 80vh;
+    overflow: auto;
+    width: 95vw;
+    border-radius: 2%;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
 }
 
-.calendar-table th,
+.select-right {
+    flex: 1;
+    display: flex;
+    width: 50%;
+    border-right: 2px solid #032838;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.select-left {
+    flex: 1;
+    
+}
+
+.select-right button {
+    background-color: #5392ac;
+    width: 30%;
+    height: 20%;
+    border-radius: 10px;
+}
+
+select {
+    height: 5vh;
+    width: 40vh;
+    border-radius: 10px;
+    border: none;
+    margin: 2%;
+}
+p {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-table {
+    width: 90%;
+    border-collapse: collapse;
+    align-self: center;
+}
+
 .calendar-table td {
-    border: 1px solid #ddd;  /* Adds border around each cell */
-    padding: 8px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
 .calendar-table th {
-    background-color: #f2f2f2;  /* Light gray background for header */
+    background-color: #f2f2f2;
 }
 
 .calendar-table tbody tr:hover {
-    background-color: #f1f1f1;  /* Light gray on hover for rows */
-}
-
-.calendar-table ul {
-    list-style-type: none;  /* Removes bullet points */
-    padding: 0;  /* Removes padding */
-    margin: 0;  /* Removes margin */
+    background-color: #f1f1f1;
 }
 
 .calendar-table li {
-    margin: 5px 0;  /* Adds some space between slots */
+    flex: 1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
 }
+
+.calendar-table ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 10vh;
+}
+
+.appointment-time.booked {
+    flex: 1 1;
+    background-color:  #5392ac;
+    height: 100%;
+}
+
+.appointment-time.available {
+    flex: 1 1;
+    background-color:  #f9f4ed;
+    height: 100%;
+}
+
