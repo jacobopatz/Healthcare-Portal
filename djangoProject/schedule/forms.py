@@ -10,3 +10,11 @@ class PhysicianSelectionForm(forms.Form):
         queryset = PatientRecord.objects.all(),
         label='Select Patient'
     )
+    changed_time = -1
+
+class MakeAppointmentForm(forms.Form):
+    date = forms.DateTimeField()
+    physicianid = forms.IntegerField()
+    patientid = forms.IntegerField()
+    
+

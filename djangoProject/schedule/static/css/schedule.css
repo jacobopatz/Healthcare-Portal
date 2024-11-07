@@ -118,5 +118,13 @@ p {
     flex: 1 1;
     background-color:  #f9f4ed;
     height: 100%;
+    
 }
-
+.appointment-time.available:hover {
+    background-color: #c3af93; /* Change to a new background color on hover */
+    color: white; /* Text color on hover */
+    border: 1px solid #388E3C; /* Add or change border color on hover */
+    cursor: pointer; /* Show pointer cursor */
+    transform: scale(1.05); /* Slightly enlarge the button */
+    transition: all 0.2s ease-in-out; /* Smooth transition effect */
+}

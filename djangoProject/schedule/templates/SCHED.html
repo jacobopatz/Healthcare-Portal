@@ -16,9 +16,30 @@
         </form>
         
     </div>
-    <div class="select-left" >
-        <h2> Selected Appointment: </h2>
+    <div class="select-left">
+        <!-- TODO: remove me -->
+        
+        <p>{{selected_time}}</p> 
+        {% if selected_time %}
+            <h2>Appointment Found!</h2>
+            <h3>When?: </h3>
+            <p>{{selected_time}}</p>
+            <h3>Provider:</h3>
+            <p>{{physician.firstname}} {{physician.lastname}}</p>
+            <h3>Patient: </h3>
+            <p>{{patient.lastname}}, {{patient.firstname}}</p>
+            <form method="POST" action="{% url 'schedule' %}" class="select-form">
+                {% csrf_token %}
+                <input type="hidden" name ='date' value = "{{selected_time}}">
+                <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
+                <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
+                <button type="submit">Submit</button>
+            </form>
+        {% else %}
+            <h2>Select Physician and Patient to View available appointments:</h2>
+        {% endif %}
     </div>
+    
 </div>
     <div class="sched_background">
         <h2>Available Appointment Slots for Next Week</h2>
@@ -38,12 +59,23 @@
                             <ul>
                                 {% for slot in slots %}
                                 <li class="test">
-                                    
-                                        <button class="appointment-time {% if slot.is_booked %}booked{% else %}available{% endif %}" 
+                                    <form method="GET" action="{% url 'schedule' %}" class="select-form">
+                                        {% csrf_token %}
+                                        {% if slot.is_booked %}
+                                        <button type="submit" class="appointment-time booked" 
                                                 data-time="{{ slot.time|time:"H:i" }}">
-                                            {{ slot.time|time:"H:i" }} - 
-                                            {% if slot.is_booked %}Booked{% else %}Available{% endif %}
+                                            {{ slot.time|time:"H:i" }} - Booked
                                         </button>
+                                        {% else %}
+                                        <input type="hidden" name="physician" value="{{ physician.employeeid}}">
+                                        <input type="hidden" name="patient" value="{{patient.patientid}}">
+                                        <input type="hidden" name="changed_time" value="{{slot.time}}">
+                                        <button type="submit" class="appointment-time available" 
+                                                data-time="{{ slot.time|time:"H:i" }}">
+                                            {{ slot.time|time:"H:i" }} - Available
+                                        </button>
+                                    </form>
+                                    {% endif %}
                                 
                                 </li>
                                 {% endfor %}

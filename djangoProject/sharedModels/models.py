@@ -6,10 +6,11 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+import uuid
 
 
 class Appointments(models.Model):
-    appointmentid = models.IntegerField(db_column='AppointmentID', primary_key=True)  # Field name made lowercase.
+    appointmentid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Field name made lowercase.
     date = models.DateTimeField(db_column='Date')  # Field name made lowercase.
     physcianid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='PhyscianID')  # Field name made lowercase.
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING, db_column='PatientID')  # Field name made lowercase.
@@ -31,7 +32,7 @@ class Employees(models.Model):
         db_table = 'employees'
 
     def __str__(self):
-        return f"{self.firstname} {self.lastname}"  # Display first and last name
+        return f"(ID: {self.employeeid}) {self.firstname} {self.lastname}"  # Display first and last name
 
 
 
