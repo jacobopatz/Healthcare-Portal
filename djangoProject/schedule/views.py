@@ -49,13 +49,13 @@ class ScheduleView(View):
                     if (day, slot['time'].hour) in booked_times:
                         slot['is_booked'] = True
                     elif(selected_time == -1): 
-                        selected_time = slot['time'].strftime("%b %d, %Y, %I:%M %p")
+                        selected_time = slot['time']
                     if(request.GET.get('changed_time') != None):
                         selected_time = request.GET.get('changed_time')
 
 
         return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'selected_time': selected_time,'physician':physician, 'patient':patient})
-
+    
     def post(self,request):
           # Get data from the form (hidden inputs)
         selected_time = request.POST.get('date')  # This is the time selected for the appointment
@@ -71,12 +71,11 @@ class ScheduleView(View):
         except PatientRecord.DoesNotExist:
             # Handle the case where the patient doesn't exist
             return render(request, 'SCHED.html', {'error': 'Patient not found'})
-        selected_time = selected_time.replace('.', ',') 
-        parsed_datetime = datetime.strptime(selected_time, "%b %d, %Y, %I:%M %p")
-        formatted_datetime = parsed_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12 PM"), "%b. %d, %Y, %I %p")
+        
          # Create a new appointment
         appointment = Appointments.objects.create(
-            date= formatted_datetime,
+            date= parsed_datetime ,
             physcianid=physician,
             patientid= patient
         )

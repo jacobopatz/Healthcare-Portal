@@ -92,13 +92,16 @@ p {
 }
 
 .calendar-table li {
-    flex: 1;
+    flex: 1 1;
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
 }
-
+.change-form {
+    flex: 1 1;
+    display: flex;
+}
 .calendar-table ul {
     list-style-type: none;
     padding: 0;
@@ -112,12 +115,14 @@ p {
     flex: 1 1;
     background-color:  #5392ac;
     height: 100%;
+    width: 100%;
 }
 
 .appointment-time.available {
     flex: 1 1;
     background-color:  #f9f4ed;
     height: 100%;
+    width: 100%;
     
 }
 .appointment-time.available:hover {

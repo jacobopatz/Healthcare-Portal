@@ -59,7 +59,7 @@
                             <ul>
                                 {% for slot in slots %}
                                 <li class="test">
-                                    <form method="GET" action="{% url 'schedule' %}" class="select-form">
+                                    <form method="GET" action="{% url 'schedule' %}" class="change-form">
                                         {% csrf_token %}
                                         {% if slot.is_booked %}
                                         <button type="submit" class="appointment-time booked" 
