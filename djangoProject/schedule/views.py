@@ -3,8 +3,36 @@ from django.views import View
 from sharedModels.models import Appointments, Employees, PatientRecord
 from .forms import PhysicianSelectionForm, MakeAppointmentForm
 from datetime import datetime, timedelta
+from django.shortcuts import redirect
 
 class ScheduleView(View):
+    def getAppointments(self,physician):
+        
+        appointments = Appointments.objects.filter(physcianid=physician.employeeid)
+        available_slots = {}
+        earliest_apt = -1 #initilize so we can store the first
+        current_date = datetime.now().date()
+        for i in range(30):
+            day = current_date+timedelta(days=i)
+            available_slots[day] = [
+                {
+                 'time': datetime.combine(day,datetime.min.time()).replace(hour=hour),
+                 'is_booked': False
+                } 
+                 for hour in range(9,17)
+                ]
+        # Remove booked slots from available slots
+        booked_times = {(appt.date.date(), appt.date.hour) for appt in appointments}
+        for day, slots in available_slots.items():
+                for slot in slots:
+                    if (day, slot['time'].hour) in booked_times:
+                        slot['is_booked'] = True
+                    elif(earliest_apt == -1):
+                        earliest_apt= slot['time']
+        return (available_slots, earliest_apt)
+                    
+       
+        
     def get(self, request):  # `request` is passed correctly here
         form = PhysicianSelectionForm()
         postForm = MakeAppointmentForm()
@@ -14,44 +42,19 @@ class ScheduleView(View):
         if( request.GET.get('physician') == None):
             return render(request, 'SCHED.html', {'form': form, 'postForm': postForm, 'available_slots': available_slots})
        
-    
-        current_date = datetime.now().date()
-        #set to -1 so we know no info has been passed
-        selected_time =-1
+        #get request info
+        physician_ID = request.GET.get('physician')
+        physician = Employees.objects.get(employeeid = physician_ID)
+        patient_ID = request.GET.get('patient')
+        patient = PatientRecord.objects.get(patientid=patient_ID)
         
-        # Initialize available slots for the next 7 days
-        for i in range(30):  # Loop through the next 7 days
-            day = current_date + timedelta(days=i)
-            available_slots[day] = [
-                {
-                    'time': datetime.combine(day, datetime.min.time()).replace(hour=hour),
-                    'is_booked': False
-                }
-                for hour in range(9, 17)
-            ]
-
-        # Check if a physician is selected
-        selected_physician_id = request.GET.get('physician')
-        physician = Employees.objects.get(employeeid=selected_physician_id)
-
-        #get patient
-        selected_patient_id = request.GET.get('patient')
-        patient = PatientRecord.objects.get(patientid= selected_patient_id)
-        if selected_physician_id:
-            # Get all appointments for the selected physician
-            appointments = Appointments.objects.filter(physcianid_id=selected_physician_id)
-
-            # Remove booked slots from available slots
-            booked_times = {(appt.date.date(), appt.date.hour) for appt in appointments}
-
-            for day, slots in available_slots.items():
-                for slot in slots:
-                    if (day, slot['time'].hour) in booked_times:
-                        slot['is_booked'] = True
-                    elif(selected_time == -1): 
-                        selected_time = slot['time']
-                    if(request.GET.get('changed_time') != None):
-                        selected_time = request.GET.get('changed_time')
+        available_slots, selected_time = self.getAppointments(physician)
+       
+    
+            #if time was chosen for calendar, pass that time, else, select earliest appointment
+        if(request.GET.get('changed_time') != None):
+            selected_time = request.GET.get('changed_time')
+            
 
 
         return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'selected_time': selected_time,'physician':physician, 'patient':patient})
@@ -62,25 +65,27 @@ class ScheduleView(View):
         physician_id = request.POST.get('physicianid')  # Physician ID
         patient_id = request.POST.get('patientid')  # Patient ID
 
-        try:
-            physician = Employees.objects.get(employeeid=physician_id)
-            patient = PatientRecord.objects.get(patientid=patient_id)
-        except Employees.DoesNotExist:
-            # Handle the case where the physician doesn't exist
-            return render(request, 'SCHED.html', {'error': 'Physician not found'})
-        except PatientRecord.DoesNotExist:
-            # Handle the case where the patient doesn't exist
-            return render(request, 'SCHED.html', {'error': 'Patient not found'})
+        physician = Employees.objects.get(employeeid=physician_id)
+        patient = PatientRecord.objects.get(patientid =  patient_id )
+        
+
+        # try:
+        #     physician = Employees.objects.get(employeeid=physician_id)
+        #     patient = PatientRecord.objects.get(patientid=patient_id)
+        # except Employees.DoesNotExist:
+        #     # Handle the case where the physician doesn't exist
+        #     return render(request, 'SCHED.html', {'error': 'Physician not found'})
+        # except PatientRecord.DoesNotExist:
+        #     # Handle the case where the patient doesn't exist
+        #     return render(request, 'SCHED.html', {'error': 'Patient not found'})
         parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12 PM"), "%b. %d, %Y, %I %p")
         
          # Create a new appointment
         appointment = Appointments.objects.create(
             date= parsed_datetime ,
-            physcianid=physician,
+            physcianid= physician,
             patientid= patient
         )
-        form = PhysicianSelectionForm()
-        postForm = MakeAppointmentForm()
-        available_slots = {}
-        return render(request, 'SCHED.html', {'form': form, 'postForm': postForm, 'available_slots': available_slots,'physician':physician_id, 'patient':patient_id})
+        
+        return redirect(f"/schedule/?physician={physician_id}&patient={patient_id}")
        

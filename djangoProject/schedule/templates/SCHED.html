@@ -8,7 +8,7 @@
 <h1>Physician Scheduler</h1>
 <div class="flex-container">
     <div class="select-background">
-        <div class="select-right">
+        <div class="select-left">
         <form method="GET" action="{% url 'schedule' %}" class="select-form">
             {% csrf_token %}
             {{ form.as_p }}
@@ -16,10 +16,7 @@
         </form>
         
     </div>
-    <div class="select-left">
-        <!-- TODO: remove me -->
-        
-        <p>{{selected_time}}</p> 
+    <div class="select-right">
         {% if selected_time %}
             <h2>Appointment Found!</h2>
             <h3>When?: </h3>
@@ -33,7 +30,7 @@
                 <input type="hidden" name ='date' value = "{{selected_time}}">
                 <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
                 <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
-                <button type="submit">Submit</button>
+                <button type="submit">Book</button>
             </form>
         {% else %}
             <h2>Select Physician and Patient to View available appointments:</h2>
