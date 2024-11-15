@@ -1,0 +1,36 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/findPhysician.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Find Physician</h1>
+<div class="sub-nav">
+    <form method="GET" action="{%url 'schedule'%}" class="select-form">
+        <button type="submit">Physician Scheduler</button>
+    </form>
+</div>
+
+<div class="user-module">
+    <div class='left-block'>
+        <h2>Choose a Physician to see their information: </h2>
+        <form method="GET" action="{% url 'findPhysician' %}" class="select-form">
+            {% csrf_token %}
+            {{ select.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class='right-block'>
+        <h2>Name: </h2>
+        <p>{{physician.firstname}} {{physician.lastname}}</p>
+        <h3>Employee ID: </h3>
+        <p>{{physician.employeeid}}</p>
+        <h3>Cell Phone Number</h3>
+        <p>{{physician.phonenumber}}</p>
+        <h3>Working Days</h3>
+        <p>{{physician.workdays}}</p>
+        
+    </div>
+</div>
+{% endblock %}

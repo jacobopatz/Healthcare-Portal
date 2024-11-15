@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from sharedModels.models import Appointments, Employees, PatientRecord
-from .forms import PhysicianSelectionForm, MakeAppointmentForm
+from .forms import PhysicianSelectionForm, MakeAppointmentForm, viewPhysicianForm
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
 
@@ -88,4 +88,12 @@ class ScheduleView(View):
         )
         
         return redirect(f"/schedule/?physician={physician_id}&patient={patient_id}")
+class findPhysicianView(View):
+    def get(self, request):
+       if(request.GET.get('physician') == None):
+        return render(request, 'findPhysician.html', {'select':viewPhysicianForm})
        
+       physicianID = request.GET.get('physician')
+       physicianObject = Employees.objects.get(employeeid = physicianID)
+
+       return render(request, 'findPhysician.html', {'select':viewPhysicianForm, 'physician':physicianObject})

@@ -6,6 +6,11 @@
 
 {% block content %}
 <h1>Physician Scheduler</h1>
+<div class="sub-nav">
+    <form method="GET" action="{%url 'findPhysician'%}" class="select-form">
+        <button type="submit">Find Physician</button>
+    </form>
+</div>
 <div class="flex-container">
     <div class="select-background">
         <div class="select-left">
