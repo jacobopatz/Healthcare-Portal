@@ -12,15 +12,16 @@ class ScheduleView(View):
         available_slots = {}
         earliest_apt = -1 #initilize so we can store the first
         current_date = datetime.now().date()
-        for i in range(30):
-            day = current_date+timedelta(days=i)
+        for i in range(60):
+            day = current_date + timedelta(days=i)
             available_slots[day] = [
-                {
-                 'time': datetime.combine(day,datetime.min.time()).replace(hour=hour),
-                 'is_booked': False
-                } 
-                 for hour in range(9,17)
-                ]
+        {
+            'time': datetime.combine(day, datetime.min.time()) + timedelta(hours=hour, minutes=minute),
+            'is_booked': False
+        }
+        for hour in range(9, 17)  # Hours from 9 AM to 5 PM
+        for minute in (0, 30)    # Half-hour increments (0 and 30 minutes past each hour)
+    ]
         # Remove booked slots from available slots
         booked_times = {(appt.date.date(), appt.date.hour) for appt in appointments}
         for day, slots in available_slots.items():
