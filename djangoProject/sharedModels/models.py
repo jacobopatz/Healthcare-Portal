@@ -11,7 +11,8 @@ import uuid
 
 class Appointments(models.Model):
     appointmentid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Field name made lowercase.
-    date = models.DateTimeField(db_column='Date')  # Field name made lowercase.
+    date = models.DateTimeField(db_column='Date') 
+    enddate=models.DateTimeField(db_column='enddate', null = True) 
     physcianid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='PhyscianID')  # Field name made lowercase.
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING, db_column='PatientID')  # Field name made lowercase.
 

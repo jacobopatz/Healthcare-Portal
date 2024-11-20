@@ -79,7 +79,7 @@ class ScheduleView(View):
         # except PatientRecord.DoesNotExist:
         #     # Handle the case where the patient doesn't exist
         #     return render(request, 'SCHED.html', {'error': 'Patient not found'})
-        parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12 PM"), "%b. %d, %Y, %I %p")
+        parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12:00 PM"), "%b. %d, %Y, %I:%M %p")
         
          # Create a new appointment
         appointment = Appointments.objects.create(

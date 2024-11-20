@@ -35,6 +35,8 @@
                 <input type="hidden" name ='date' value = "{{selected_time}}">
                 <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
                 <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
+                <input type="text" name="hours" id="hours" placeholder="Length of block">
+                <input type="text" name ="days" id="days" placeholder="Days of Blocks">
                 <button type="submit">Book</button>
             </form>
         {% else %}
@@ -91,5 +93,19 @@
             </tbody>
         </table>
     </div>
+    <!-- todo: Remove or keep -->
+    <!-- <script>
+        // preserve scroll position
+        window.onbeforeunload = function () {
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+        };
+
+        window.onload = function () {
+            const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+            if (savedScrollPosition) {
+                window.scrollTo(0, savedScrollPosition);
+            }
+        };
+    </script> -->
     
 {% endblock %}
