@@ -5,5 +5,91 @@
 {% endblock %}
 
 {% block content %}
-<h1>Lab Order Tracker</h1>
+<h1>Lab Orders and Tests</h1>
+
+<!-- Lab Orders Section -->
+<h2>Lab Orders</h2>
+<div class="flex-container">
+    <div class="select-background">
+        <div class="select-left">
+        <form method="get">
+            {% csrf_token %}
+            {{ view_order_form.as_p }}
+            <button type="submit">View Lab Order</button>
+        </form>
+    </div>
+
+    <div class= "select-right">
+        {% if selected_order %}
+            <h3>Selected Lab Order</h3>
+            <p>Order ID: {{ selected_order.id }}</p>
+            <p>Patient Name: {{ selected_order.patientid }}</p>
+            <p>Physician Name: {{ selected_order.physicianid }}</p>
+            <p>Lab Test: {{ selected_order.labtestid }}</p>
+            <p>Date Performed: {{ selected_order.dateperformed }}</p>
+            <p>Lab Technician: {{ selected_order.labtechnician }}</p>
+            <p>Results: {{ selected_order.results }}</p>
+        {% else %}
+            <h2>Select Lab Order:</h2>
+        {% endif %}
+    </div>
+
+</div>
+<h3>Add Lab Order</h3>
+<div class="flex-container">
+    <div class="select-background">
+        <div class="select-center">
+        <form method="post">
+            {% csrf_token %}
+            {{ add_order_form.as_p }}
+            <button type="submit" name="add_order">Add Lab Order</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Lab Tests Section -->
+<h2>Lab Tests</h2>
+<div class="flex-container">
+    <div class="select-background">
+        <div class="select-left">
+            <form method="get">
+            {% csrf_token %}
+            {{ view_test_form.as_p }}
+            <button type="submit">View Lab Test</button>
+        </form>
+    </div>
+
+    <div class= "select-right">
+        {% if selected_test %}
+            <h3>Selected Lab Test</h3>
+            <p>Test ID: {{ selected_test.typeid }}</p>
+            <p>Test Name: {{ selected_test.typename }}</p>
+            <p>Normal Range: {{ selected_test.normalrange }}</p>
+            <p>Urgent Range: {{ selected_test.urgentrange }}</p>
+        {% else %}
+            <h2>Select Lab Order:</h2>
+        {% endif %}
+    </div>
+
+</div>
+
+
+<h3>Add Lab Test</h3>
+<div class="flex-container">
+    <div class="select-background">
+        <div class="select-center">
+            <form method="post">
+                {% csrf_token %}
+                {{ add_test_form.as_p }}
+                <button type="submit" name="add_test">Add Lab Test</button>
+            </form>
+        </form>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

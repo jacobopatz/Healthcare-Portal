@@ -6,6 +6,11 @@
 
 {% block content %}
 <h1>Physician Scheduler</h1>
+<div class="sub-nav">
+    <form method="GET" action="{%url 'findPhysician'%}" class="select-form">
+        <button type="submit">Find Physician</button>
+    </form>
+</div>
 <div class="flex-container">
     <div class="select-background">
         <div class="select-left">
@@ -30,6 +35,8 @@
                 <input type="hidden" name ='date' value = "{{selected_time}}">
                 <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
                 <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
+                <input type="text" name="hours" id="hours" placeholder="Length of block">
+                <input type="text" name ="days" id="days" placeholder="Days of Blocks">
                 <button type="submit">Book</button>
             </form>
         {% else %}
@@ -39,12 +46,11 @@
     
 </div>
     <div class="sched_background">
-        <h2>Available Appointment Slots for Next Week</h2>
         <table class="calendar-table">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Available Slots</th>
+                    <th><h2>Date</h2></th>
+                    <th><h2>Available Slots</h2></th>
                 </tr>
             </thead>
             <tbody>
@@ -87,5 +93,19 @@
             </tbody>
         </table>
     </div>
+    <!-- todo: Remove or keep -->
+    <!-- <script>
+        // preserve scroll position
+        window.onbeforeunload = function () {
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+        };
+
+        window.onload = function () {
+            const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+            if (savedScrollPosition) {
+                window.scrollTo(0, savedScrollPosition);
+            }
+        };
+    </script> -->
     
 {% endblock %}

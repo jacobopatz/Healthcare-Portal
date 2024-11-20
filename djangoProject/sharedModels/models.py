@@ -11,7 +11,8 @@ import uuid
 
 class Appointments(models.Model):
     appointmentid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Field name made lowercase.
-    date = models.DateTimeField(db_column='Date')  # Field name made lowercase.
+    date = models.DateTimeField(db_column='Date') 
+    enddate=models.DateTimeField(db_column='enddate', null = True) 
     physcianid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='PhyscianID')  # Field name made lowercase.
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING, db_column='PatientID')  # Field name made lowercase.
 
@@ -102,6 +103,9 @@ class LabOrders(models.Model):
          
         db_table = 'lab orders'
 
+    def __str__(self):
+        return f"(ID: {self.orderid}) {self.patientid} {self.teststypeid} {self.results}"
+
 
 class LabTests(models.Model):
     typeid = models.AutoField(db_column='TypeID', primary_key=True)  # Field name made lowercase.
@@ -114,6 +118,8 @@ class LabTests(models.Model):
         db_table = 'lab tests'
         db_table_comment = '\\n\\n\\n'
 
+    def __str__(self):
+        return f"(ID: {self.typeid}) {self.typename}"
 
 class Maintenance(models.Model):
     maintenanceid = models.IntegerField(db_column='MaintenanceID', primary_key=True)  # Field name made lowercase. The composite primary key (MaintenanceID, EquipmentID) found, that is not supported. The first column is selected.
