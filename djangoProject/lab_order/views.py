@@ -43,7 +43,7 @@ class labOrder(View):
                     physicianid=add_order_form.cleaned_data['physician'],
                     teststypeid=add_order_form.cleaned_data['test_type'],
                     technicianid=add_order_form.cleaned_data['lab_technician'],
-                    results = 1
+                    results=add_order_form.cleaned_data['result'],
                 )
                 return redirect('labOrder')  # Refresh the page
 
@@ -56,7 +56,7 @@ class labOrder(View):
                     normalrange=add_test_form.cleaned_data['normalrange'],
                     urgentrange=add_test_form.cleaned_data['urgentrange'],
                 )
-                return redirect('lab_order')  # Refresh the page
+                return redirect('labOrder')  # Refresh the page
 
         # If form is invalid, re-render the page with errors
         view_order_form = viewLabOrders()
