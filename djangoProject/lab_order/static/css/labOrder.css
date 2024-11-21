@@ -29,7 +29,7 @@ body, html {
     overflow: auto;
     width: 95vw;
     border-radius: 2%;
-    margin-top: 10vh;
+    margin-top: 1vh;
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -64,7 +64,7 @@ body, html {
     color: #5392ac;
 }
 
-.select-left button, .select-right button {
+.select-left button, .select-right button, .select-center button {
     background-color: #5392ac;
     width: 10vh;  
     height: 5vh;  
