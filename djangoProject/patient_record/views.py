@@ -65,32 +65,27 @@ class PatientRecordView(View):
                 selected_patient = None
         else:
             print("No patient id")
-        '''
-        # Handle Edit Mode
-        if edit_mode:
-            print ("In edit mode")
-            if selected_patient:
-                # Prepopulate form with selected patient's data for GET
-                edit_form = PatientEditForm(instance=selected_patient)
-        '''
+
 
         # Handle saving changes
         if request.POST.get('save_changes') and edit_form:
             print("Save changes button pressed")
             print(f"Now selected patient is {selected_patient}")
-            #edit_form = PatientEditForm(request.POST, instance=selected_patient)
-            if edit_form.is_valid():
+            # print(edit_form)
+
+            edit_form = PatientEditForm(request.POST, instance=selected_patient)
+            if edit_form:
                 edit_form.save()
                 print("Patient updated successfully.")
                 edit_mode = False  # Exit edit mode
             else:
                 print(f"Edit form errors: {edit_form.errors}")
-        else:
-            # Handle Adding a New Patient
-            add_form = PatientAddForm(request.POST)
-            if request.POST.get('add_patient') and add_form.is_valid():
-                add_form.save()
-                print("New patient added successfully.")
+
+        # Handle Adding a New Patient
+        add_form = PatientAddForm(request.POST)
+        if request.POST.get('add_patient') and add_form.is_valid():
+            add_form.save()
+            print("New patient added successfully.")
 
         # Render the template with the context
         return render(request, 'PatientRecord.html', {
