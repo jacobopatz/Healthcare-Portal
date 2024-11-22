@@ -38,6 +38,7 @@
                     {{ edit_form.as_p }}
 
                     <button type="submit" name="save_changes" value="True">Save Changes</button>
+                    <button type="submit" name="delete" value = "True">Delete Patient</button>
                 {% else %}
                     <!-- View Mode: Read-Only Details -->
                     <p><strong>Name:</strong> {{ selected_patient.firstname }} {{ selected_patient.lastname }}</p>
@@ -50,7 +51,7 @@
                     <p><strong>Primary Physician:</strong> {{ selected_patient.primaryphysicianid }}</p>
                 {% endif %}
 
-                <!-- Toggle Edit Mode -->
+                <!-- Toggle Edit Mode Back Off-->
                 <input type="hidden" name="edit_mode" value="{% if edit_mode %}False{% else %}True{% endif %}">
                 <button type="submit">{{ edit_mode|yesno:"Cancel,Edit" }}</button>
             </form>

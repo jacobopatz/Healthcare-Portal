@@ -42,16 +42,25 @@ class PatientRecordView(View):
 
     def post(self, request):
         # Forms for adding and searching
-        add_form = PatientAddForm()
+        add_form = PatientAddForm(request.POST)
         search_form = PatientSearchForm()
 
+        # Form and other variables needed for editing
         edit_form = None
         edit_mode = request.POST.get('edit_mode') == 'True'
         selected_patient_id = request.POST.get('selected_patient_id')
         selected_patient = None
 
+        # Debug code
         print(f"Edit Mode: {edit_mode}")
         print(f"Selected Patient ID: {selected_patient_id}")
+
+        # Add Patient Code
+        if request.POST.get('add_patient') and add_form.is_valid():
+            add_form.save()
+            print("New patient added successfully.")
+
+        # View Record Code
 
         # Retrieve the selected patient
         if selected_patient_id:
@@ -67,25 +76,27 @@ class PatientRecordView(View):
             print("No patient id")
 
 
-        # Handle saving changes
+        # Edit a patient and save
         if request.POST.get('save_changes') and edit_form:
             print("Save changes button pressed")
             print(f"Now selected patient is {selected_patient}")
             # print(edit_form)
 
             edit_form = PatientEditForm(request.POST, instance=selected_patient)
-            if edit_form:
+            if edit_form.is_valid():
                 edit_form.save()
                 print("Patient updated successfully.")
                 edit_mode = False  # Exit edit mode
             else:
                 print(f"Edit form errors: {edit_form.errors}")
 
-        # Handle Adding a New Patient
-        add_form = PatientAddForm(request.POST)
-        if request.POST.get('add_patient') and add_form.is_valid():
-            add_form.save()
-            print("New patient added successfully.")
+        # Remove a patient
+        if request.POST.get('delete') and edit_form:
+            print("Delete button pressed")
+            PatientRecord.objects.filter(patientid=selected_patient_id).delete()
+            selected_patient = None
+
+
 
         # Render the template with the context
         return render(request, 'PatientRecord.html', {
