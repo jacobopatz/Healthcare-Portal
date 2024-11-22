@@ -8,7 +8,7 @@ class viewLabOrders(forms.Form):
     )
 
 class viewLabTests(forms.Form):
-    labOrder = forms.ModelChoiceField(
+    labTest = forms.ModelChoiceField(
         queryset= LabTests.objects.all(),
         label='Select Lab Tests'
     )
@@ -19,7 +19,7 @@ class AddLabOrderForm(forms.Form):
         label="Patient Name"
     )
     physician = forms.ModelChoiceField(
-        queryset=Employees.objects.all(),
+        queryset=Employees.objects.all(), #filter(title="physician"),
         label="Physician Name"
     )
     test_type = forms.ModelChoiceField(
@@ -27,8 +27,13 @@ class AddLabOrderForm(forms.Form):
         label="Type of Lab Test"
     )
     lab_technician = forms.ModelChoiceField(
-        queryset=Employees.objects.all(),
+        queryset=Employees.objects.all(),    #filter(title="labTechnician"),
         label="Lab Technician"
+    )
+    result = forms.CharField(
+        max_length=10,
+        label="Result",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
     )
 
 class AddLabTestsForm(forms.Form):

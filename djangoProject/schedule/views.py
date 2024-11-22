@@ -23,10 +23,10 @@ class ScheduleView(View):
         for minute in (0, 30)    # Half-hour increments (0 and 30 minutes past each hour)
     ]
         # Remove booked slots from available slots
-        booked_times = {(appt.date.date(), appt.date.hour) for appt in appointments}
+        booked_times = {(appt.date.date(), appt.date.hour, appt.date.minute) for appt in appointments}
         for day, slots in available_slots.items():
                 for slot in slots:
-                    if (day, slot['time'].hour) in booked_times:
+                    if (day, slot['time'].hour, slot['time'].minute) in booked_times:
                         slot['is_booked'] = True
                     elif(earliest_apt == -1):
                         earliest_apt= slot['time']
@@ -54,7 +54,8 @@ class ScheduleView(View):
     
             #if time was chosen for calendar, pass that time, else, select earliest appointment
         if(request.GET.get('changed_time') != None):
-            selected_time = request.GET.get('changed_time')
+            print(request.GET.get('changed_time'))
+            selected_time = datetime.strptime(request.GET.get('changed_time').strip(), '%b. %d, %Y, %H:%M')
             
 
 
@@ -66,6 +67,7 @@ class ScheduleView(View):
         physician_id = request.POST.get('physicianid')  # Physician ID
         patient_id = request.POST.get('patientid')  # Patient ID
 
+        selected_time =datetime.strptime(selected_time.strip(), '%b. %d, %Y, %H:%M')
         physician = Employees.objects.get(employeeid=physician_id)
         patient = PatientRecord.objects.get(patientid =  patient_id )
         
@@ -79,11 +81,10 @@ class ScheduleView(View):
         # except PatientRecord.DoesNotExist:
         #     # Handle the case where the patient doesn't exist
         #     return render(request, 'SCHED.html', {'error': 'Patient not found'})
-        parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12:00 PM"), "%b. %d, %Y, %I:%M %p")
-        
+        # parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12:00 PM"), "%b. %d, %Y, %I:%M %p")
          # Create a new appointment
         appointment = Appointments.objects.create(
-            date= parsed_datetime ,
+            date= selected_time ,
             physcianid= physician,
             patientid= patient
         )
