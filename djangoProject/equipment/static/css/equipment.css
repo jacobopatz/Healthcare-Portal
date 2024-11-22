@@ -1,42 +1,141 @@
-.test {
-    text-align: center;
-}
-
-.test2 {
-    text-align: center;
-}
-
-.title {
-    text-align: center;
+.text-box {
+    border: 2px solid #007BFF; /* Blue border */
+    padding: 10px; /* Space inside the box */
+    margin: 10px; /* Space outside the box */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light gray background */
+    font-family: Arial, sans-serif; /* Clean font */
+    color: #333; /* Dark text color */
 }
 
 .equipment-title {
-    color: #3498db;
-    font-size: 36px; 
+    color:#032838;
+    font-size: 64px; 
+    text-align: center;
+    margin-bottom: 1cm;
+}
+
+.type-parent {
     text-align: center;
 }
 
-.search-vendor {
-    flex: 1 1;
-    display: block;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
+.type-left {
+    font-size: 32px; 
+    color: #032838;
     font-weight: bold;
-    font-size: x-large;
+    display: inline-block;
+    margin-right: 25px;
+}
+
+.type-dropdown {
+    font-size: 28px; 
+    color: #032838;
+    text-align: center;
+    outline: dashed;
+    background-color: transparent;
+    display: inline-block;
+    overflow: hidden;              /* Hide any overflow */
+    text-overflow: ellipsis;
+}
+
+.type-label {
+    font-size: 16px;
     color: #4a412a;
-    
+}
+
+.search-parent {
+    margin: auto;
+    text-align: center;
 }
 
 .vendor-background {
-    background-color: #4a412a;
-    min-height: 80vh;
-    overflow: auto;
-    width: 95vw;
-    border-radius: 2%;
+    margin-right: 30px;
+    display: inline-block;
+    background-color: #CDB29E;
+    min-height: 25vh;
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
     margin-top: 10vh;
+}
+
+.inventory-background {
+    margin-right: 30px;
+    display: inline-block;
+    background-color: #CDB29E;
+    min-height: 25vh;
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
+    margin-top: 10vh;
+}
+
+.vendor-title, .inventory-title {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+.vendor-input {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.vendor-id {
+    text-align: center;
+    font-size: 20px; 
+    color: #000000;
+    background-color: transparent;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.vendor-name {
+    font-size: 20px; 
+    text-align: center;
+    color: #000000;
+    background-color: transparent;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.inventory-interact {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+}
+
+.inventory-id {
+    text-align: center;
+    font-size: 20px; 
+    color: #000000;
+    background-color: transparent;
+    display: flex;
+    overflow: hidden;
+}
+
+.inventory-button {
+    display: block;
+    font-size: 20px;
+    border-radius: 15%;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    min-height: 5vh;
+    width: 30%;
+}
+
+.vendor-button {
+    font-size: 20px;
+    border-radius: 15%;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    min-height: 5vh;
+    width: 30%;
 }

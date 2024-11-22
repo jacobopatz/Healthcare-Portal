@@ -5,17 +5,32 @@
 {% endblock %}
 
 {% block content %}
-<h1 class = "equipment-title">FUCK YOU</h1>//Top Title
-<div class="test">
-    <h1>I'd Rather be Gaming!</h1>
-    <div class = "test2">
-        <button class="styled-button">Click This Shit!</button>
+<h1 class="equipment-title">Equipment Inventory and Maintenance</h1>
+<div class="type-parent">
+    <div class="type-left">Equipment Type:</div>
+    <select class= "type-dropdown">
+        <option value="Stethoscope">Stethoscope</option>
+        <option value="Gloves">Gloves</option>
+        <option value="Thermometer">Thermometer</option>
+      </select>
+</div>
+<div class="search-parent">  
+    <div class="vendor-background">
+        <div class="vendor-title">Search By Vendor</div>
+        <div class="vendor-input">
+            <input class="vendor-id" type="text" placeholder="Vendor ID">
+            <input class="vendor-name" type="text" placeholder="Vendor Name">
+        </div>
+        <button class="vendor-button">SEARCH</button>
+    </div>
+    <div class="inventory-background">
+        <div class="inventory-title">Search by Inventory</div>
+        <div class="inventory-interact">
+            <input class="inventory-id" type="text" placeholder="Equipment ID">
+            <button class="inventory-button">SEARCH</button>
+        </div>
     </div>
 </div>
-<div class="vendor-background">
-    <div class = "select-vendor">
-        <h1>I Love Jeff Kinney!</h1>
-    </div>
 </div>
 
 {% endblock %}
