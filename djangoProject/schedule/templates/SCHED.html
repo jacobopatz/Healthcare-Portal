@@ -32,7 +32,7 @@
             <p>{{patient.lastname}}, {{patient.firstname}}</p>
             <form method="POST" action="{% url 'schedule' %}" class="select-form">
                 {% csrf_token %}
-                <input type="hidden" name ='date' value = "{{selected_time}}">
+                <input type="hidden" name ='date' value = "{{selected_time|date:'b. d, Y, H:i '}}">
                 <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
                 <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
                 <input type="text" name="hours" id="hours" placeholder="Length of block">
@@ -72,9 +72,9 @@
                                         {% else %}
                                         <input type="hidden" name="physician" value="{{ physician.employeeid}}">
                                         <input type="hidden" name="patient" value="{{patient.patientid}}">
-                                        <input type="hidden" name="changed_time" value="{{slot.time}}">
+                                        <input type="hidden" name="changed_time" value="{{slot.time|date:'b. d, Y, H:i '}}">
                                         <button type="submit" class="appointment-time available" 
-                                                data-time="{{ slot.time|time:"H:i" }}">
+                                                data-time="{{ slot.time}}">
                                             {{ slot.time|time:"H:i" }} - Available
                                         </button>
                                     </form>

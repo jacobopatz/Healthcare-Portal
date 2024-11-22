@@ -19,6 +19,8 @@ class Appointments(models.Model):
     class Meta:
          
         db_table = 'appointments'
+    def __str__(self):
+        return f"(ID: {self.appointmentid} start: {self.date} end: {self.enddate} physician: {self.physcianid} patient: {self.patientid})"
 
 
 class Employees(models.Model):

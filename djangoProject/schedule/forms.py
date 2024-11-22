@@ -16,11 +16,15 @@ class MakeAppointmentForm(forms.Form):
     date = forms.DateTimeField()
     physicianid = forms.IntegerField()
     patientid = forms.IntegerField()
+    Weeks = forms.IntegerField()
+    days= forms.IntegerField()
+    hours = forms.IntegerField()
 
 class viewPhysicianForm(forms.Form):
     physician = forms.ModelChoiceField(
         queryset=Employees.objects.all(),  # Ensure you fetch all employees here
         label=''
     )
+
     
 
