@@ -1,9 +1,89 @@
 {% extends "baseTemplate.html" %}
 {% load static %}
 {% block page_css %}
-    <link rel="stylesheet" href="{% static 'css/insurance.css' %}">
+    <link rel="stylesheet" href="{% static 'css/insuranceBilling.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>Insurance</h1>
+<h1>Insurance Billing Record</h1>
+
+<!-- Patient Search Form -->
+<div class="flex-container">
+    <div class="add_background">
+        <h1>Search for patient</h1>
+
+        <form id="search-form">
+            <div class="form-group">
+                <p>Patient Name</p>
+                <input type="text" id="search-query" name="search_query">
+            </div>
+            <button type="button" onclick="searchPatient()">Search</button>
+        </form>
+
+        <!-- Simulated Patient Details, shown after search -->
+        <div id="patient-details" style="display: none;">
+            <h2>Patient Details</h2>
+            <p>Patient Name: John Doe</p>
+            <p>Date of Birth: 01/01/1990</p>
+            <p>Insurance Number: 123456789</p>
+            <p>Carrier Name: Example Insurance</p>
+
+            <!-- Simulated Billing Form, shown after patient is selected -->
+            <h3>Billing Information</h3>
+            <div id="billing-form" style="display: none;">
+                <form>
+                    <div class="form-group">
+                        <p>Invoice Number:</p>
+                        <input type="text" name="invoice_number" value="INV12345" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Invoice Date:</p>
+                        <input type="date" name="invoice_date" value="2024-11-24" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Service ID:</p>
+                        <input type="text" name="service_id" value="SVC12345" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Service Description:</p>
+                        <textarea name="service_description" rows="4" readonly>Example service provided to patient</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Cost:</p>
+                        <input type="number" name="cost" value="100.00" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Total Billed:</p>
+                        <input type="number" name="total_billed" value="150.00" readonly>
+                    </div>
+
+                    <button type="submit">Save Billing Information</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function searchPatient() {
+        var searchQuery = document.getElementById('search-query').value;
+
+        // Simple check for search query
+        if (searchQuery) {
+            // Show the patient details section
+            document.getElementById('patient-details').style.display = 'block';
+            
+            // Show the billing form after patient details
+            document.getElementById('billing-form').style.display = 'block';
+        } else {
+            alert("Please enter a patient name to search.");
+        }
+    }
+</script>
+
 {% endblock %}
