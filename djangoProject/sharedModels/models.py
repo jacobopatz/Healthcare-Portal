@@ -100,7 +100,8 @@ class LabOrders(models.Model):
     teststypeid = models.ForeignKey('LabTests', models.DO_NOTHING, db_column='TestsTypeID')  # Field name made lowercase.
     technicianid = models.ForeignKey(Employees, models.DO_NOTHING, db_column='TechnicianID', related_name='laborders_technicianid_set')  # Field name made lowercase.
     results = models.IntegerField(db_column='Results')  # Field name made lowercase.
-
+    dateperfomed = models.DateTimeField(db_column='Dateperfomed',  null = True)
+    dateordered = models.DateTimeField(db_column='Dateordered',  null = True)
     class Meta:
          
         db_table = 'lab orders'

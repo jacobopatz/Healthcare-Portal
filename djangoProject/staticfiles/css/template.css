@@ -27,6 +27,7 @@ body {
     justify-self: center;
 }
 
+
 .accountMenu {
     display: flex; /* Use flex to layout username and logout */
     align-items: center; /* Center vertically */

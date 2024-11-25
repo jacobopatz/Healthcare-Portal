@@ -53,7 +53,7 @@ class ScheduleView(View):
        
     
             #if time was chosen for calendar, pass that time, else, select earliest appointment
-        if(request.GET.get('changed_time') != None):
+        if(request.GET.get('date') != None):
             print(request.GET.get('changed_time'))
             selected_time = datetime.strptime(request.GET.get('changed_time').strip(), '%b. %d, %Y, %H:%M')
             

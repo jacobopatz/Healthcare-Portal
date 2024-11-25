@@ -14,11 +14,10 @@ class PhysicianSelectionForm(forms.Form):
 
 class MakeAppointmentForm(forms.Form):
     date = forms.DateTimeField()
+    enddate=forms.DateTimeField()
     physicianid = forms.IntegerField()
     patientid = forms.IntegerField()
-    Weeks = forms.IntegerField()
-    days= forms.IntegerField()
-    hours = forms.IntegerField()
+    
 
 class viewPhysicianForm(forms.Form):
     physician = forms.ModelChoiceField(
