@@ -3,8 +3,8 @@ Patient Record:
 Schedule:
 
 Lab Order:
-- Date Lab Test Ordered
-- Date Lab Test Performed
+- Date Lab Test Ordered (LabOrder)
+- Date Lab Test Performed (LabOrder)
 Pharmacy:
 
 Insurance:
