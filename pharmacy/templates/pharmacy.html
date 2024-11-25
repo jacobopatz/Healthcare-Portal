@@ -1,0 +1,52 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/pharmacy.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Main Menu Section -->
+    <div id="main-menu">
+        <button class="exit-button">Exit</button>
+        <h1>Pharmacy Order Tracker</h1>
+        <div class="buttons">
+            <a href="#" onclick="showPrescriptions()" class="button">Prescriptions</a>
+            <a href="{% url 'manage_medications' %}" class="button">Medications</a>
+            <a href="{% url 'help' %}" class="button">Help</a>
+        </div>
+    </div>
+
+    <!-- Manage Prescriptions Section -->
+    <div id="prescriptions-section" style="display: none;">
+        <button class="back-button" onclick="showMainMenu()">Back</button>
+        <h1 class="header">Manage Prescriptions</h1>
+        <div class="buttons">
+            <a href="{% url 'add_prescription' %}" class="button">Add Prescription Form</a>
+            <a href="{% url 'view_prescriptions' %}" class="button">View Prescription Orders</a>
+        </div>
+    </div>
+
+        <!-- Manage Medications Section -->
+    <div id="medications-section" style="display: none;">
+        <button class="back-button" onclick="showMainMenu()">Back</button>
+        <h1 class="header">Manage Medications</h1>
+        <div class="buttons">
+            <a href="{% url 'add_medication' %}" class="button">Add Medication</a>
+            <a href="{% url 'view_medications' %}" class="button">View Medications</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showPrescriptions() {
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('prescriptions-section').style.display = 'block';
+    }
+
+    function showMainMenu() {
+        document.getElementById('main-menu').style.display = 'block';
+        document.getElementById('prescriptions-section').style.display = 'none';
+    }
+</script>
+{% endblock %}

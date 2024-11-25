@@ -1,0 +1,43 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+
+{% block content %}
+<div class="report-container">
+    <h2>{{ report.hospital_name }}</h2>
+    <p><strong>Patient Name:</strong> {{ report.patient_name }}</p>
+    <p><strong>Birth Date:</strong> {{ report.birth_date }}</p>
+    <p><strong>Allergies:</strong> {{ report.allergies }}</p>
+    <p><strong>Address:</strong> {{ report.address }}, {{ report.city }}, {{ report.state }}</p>
+    <p><strong>Third Party Code:</strong> {{ report.third_party_code }}</p>
+    <p><strong>Conditions:</strong> {{ report.conditions }}</p>
+
+    <h3>Summary Report</h3>
+    <table>
+        <tr>
+            <th>Status</th>
+            <th>Drug Quantity</th>
+            <th>Dosage</th>
+            <th>Date Issued</th>
+            <th>Drug Code</th>
+            <th>Directions</th>
+        </tr>
+        <tr>
+            <td>{{ report.status }}</td>
+            <td>{{ report.drug_quantity }} pills</td>
+            <td>{{ report.dosage }}</td>
+            <td>{{ report.date_issued|date:"F j, Y" }}</td>
+            <td>{{ report.drug_code }}</td>
+            <td>{{ report.directions }}</td>
+        </tr>
+    </table>
+
+    {% if report.id %}
+        <form action="{% url 'export_pdf' report.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Download PDF</button>
+        </form>
+    {% else %}
+        <p>Cannot generate PDF: Missing report ID.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/view_prescriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <button class="back-button">Back</button>
+    <h1>View Prescription Orders</h1>
+
+    <!-- Form for filtering prescriptions -->
+    <form method="POST" action="{% url 'view_prescriptions' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Patient's First Name:</label>
+            <input type="text" name="first_name">
+        </div>
+        <div class="form-group">
+            <label>Patient's Last Name:</label>
+            <input type="text" name="last_name">
+        </div>
+        <div class="form-group">
+            <label>Patient ID:</label>
+            <input type="text" name="patient_id">
+        </div>
+        <button type="submit" class="filter-button">Filter</button>
+    </form>
+
+    <!-- Display filtered prescription orders -->
+    <div class="prescriptions-list">
+        {% if prescriptions %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Dosage</th>
+                        <th>Frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prescription in prescriptions %}
+                    <tr>
+                        <td>{{ prescription.medication }}</td>
+                        <td>{{ prescription.dosage }}</td>
+                        <td>{{ prescription.frequency }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No prescriptions found.</p>
+        {% endif %}
+    </div>
+
+    <!-- Generate Report button -->
+    <button onclick="window.location.href='{% url 'generate_report' %}'" class="generate-report-button">
+        Generate Report
+    </button>
+</div>
+{% endblock %}

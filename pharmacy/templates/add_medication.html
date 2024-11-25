@@ -1,0 +1,59 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/add_medication.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'manage_medications' %}" class="back-button">Back</a>
+    <h1>Add Medication</h1>
+
+    <!-- Display any success or error messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Render the form -->
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Django's form rendering -->
+        <div class="form-group">
+            {{ form.medication_name.label_tag }} <!-- Label for 'medication_name' field -->
+            {{ form.medication_name }} <!-- Input field for 'medication_name' -->
+        </div>
+
+        <div class="form-group">
+            {{ form.dosage.label_tag }} <!-- Label for 'dosage' field -->
+            {{ form.dosage }}
+        </div>
+
+        <div class="form-group">
+            {{ form.frequency.label_tag }} <!-- Label for 'frequency' field -->
+            {{ form.frequency }}
+        </div>
+
+        <div class="form-group">
+            {{ form.start_date.label_tag }} <!-- Label for 'start_date' field -->
+            {{ form.start_date }}
+        </div>
+
+        <div class="form-group">
+            {{ form.end_date.label_tag }} <!-- Label for 'end_date' field -->
+            {{ form.end_date }}
+        </div>
+
+        <div class="form-group">
+            {{ form.prescribing_doctor.label_tag }} <!-- Label for 'prescribing_doctor' field -->
+            {{ form.prescribing_doctor }}
+        </div>
+
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+</div>
+{% endblock %}
