@@ -41,6 +41,13 @@
             </form>
         {% else %}
             <h2>Select Physician and Patient to View available appointments:</h2>
+            <form id="apt-form" method ="GET" action="{% url 'schedule'%}">
+                {% csrf_token %}
+                <input type="hidden" name="date" id="date">
+                <input type="hidden" name="enddate" id="enddate">
+                <input type="hidden" name="physician" value="{{ physician.employeeid}}">
+                <input type="hidden" name="patient" value="{{patient.patientid}}">
+            </form>
         {% endif %}
     </div>
     
@@ -62,22 +69,19 @@
                             <ul>
                                 {% for slot in slots %}
                                 <li class="test">
-                                    <form method="GET" action="{% url 'schedule' %}" class="change-form">
-                                        {% csrf_token %}
+                                    
+                                        
                                         {% if slot.is_booked %}
-                                        <button type="submit" class="appointment-time booked" 
+                                        <button type="button" class="appointment-time booked" 
                                                 data-time="{{ slot.time|time:"H:i" }}">
                                             {{ slot.time|time:"H:i" }} - Booked
                                         </button>
                                         {% else %}
-                                        <input type="hidden" name="physician" value="{{ physician.employeeid}}">
-                                        <input type="hidden" name="patient" value="{{patient.patientid}}">
-                                        <input type="hidden" name="changed_time" value="{{slot.time|date:'b. d, Y, H:i '}}">
-                                        <button type="submit" class="appointment-time available" 
+                                        
+                                        <button type="button" class="appointment-time available" 
                                                 data-time="{{ slot.time}}">
                                             {{ slot.time|time:"H:i" }} - Available
-                                        </button>
-                                    </form>
+                                    </button>
                                     {% endif %}
                                 
                                 </li>
@@ -105,7 +109,8 @@
             if (savedScrollPosition) {
                 window.scrollTo(0, savedScrollPosition);
             }
-        };
-    </script> -->
+        }; 
+        -->
+   <script src="{% static 'js/schedule.js' %}"></script> 
     
 {% endblock %}
