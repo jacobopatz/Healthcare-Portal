@@ -1,0 +1,16 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/manage_medications.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <button class="back-button" onclick="window.history.back()">Back</button>
+    <h1>Manage Medications</h1>
+    <div class="buttons">
+        <a href="{% url 'add_medication' %}" class="button">Add Medication</a>
+        <a href="{% url 'view_medications' %}" class="button">View Medications</a>
+    </div>
+</div>
+{% endblock %}

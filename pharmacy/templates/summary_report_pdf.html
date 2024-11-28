@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .report-container { width: 100%; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>{{ report.hospital_name }}</h2>
+    <p><strong>Patient Name:</strong> {{ report.patient_name }}</p>
+    <p><strong>Birth Date:</strong> {{ report.birth_date }}</p>
+    <p><strong>Allergies:</strong> {{ report.allergies }}</p>
+    <p><strong>Address:</strong> {{ report.address }}, {{ report.city }}, {{ report.state }}</p>
+    <p><strong>Third Party Code:</strong> {{ report.third_party_code }}</p>
+    <p><strong>Conditions:</strong> {{ report.conditions }}</p>
+
+    <h3>Summary Report</h3>
+    <table>
+        <tr>
+            <th>Status</th>
+            <th>Drug Quantity</th>
+            <th>Dosage</th>
+            <th>Date Issued</th>
+            <th>Drug Code</th>
+            <th>Directions</th>
+        </tr>
+        <tr>
+            <td>{{ report.status }}</td>
+            <td>{{ report.drug_quantity }} pills</td>
+            <td>{{ report.dosage }}</td>
+            <td>{{ report.date_issued|date:"F j, Y" }}</td>
+            <td>{{ report.drug_code }}</td>
+            <td>{{ report.directions }}</td>
+        </tr>
+    </table>
+</body>
+</html>

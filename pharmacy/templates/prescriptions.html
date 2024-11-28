@@ -1,0 +1,67 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/prescriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <button class="back-button" onclick="window.history.back()">Back</button>
+    <h1 class="header">Add Prescription Form</h1>
+
+    <form action="{% url 'submit_prescription' %}" method="POST">
+        {% csrf_token %}
+        
+        <!-- Patient Information Section -->
+        <label>Patient Name:</label>
+        <div class="name-fields">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+        </div>
+        
+        <label>Patient ID:</label>
+        <input type="text" name="patient_id" required>
+
+        <label>Patient’s Age:</label>
+        <input type="number" name="age" min="0" required>
+
+        <!-- Treatment Section -->
+        <label>Treatment:</label>
+        <div id="treatment-section">
+            <div class="treatment-fields">
+                <input type="text" name="medication[]" placeholder="Medication" required>
+                <input type="text" name="dosage[]" placeholder="Dosage" required>
+                <input type="text" name="frequency[]" placeholder="Frequency" required>
+            </div>
+        </div>
+        <button type="button" class="add-more" onclick="addTreatment()">Add More</button>
+
+        <!-- Date and Signature -->
+        <label>Date signed:</label>
+        <input type="date" name="date_signed" required>
+
+        <label>Patient’s Signature:</label>
+        <input type="text" name="signature" required>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+</div>
+
+<script>
+    function addTreatment() {
+        // Create a new treatment field set
+        const treatmentSection = document.getElementById('treatment-section');
+        const newFields = document.createElement('div');
+        newFields.classList.add('treatment-fields');
+        
+        newFields.innerHTML = `
+            <input type="text" name="medication[]" placeholder="Medication" required>
+            <input type="text" name="dosage[]" placeholder="Dosage" required>
+            <input type="text" name="frequency[]" placeholder="Frequency" required>
+        `;
+        
+        treatmentSection.appendChild(newFields);
+    }
+</script>
+{% endblock %}
