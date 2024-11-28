@@ -37,6 +37,38 @@
         </div>
     </div>
 </div>
+<div class="search-parent">
+    <div class="vendor-background">
+        <h1>Add Equipment</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <label for="equipmentid">Equipment ID:</label>
+            <input type="text" name="equipmentid" id="equipmentid" required><br>
+        
+            <label for="type">Type:</label>
+            <input type="text" name="type" id="type" required><br>
+        
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description"><br>
+        
+            <label for="lease_terms">Lease Terms:</label>
+            <input type="text" name="lease_terms" id="lease_terms"><br>
+        
+            <label for="departmentleased">Department Leased:</label>
+            <input type="text" name="departmentleased" id="departmentleased"><br>
+        
+            <label for="owned_lease">Owned/Lease (O/L):</label>
+            <input type="text" name="owned_lease" id="owned_lease"><br>
+        
+            <label for="purchasedate">Purchase Date:</label>
+            <input type="date" name="purchasedate" id="purchasedate"><br>
+        
+            <label for="warenty_info">Warranty Info:</label>
+            <input type="text" name="warenty_info" id="warenty_info"><br>
+        
+            <button type="submit">Add</button>
+        </form>
+    </div>
 
 {% if query %}
     <div class="results-section">
@@ -71,45 +103,6 @@
 {% else %}
     <p>No Equipment ID entered. Please enter an ID to search.</p>
 {% endif %}
-
-<h1>Equipment Inventory</h1>
-
-<form method="POST" action="">
-    {% csrf_token %}
-    <label for="equipmentid">Equipment ID:</label>
-    <input type="text" name="equipmentid" id="equipmentid" required><br>
-
-    <label for="type">Type:</label>
-    <input type="text" name="type" id="type" required><br>
-
-    <label for="description">Description:</label>
-    <input type="text" name="description" id="description"><br>
-
-    <label for="lease_terms">Lease Terms:</label>
-    <input type="text" name="lease_terms" id="lease_terms"><br>
-
-    <label for="departmentleased">Department Leased:</label>
-    <input type="text" name="departmentleased" id="departmentleased"><br>
-
-    <label for="owned_lease">Owned/Lease (O/L):</label>
-    <input type="text" name="owned_lease" id="owned_lease"><br>
-
-    <label for="purchasedate">Purchase Date:</label>
-    <input type="date" name="purchasedate" id="purchasedate"><br>
-
-    <label for="warenty_info">Warranty Info:</label>
-    <input type="text" name="warenty_info" id="warenty_info"><br>
-
-    <button type="submit">Add Equipment</button>
-</form>
-
-<h2>Equipment List</h2>
-<ul>
-    {% for item in items %}
-        <li>
-            ID: {{ item.equipmentid }} | Type: {{ item.type }} | Description: {{ item.description }}
-        </li>
-    {% endfor %}
-</ul>
+</div>
 
 {% endblock %}
