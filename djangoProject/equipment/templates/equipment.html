@@ -1,19 +1,22 @@
 {% extends "baseTemplate.html" %}
 {% load static %}
+
 {% block page_css %}
     <link rel="stylesheet" href="{% static 'css/equipment.css' %}">
 {% endblock %}
 
 {% block content %}
 <h1 class="equipment-title">Equipment Inventory and Maintenance</h1>
+
 <div class="type-parent">
     <div class="type-left">Equipment Type:</div>
-    <select class= "type-dropdown">
+    <select class="type-dropdown">
         <option value="Stethoscope">Stethoscope</option>
         <option value="Gloves">Gloves</option>
         <option value="Thermometer">Thermometer</option>
-      </select>
+    </select>
 </div>
+
 <div class="search-parent">  
     <div class="vendor-background">
         <div class="vendor-title">Search By Vendor</div>
@@ -23,14 +26,90 @@
         </div>
         <button class="vendor-button">SEARCH</button>
     </div>
+
     <div class="inventory-background">
         <div class="inventory-title">Search by Inventory</div>
         <div class="inventory-interact">
-            <input class="inventory-id" type="text" placeholder="Equipment ID">
-            <button class="inventory-button">SEARCH</button>
+            <form method="GET" action="{% url 'equipment' %}">
+                <input class="inventory-id" type="text" name="equipmentid" placeholder="Equipment ID" value="{{ query }}">
+                <button class="inventory-button">SEARCH</button>
+            </form>
         </div>
     </div>
 </div>
-</div>
+
+{% if query %}
+    <div class="results-section">
+        <h2>Search Results for Equipment ID "{{ query }}":</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Equipment ID</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Department Leased</th>
+                    <th>Owned/Lease</th>
+                    <th>Purchase Date</th>
+                    <th>Warranty Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipment in items %}
+                    <tr>
+                        <td>{{ equipment.equipmentid }}</td>
+                        <td>{{ equipment.type }}</td>
+                        <td>{{ equipment.description }}</td>
+                        <td>{{ equipment.departmentleased }}</td>
+                        <td>{{ equipment.owned_lease }}</td>
+                        <td>{{ equipment.purchasedate }}</td>
+                        <td>{{ equipment.warenty_info }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>No Equipment ID entered. Please enter an ID to search.</p>
+{% endif %}
+
+<h1>Equipment Inventory</h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="equipmentid">Equipment ID:</label>
+    <input type="text" name="equipmentid" id="equipmentid" required><br>
+
+    <label for="type">Type:</label>
+    <input type="text" name="type" id="type" required><br>
+
+    <label for="description">Description:</label>
+    <input type="text" name="description" id="description"><br>
+
+    <label for="lease_terms">Lease Terms:</label>
+    <input type="text" name="lease_terms" id="lease_terms"><br>
+
+    <label for="departmentleased">Department Leased:</label>
+    <input type="text" name="departmentleased" id="departmentleased"><br>
+
+    <label for="owned_lease">Owned/Lease (O/L):</label>
+    <input type="text" name="owned_lease" id="owned_lease"><br>
+
+    <label for="purchasedate">Purchase Date:</label>
+    <input type="date" name="purchasedate" id="purchasedate"><br>
+
+    <label for="warenty_info">Warranty Info:</label>
+    <input type="text" name="warenty_info" id="warenty_info"><br>
+
+    <button type="submit">Add Equipment</button>
+</form>
+
+<h2>Equipment List</h2>
+<ul>
+    {% for item in items %}
+        <li>
+            ID: {{ item.equipmentid }} | Type: {{ item.type }} | Description: {{ item.description }}
+        </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
