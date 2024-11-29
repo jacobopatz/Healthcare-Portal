@@ -7,7 +7,9 @@
 
 {% block content %}
 <h1 class="equipment-title">Equipment Inventory and Maintenance</h1>
-
+<a href="{% url 'manage_page' %}">
+    <button>Add Equipment and Vendors</button>
+</a>
 <div class="type-parent">
     <div class="type-left">Equipment Type:</div>
     <select class="type-dropdown">
@@ -70,39 +72,32 @@
         </form>
     </div>
 
-{% if query %}
-    <div class="results-section">
-        <h2>Search Results for Equipment ID "{{ query }}":</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Equipment ID</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Department Leased</th>
-                    <th>Owned/Lease</th>
-                    <th>Purchase Date</th>
-                    <th>Warranty Info</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for equipment in items %}
-                    <tr>
-                        <td>{{ equipment.equipmentid }}</td>
-                        <td>{{ equipment.type }}</td>
-                        <td>{{ equipment.description }}</td>
-                        <td>{{ equipment.departmentleased }}</td>
-                        <td>{{ equipment.owned_lease }}</td>
-                        <td>{{ equipment.purchasedate }}</td>
-                        <td>{{ equipment.warenty_info }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% else %}
-    <p>No Equipment ID entered. Please enter an ID to search.</p>
-{% endif %}
+    {% if details %}
+        <h2>Equipment Details</h2>
+        <p><strong>Equipment ID:</strong> {{ details.equipmentid }}</p>
+        <p><strong>Type:</strong> {{ details.type }}</p>
+        <p><strong>Description:</strong> {{ details.description }}</p>
+        <p><strong>Department:</strong> {{ details.departmentleased }}</p>
+        <p><strong>Owned/Leased:</strong> {{ details.owned_lease }}</p>
+        {% if details.purchasedate %}
+            <p><strong>Purchase Date:</strong> {{ details.purchasedate }}</p>
+        {% endif %}
+        {% if details.warenty_info %}
+            <p><strong>Warranty Info:</strong> {{ details.warenty_info }}</p>
+        {% endif %}
+        {% if details.lease_terms %}
+            <p><strong>Lease Terms:</strong> {{ details.lease_terms }}</p>
+        {% endif %}
+    {% elif items %}
+        <h2>All Equipment</h2>
+        <ul>
+            {% for item in items %}
+                <li>{{ item.equipmentid }}: {{ item.type }} - {{ item.description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No equipment found.</p>
+    {% endif %}
 </div>
 
 {% endblock %}

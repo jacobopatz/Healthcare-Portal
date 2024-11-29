@@ -3,23 +3,57 @@ from django.views import View
 from sharedModels.models import Equipment
 from django.shortcuts import redirect
 
+def manage_page(request):
+    return render(request, 'manage_page.html')
+
 class EquipmentView(View):
+
     def get(self, request):
         # Retrieve the search query from the GET request
         query = request.GET.get('equipmentid', '')  # Default to empty string if not found
-        
+
         if query:
-            # Filter Equipment objects based on the equipmentid if query exists
-            items = Equipment.objects.filter(equipmentid=query)
+            try:
+                # Fetch a specific equipment object by equipmentid
+                item = Equipment.objects.get(equipmentid=query)
+
+                # Determine additional details based on 'Owned/Lease' flag
+                if item.owned_lease == 'O':  # 'O' for Owned
+                    extra_info = {
+                        'purchasedate': item.purchasedate,
+                        'warenty_info': item.warenty_info
+                    }
+                elif item.owned_lease == 'L':  # 'L' for Leased
+                    extra_info = {
+                        'lease_terms': item.lease_terms
+                    }
+                else:
+                    extra_info = {}
+
+                # Combine main and extra details
+                details = {
+                    'equipmentid': item.equipmentid,
+                    'type': item.type,
+                    'description': item.description,
+                    'departmentleased': item.departmentleased,
+                    'owned_lease': item.owned_lease,
+                    **extra_info
+                }
+
+                context = {'details': details, 'query': query}
+            except Equipment.DoesNotExist:
+                # If equipment with the given ID does not exist, show an error
+                context = {'error': 'No equipment found with the provided ID.', 'query': query}
         else:
-            # Retrieve all items if no query is provided
+            # Show all equipment if no specific query is provided
             items = Equipment.objects.all()
-        
-        # Render the template and pass the filtered items and query
-        return render(request, 'equipment.html', {'items': items, 'query': query})
+            context = {'items': items, 'query': query}
+
+        # Render the template and pass the context
+        return render(request, 'equipment.html', context)
 
     def post(self, request):
-        # Handle the POST request for adding equipment (same as before)
+        # Handle the POST request for adding equipment
         equipmentid = request.POST.get('equipmentid')
         type = request.POST.get('type')
         description = request.POST.get('description', '')
@@ -41,5 +75,8 @@ class EquipmentView(View):
             warenty_info=warenty_info,
         )
 
-        # Redirect to the same page after adding equipment to avoid duplicate submissions
+        # Redirect to the same page after adding equipment
         return redirect('equipment')
+
+
+#class EquipmentManage(View):

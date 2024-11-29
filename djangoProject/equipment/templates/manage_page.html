@@ -1,0 +1,14 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="manage-title">Equipment Manager</h1>
+<a href="{% url 'equipment' %}">
+    <button>Equipment Search</button>
+</a>
+<button>Add Vendor</button>
+<button>Add Equipment</button>
+{% endblock %}
