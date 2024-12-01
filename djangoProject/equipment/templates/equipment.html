@@ -15,7 +15,8 @@
 </a>
 <div class="type-parent">
     <div class="type-left">Equipment Type:</div>
-    <input class="type-dropdown" type="text" placeholder="Type">
+    <input class="type-input" type="text" placeholder="Type">
+    <button class="type-button">SEARCH</button>
 <!-- todo: Originally this was a dropdown, remove to text input?-->
  <!-- 
     <select class="type-dropdown">
@@ -41,6 +42,7 @@
         <div class="inventory-interact">
             <form method="GET" action="{% url 'equipment' %}">
                 <input class="inventory-id" type="text" name="equipmentid" placeholder="Equipment ID" value="{{ query }}">
+                <input class="inventory-id" type="text" name="type" placeholder="Equipment Type" value="{{ query }}">
                 <button class="inventory-button">SEARCH</button>
             </form>
         </div>
@@ -78,33 +80,32 @@
             <button type="submit">Add</button>
         </form>
     </div>
-
-    {% if details %}
-        <h2>Equipment Details</h2>
-        <p><strong>Equipment ID:</strong> {{ details.equipmentid }}</p>
-        <p><strong>Type:</strong> {{ details.type }}</p>
-        <p><strong>Description:</strong> {{ details.description }}</p>
-        <p><strong>Department:</strong> {{ details.departmentleased }}</p>
-        <p><strong>Owned/Leased:</strong> {{ details.owned_lease }}</p>
-        {% if details.purchasedate %}
-            <p><strong>Purchase Date:</strong> {{ details.purchasedate }}</p>
-        {% endif %}
-        {% if details.warenty_info %}
-            <p><strong>Warranty Info:</strong> {{ details.warenty_info }}</p>
-        {% endif %}
-        {% if details.lease_terms %}
-            <p><strong>Lease Terms:</strong> {{ details.lease_terms }}</p>
-        {% endif %}
-    {% elif items %}
-        <h2>All Equipment</h2>
-        <ul>
-            {% for item in items %}
-                <li>{{ item.equipmentid }}: {{ item.type }} - {{ item.description }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No equipment found.</p>
-    {% endif %}
+    
+{% if results %}
+    <h2>Equipment Details</h2>
+    <ul>
+        {% for item in results %}
+            <li>
+                <p><strong>Equipment ID:</strong> {{ item.equipmentid }}</p>
+                <p><strong>Type:</strong> {{ item.type }}</p>
+                <p><strong>Description:</strong> {{ item.description }}</p>
+                <p><strong>Department:</strong> {{ item.departmentleased }}</p>
+                <p><strong>Owned/Leased:</strong> {{ item.owned_lease }}</p>
+                {% if item.purchasedate %}
+                    <p><strong>Purchase Date:</strong> {{ item.purchasedate }}</p>
+                {% endif %}
+                {% if item.warenty_info %}
+                    <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
+                {% endif %}
+                {% if item.lease_terms %}
+                    <p><strong>Lease Terms:</strong> {{ item.lease_terms }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No equipment found.</p>
+{% endif %}
 </div>
 
 {% endblock %}

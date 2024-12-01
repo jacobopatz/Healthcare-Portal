@@ -16,13 +16,25 @@ class EquipmentView(View):
     def get(self, request):
         # Retrieve the search query from the GET request
         inventory_query = request.GET.get('equipmentid', '')  # Default to empty string if not found
+        type_query = request.GET.get('type', '')
 
+        filters = {}
         if inventory_query:
-            try:
-                # Fetch a specific equipment object by equipmentid
-                item = Equipment.objects.get(equipmentid=inventory_query)
+            filters['equipmentid'] = inventory_query
+        if type_query:
+            filters['type__icontains'] = type_query #icontains = case insensitive
 
-                # Determine additional details based on 'Owned/Lease' flag
+        for f in filters:
+            print(f"Filters: {f}")
+        #Based on filter, fetch equipment
+        items = Equipment.objects.filter(**filters)
+
+        #Check if results found
+        if items.exists():
+            #Now there can be multiple results, this stores them
+            results = []
+            for item in items:
+                # Determine additional details based on 'Owned/Lease' flag for each model
                 if item.owned_lease == 'O':  # 'O' for Owned
                     extra_info = {
                         'purchasedate': item.purchasedate,
@@ -34,7 +46,6 @@ class EquipmentView(View):
                     }
                 else:
                     extra_info = {}
-
                 # Combine main and extra details
                 details = {
                     'equipmentid': item.equipmentid,
@@ -44,15 +55,12 @@ class EquipmentView(View):
                     'owned_lease': item.owned_lease,
                     **extra_info
                 }
-
-                context = {'details': details, 'query': inventory_query}
-            except Equipment.DoesNotExist:
-                # If equipment with the given ID does not exist, show an error
-                context = {'error': 'No equipment found with the provided ID.', 'query': query}
+                #Store results for each object in queryset
+                results.append(details)
+            context = {'results': results, 'query': inventory_query, 'query_type': type_query}
         else:
-            # Show all equipment if no specific query is provided
-            items = Equipment.objects.all()
-            context = {'items': items, 'query': inventory_query}
+            #Show error message
+            context = {'error': 'No equipment found matching the criteria.', 'query_id': inventory_query, 'query_type': type_query}
 
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
@@ -68,6 +76,13 @@ class EquipmentView(View):
         purchasedate = request.POST.get('purchasedate', None)
         warenty_info = request.POST.get('warenty_info', '')
 
+        #In case it already exists, be nice and tell them no can do
+        if Equipment.objects.filter(equipmentid=equipmentid).exists():
+            return render(request, 'equipment.html', {
+                'error': f'Equipment ID {equipmentid} already exists.',
+                'query': request.GET.get('equipmentid', ''),
+                'query_type': request.GET.get('type', '')
+        })
         # Create and save a new Equipment object
         Equipment.objects.create(
             equipmentid=equipmentid,
