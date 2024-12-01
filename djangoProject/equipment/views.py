@@ -10,12 +10,12 @@ class EquipmentView(View):
 
     def get(self, request):
         # Retrieve the search query from the GET request
-        query = request.GET.get('equipmentid', '')  # Default to empty string if not found
+        inventory_query = request.GET.get('equipmentid', '')  # Default to empty string if not found
 
-        if query:
+        if inventory_query:
             try:
                 # Fetch a specific equipment object by equipmentid
-                item = Equipment.objects.get(equipmentid=query)
+                item = Equipment.objects.get(equipmentid=inventory_query)
 
                 # Determine additional details based on 'Owned/Lease' flag
                 if item.owned_lease == 'O':  # 'O' for Owned
@@ -40,14 +40,14 @@ class EquipmentView(View):
                     **extra_info
                 }
 
-                context = {'details': details, 'query': query}
+                context = {'details': details, 'query': inventory_query}
             except Equipment.DoesNotExist:
                 # If equipment with the given ID does not exist, show an error
                 context = {'error': 'No equipment found with the provided ID.', 'query': query}
         else:
             # Show all equipment if no specific query is provided
             items = Equipment.objects.all()
-            context = {'items': items, 'query': query}
+            context = {'items': items, 'query': inventory_query}
 
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
