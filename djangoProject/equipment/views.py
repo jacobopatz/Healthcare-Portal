@@ -3,8 +3,13 @@ from django.views import View
 from sharedModels.models import Equipment
 from django.shortcuts import redirect
 
-def manage_page(request):
-    return render(request, 'manage_page.html')
+class ManageView(View):
+    def get(self, request):
+        return render(request, 'manage_page.html')
+
+class ProblemsView(View):
+    def get(self, request):
+        return render(request, 'problems_page.html')
 
 class EquipmentView(View):
 

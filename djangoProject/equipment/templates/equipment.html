@@ -10,13 +10,20 @@
 <a href="{% url 'manage_page' %}">
     <button>Add Equipment and Vendors</button>
 </a>
+<a href="{% url 'problems_page' %}">
+    <button>Report and Search Problems</button>
+</a>
 <div class="type-parent">
     <div class="type-left">Equipment Type:</div>
+    <input class="type-dropdown" type="text" placeholder="Type">
+<!-- todo: Originally this was a dropdown, remove to text input?-->
+ <!-- 
     <select class="type-dropdown">
         <option value="Stethoscope">Stethoscope</option>
         <option value="Gloves">Gloves</option>
         <option value="Thermometer">Thermometer</option>
     </select>
+-->
 </div>
 
 <div class="search-parent">  
