@@ -8,10 +8,10 @@
 {% block content %}
 <h1 class="equipment-title">Equipment Inventory and Maintenance</h1>
 <a href="{% url 'manage_page' %}">
-    <button>Add Equipment and Vendors</button>
+    <button class="type-button">Manage Equipment and Vendors</button>
 </a>
 <a href="{% url 'problems_page' %}">
-    <button>Report and Search Problems</button>
+    <button class="type-button">Report and Search Problems</button>
 </a>
 <div class="type-parent">
     <div class="type-left">Equipment Type:</div>
@@ -48,43 +48,7 @@
         </div>
     </div>
 </div>
-<div class="search-parent">
-    <div class="vendor-background">
-        <h1>Add Equipment</h1>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <label for="equipmentid">Equipment ID:</label>
-            <input type="text" name="equipmentid" id="equipmentid" required><br>
-        
-            <label for="type">Type:</label>
-            <input type="text" name="type" id="type" required><br>
-        
-            <label for="description">Description:</label>
-            <input type="text" name="description" id="description"><br>
-        
-            <label for="lease_terms">Lease Terms:</label>
-            <input type="text" name="lease_terms" id="lease_terms"><br>
-        
-            <label for="departmentleased">Department Leased:</label>
-            <input type="text" name="departmentleased" id="departmentleased"><br>
-        
-            <label for="owned_lease">Owned/Lease:</label>
-            <select name="owned_lease" id="owned_lease">
-                <option value="O">Owned</option>
-                <option value="L">Leased</option>
-            </select>
-            <br>
-        
-            <label for="purchasedate">Purchase Date:</label>
-            <input type="date" name="purchasedate" id="purchasedate"><br>
-        
-            <label for="warenty_info">Warranty Info:</label>
-            <input type="text" name="warenty_info" id="warenty_info"><br>
-        
-            <button type="submit">Add</button>
-        </form>
-    </div>
-    
+ 
 {% if results %}
     <h2>Equipment Details</h2>
     <ul>
@@ -111,6 +75,5 @@
 {% else %}
     <p>No equipment found.</p>
 {% endif %}
-</div>
 
 {% endblock %}

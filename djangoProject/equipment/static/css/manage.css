@@ -4,3 +4,30 @@
     text-align: center;
     margin-bottom: 1cm;
 }
+
+.add-parent {
+    margin: auto;
+    text-align: center;
+}
+
+.add-background {
+    margin-right: 30px;
+    display: inline-block;
+    background-color: #CDB29E;
+    min-height: 25vh;
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
+    margin-top: 10vh;
+}
+
+.add-button {
+    display: inline;
+    font-size: 20px;
+    border-radius: 15%;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    min-height: 5vh;
+    width: 30%;
+}
