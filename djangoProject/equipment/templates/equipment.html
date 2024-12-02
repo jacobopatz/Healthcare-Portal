@@ -41,8 +41,8 @@
         <div class="inventory-title">Search by Inventory</div>
         <div class="inventory-interact">
             <form method="GET" action="{% url 'equipment' %}">
-                <input class="inventory-id" type="text" name="equipmentid" placeholder="Equipment ID" value="{{ query }}">
-                <input class="inventory-id" type="text" name="type" placeholder="Equipment Type" value="{{ query }}">
+                <input class="inventory-id" type="text" name="equipmentid" placeholder="Equipment ID" value="{{ query_id }}">
+                <input class="inventory-id" type="text" name="type" placeholder="Equipment Type" value="{{ query_type }}">
                 <button class="inventory-button">SEARCH</button>
             </form>
         </div>
@@ -68,8 +68,12 @@
             <label for="departmentleased">Department Leased:</label>
             <input type="text" name="departmentleased" id="departmentleased"><br>
         
-            <label for="owned_lease">Owned/Lease (O/L):</label>
-            <input type="text" name="owned_lease" id="owned_lease"><br>
+            <label for="owned_lease">Owned/Lease:</label>
+            <select name="owned_lease" id="owned_lease">
+                <option value="O">Owned</option>
+                <option value="L">Leased</option>
+            </select>
+            <br>
         
             <label for="purchasedate">Purchase Date:</label>
             <input type="date" name="purchasedate" id="purchasedate"><br>
@@ -100,6 +104,7 @@
                 {% if item.lease_terms %}
                     <p><strong>Lease Terms:</strong> {{ item.lease_terms }}</p>
                 {% endif %}
+                <p><strong>-----------------------------</strong></p>
             </li>
         {% endfor %}
     </ul>

@@ -57,7 +57,7 @@ class EquipmentView(View):
                 }
                 #Store results for each object in queryset
                 results.append(details)
-            context = {'results': results, 'query': inventory_query, 'query_type': type_query}
+            context = {'results': results, 'query_id': inventory_query, 'query_type': type_query}
         else:
             #Show error message
             context = {'error': 'No equipment found matching the criteria.', 'query_id': inventory_query, 'query_type': type_query}
