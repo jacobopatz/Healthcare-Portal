@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from sharedModels.models import Equipment
+from sharedModels.models import Equipment, Maintenance
 from django.shortcuts import redirect
 
 class ManageView(View):
@@ -41,7 +41,36 @@ class ManageView(View):
 
 class ProblemsView(View):
     def get(self, request):
-        return render(request, 'problems_page.html')
+        # Get all open problems (status not 'resolved' or other criteria for open)
+        open_problems = Maintenance.objects.filter(status='Open')  # Or use other criteria for open problems
+        
+        # Pass the open problems and their corresponding equipment to the template
+        return render(request, 'problems_page.html', {'open_problems': open_problems})
+
+    def post(self, request):
+        # Get the data from the form
+        equipmentid = request.POST.get('equipmentid')
+        type = request.POST.get('type')
+        description = request.POST.get('description', '')
+        status = request.POST.get('status')
+        resolution = request.POST.get('resolution', '')
+
+        # Check if the equipment exists, store the instance
+        equipment = Equipment.objects.filter(equipmentid=equipmentid).first()
+        if equipment:
+            # Create a new maintenance problem entry
+            Maintenance.objects.create(
+            equipmentid=equipment,
+            type=type,
+            description=description,
+            status=status,
+            resolution=resolution,
+            )
+            return render(request, 'problems_page.html', {'success': 'Problem added successfully.'})
+        else:
+            return render(request, 'problems_page.html', {'error': 'Equipment not found.'})
+
+        # Redirect to a page that shows the equipment or maintenance list
 
 class EquipmentView(View):
 
@@ -96,7 +125,6 @@ class EquipmentView(View):
 
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
-
 
     #Post method below is done in manage_html, just scared to delete it
     def post(self, request):

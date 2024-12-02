@@ -12,6 +12,63 @@
 <a href="{% url 'manage_page' %}">
     <button>Add Equipment and Vendors</button>
 </a>
-<button>Add Vendor</button>
-<button>Add Equipment</button>
+
+<!-- Success and Error Messages -->
+{% if success %}
+    <div style="color: green; font-weight: bold; margin-top: 20px;">
+        {{ success }}
+    </div>
+{% endif %}
+{% if error %}
+    <div style="color: red; font-weight: bold; margin-top: 20px;">
+        {{ error }}
+    </div>
+{% endif %}
+
+<h2>Open Problems</h2>
+
+<!-- Button to trigger the display of open problems -->
+<form method="GET" action="{% url 'problems_page' %}">
+    <button type="submit">Show Open Problems</button>
+</form>
+
+<!-- Check if there are open problems -->
+{% if open_problems %}
+    <ul>
+    {% for problem in open_problems %}
+        <li>
+            <strong>Equipment ID:</strong> {{ problem.equipmentid.equipmentid }} <br>
+            <strong>Type:</strong> {{ problem.type }} <br>
+            <strong>Description:</strong> {{ problem.description }} <br>
+            <strong>Status:</strong> {{ problem.status }} <br>
+            <strong>Resolution:</strong> {{ problem.resolution }} <br>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No open problems found.</p>
+{% endif %}
+
+<form method="POST" action="{% url 'problems_page' %}">
+    {% csrf_token %}
+    <label for="equipmentid">Equipment ID:</label>
+    <input type="number" name="equipmentid" id="equipmentid" required>
+
+    <label for="type">Problem Type:</label>
+    <input type="text" name="type" id="type" required>
+
+    <label for="description">Description:</label>
+    <input type="text" name="description" id="description">
+
+    <label for="status">Status:</label>
+    <select name="status" id="status" required>
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+    </select>
+
+    <label for="resolution">Resolution:</label>
+    <input type="text" name="resolution" id="resolution">
+
+    <button type="submit">Add Problem</button>
+</form>
 {% endblock %}
