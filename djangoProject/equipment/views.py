@@ -6,6 +6,38 @@ from django.shortcuts import redirect
 class ManageView(View):
     def get(self, request):
         return render(request, 'manage_page.html')
+    
+    def post(self, request):
+        # Handle the POST request for adding equipment
+        equipmentid = request.POST.get('equipmentid')
+        type = request.POST.get('type')
+        description = request.POST.get('description', '')
+        lease_terms = request.POST.get('lease_terms', '')
+        departmentleased = request.POST.get('departmentleased', '')
+        owned_lease = request.POST.get('owned_lease')
+        purchasedate = request.POST.get('purchasedate', None)
+        warenty_info = request.POST.get('warenty_info', '')
+
+        #In case it already exists, be nice and tell them no can do
+        if Equipment.objects.filter(equipmentid=equipmentid).exists():
+            return render(request, 'equipment.html', {
+                'error': f'Equipment ID {equipmentid} already exists.',
+                'query': request.GET.get('equipmentid', ''),
+                'query_type': request.GET.get('type', '')
+        })
+        # Create and save a new Equipment object
+        Equipment.objects.create(
+            equipmentid=equipmentid,
+            type=type,
+            description=description,
+            lease_terms=lease_terms,
+            departmentleased=departmentleased,
+            owned_lease=owned_lease,
+            purchasedate=purchasedate,
+            warenty_info=warenty_info,
+        )
+        # Redirect to the same page after adding equipment
+        return redirect('manage_page.html')
 
 class ProblemsView(View):
     def get(self, request):
@@ -65,6 +97,8 @@ class EquipmentView(View):
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
 
+
+    #Post method below is done in manage_html, just scared to delete it
     def post(self, request):
         # Handle the POST request for adding equipment
         equipmentid = request.POST.get('equipmentid')
