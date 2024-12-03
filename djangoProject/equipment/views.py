@@ -37,7 +37,7 @@ class ManageView(View):
             warenty_info=warenty_info,
         )
         # Redirect to the same page after adding equipment
-        return redirect('manage_page.html')
+        return render('manage_page.html')
 
 class ProblemsView(View):
     def get(self, request):
@@ -71,6 +71,26 @@ class ProblemsView(View):
             return render(request, 'problems_page.html', {'error': 'Equipment not found.'})
 
         # Redirect to a page that shows the equipment or maintenance list
+
+#Currently not used
+class AddProblemView(View):
+    def post(self, request):
+        # Add a new problem type
+        new_problem_type = request.POST.get('type', '').strip()
+        if new_problem_type:
+            # Check if the problem type already exists
+            if not Maintenance.objects.filter(name=new_problem_type).exists():
+                Maintenance.objects.create(name=new_problem_type)
+                return redirect('problems_page')
+            else:
+                return render(request, 'problems_page.html', {
+                    'error': 'Problem type already exists.',
+                })
+        else:
+            return render(request, 'problems_page.html', {
+                'error': 'Problem type cannot be empty.',
+            })
+
 
 class EquipmentView(View):
 
