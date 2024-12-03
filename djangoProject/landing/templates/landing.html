@@ -23,7 +23,8 @@
         <form class="flex-container" method="post" action="{% url 'landing' %}">
             {% csrf_token %}
         <button type = "submit" name='site' value='schedule' class="box">Physician Scheduler (SCHED)</button>
-        <button type = "submit" name='site' value='patientRecord'class="box" id="ER" class="box">Electronic Patient Record (ER)</button>
+        <button type = "submit" name='site' value='patientRecord'class="box" id="EPR" class="box">Electronic Patient Record (EPR)</button>
+        <button type = "submit" name='site' value='encounterRecord'class="box" id="EER" class="box">Encounter Record (EER)</button>
         <button type = "submit" name='site' value='labOrder'class="box" id ="LT">Lab Order Tracking (LT)</button>
         <button type = "submit" name='site' value='pharmacy'class="box" id="PT">Pharmacy Order Tracking (PT)</button>
         <button type = "submit" name='site' value='insurance'class="box" id="IB">Insurance Billing (IB)</button>

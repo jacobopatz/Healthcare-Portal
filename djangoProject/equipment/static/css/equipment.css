@@ -16,7 +16,18 @@
 }
 
 .type-parent {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
     text-align: center;
+    background-color: #CDB29E;
+    min-height: 25h;
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
+    margin: 5vh auto; /*this centers horizontally automatically, 5vh top and bottom veritically"*/
 }
 
 .type-left {
@@ -25,6 +36,25 @@
     font-weight: bold;
     display: inline-block;
     margin-right: 25px;
+    margin-bottom: 5px;
+}
+
+.type-input {
+    font-size: 28px; 
+    color: #032838;
+    text-align: center;
+    background-color: transparent;
+    display: inline-block;
+}
+
+.type-button {
+    display: inline;
+    font-size: 20px;
+    border-radius: 15%;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    min-height: 5vh;
+    width: 30%;
 }
 
 .type-dropdown {
@@ -79,6 +109,7 @@
     font-size: 40px;
     font-weight: bold;
     font-family: Arial, sans-serif;
+    color: #032838;
 }
 
 .vendor-input {
