@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.utils.timezone import now 
 import uuid
 
 
@@ -139,6 +140,7 @@ class Maintenance(models.Model):
     status = models.CharField(db_column='Status', max_length=45)  # Field name made lowercase.
     resolution = models.CharField(db_column='Resolution', max_length=120, blank=True,
                                   null=True)  # Field name made lowercase.
+    created_at = models.DateTimeField(default=now, db_column='CreatedAt')
 
     class Meta:
         db_table = 'maintenance'
@@ -223,3 +225,18 @@ class Users(models.Model):
         db_table = 'users'
         unique_together = (('username', 'employeeid'),)
         db_table_comment = '\t'
+
+class Vendor(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    address = models.TextField()
+    equipment_types = models.CharField(max_length=200, help_text="Comma-separated list of equipment types")
+    preferred = models.BooleanField(default=False)
+
+    def str(self):
+        return self.name
+
+class ProblemType(models.Model):
+    name = models.CharField(max_length=45, unique=True)
+
+    def str(self):
+        return self.name
