@@ -23,13 +23,37 @@ class ScheduleView(View):
         for minute in (0, 30)    # Half-hour increments (0 and 30 minutes past each hour)
     ]
         # Remove booked slots from available slots
-        booked_times = {(appt.date.date(), appt.date.hour, appt.date.minute) for appt in appointments}
+        apptEnds = {appt.date for appt in Appointments.objects.all()}
+        apptStarts = {appt.enddate for appt in Appointments.objects.all()}
+        apptIntervals = (apptStarts,apptEnds)
+
+        # print(apptEnds)
+        # print(apptStarts)
+        # bookedTimes=[]
+        # for (start,end) in appointmentIntervals:
+            
+        #     currentTime = start
+        #     while currentTime < end:
+
+        #         justDate= currentTime.date()
+        #         print(type(justDate))
+        #         bookedTimes.append((justDate,currentTime.hour,currentTime.minute))
+        #         currentTime = currentTime + timedelta(minutes=30)
+        
+        # for day,slots in available_slots.items():
+        #     for slot in slots:
+        #         if(day, slot['time'].hour,slot['time'].minute) in 
+                    
+
+        # booked_times = {(appt.date.date(), appt.date.hour, appt.date.minute) for appt in appointments}
         for day, slots in available_slots.items():
                 for slot in slots:
-                    if (day, slot['time'].hour, slot['time'].minute) in booked_times:
-                        slot['is_booked'] = True
-                    elif(earliest_apt == -1):
-                        earliest_apt= slot['time']
+                    print(type(slot['time']))
+                    print(type(apptStarts[1]))
+                    # if (day, slot['time'].hour, slot['time'].minute) in bookedTimes:
+                    #     slot['is_booked'] = True
+                    # elif(earliest_apt == -1):
+                    #     earliest_apt= slot['time']
         return (available_slots, earliest_apt)
                     
        
@@ -54,20 +78,26 @@ class ScheduleView(View):
     
             #if time was chosen for calendar, pass that time, else, select earliest appointment
         if(request.GET.get('date') != None):
-            print(request.GET.get('changed_time'))
-            selected_time = datetime.strptime(request.GET.get('changed_time').strip(), '%b. %d, %Y, %H:%M')
+            startTime= datetime.strptime(request.GET.get('date').strip(), '%b. %d, %Y, %H:%M')
+            endTime = datetime.strptime(request.GET.get('enddate').strip(), '%b. %d, %Y, %H:%M')
+        else:
+            startTime= selected_time
+            return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots,'physician':physician, 'patient':patient})
+    
             
 
 
-        return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'selected_time': selected_time,'physician':physician, 'patient':patient})
+        return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'startTime': startTime, 'endTime': endTime,'physician':physician, 'patient':patient})
     
     def post(self,request):
           # Get data from the form (hidden inputs)
-        selected_time = request.POST.get('date')  # This is the time selected for the appointment
+        startTime = request.POST.get('startTime')  # This is the time selected for the appointment
+        endTime = request.POST.get('endTime')
         physician_id = request.POST.get('physicianid')  # Physician ID
         patient_id = request.POST.get('patientid')  # Patient ID
 
-        selected_time =datetime.strptime(selected_time.strip(), '%b. %d, %Y, %H:%M')
+        startTime =datetime.strptime(startTime.strip(), '%b. %d, %Y, %H:%M')
+        endTime = datetime.strptime(endTime.strip(), '%b. %d, %Y, %H:%M')
         physician = Employees.objects.get(employeeid=physician_id)
         patient = PatientRecord.objects.get(patientid =  patient_id )
         
@@ -84,7 +114,8 @@ class ScheduleView(View):
         # parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12:00 PM"), "%b. %d, %Y, %I:%M %p")
          # Create a new appointment
         appointment = Appointments.objects.create(
-            date= selected_time ,
+            date= startTime ,
+            enddate = endTime,
             physcianid= physician,
             patientid= patient
         )
@@ -99,3 +130,8 @@ class findPhysicianView(View):
        physicianObject = Employees.objects.get(employeeid = physicianID)
 
        return render(request, 'findPhysician.html', {'select':viewPhysicianForm, 'physician':physicianObject})
+    
+
+
+
+
