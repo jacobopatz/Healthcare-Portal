@@ -1,0 +1,21 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="help-container">
+    <button class="back-button">Back</button>
+    <h1>Help</h1>
+    <div class="help-options">
+        <div class="help-card">
+            <a href="{% url 'faq' %}">Frequently Asked Questions</a>
+        </div>
+        <div class="help-card">
+            <a href="{% url 'contact_support' %}">Contact Support</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

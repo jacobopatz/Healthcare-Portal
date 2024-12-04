@@ -1,0 +1,81 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/view_prescriptions.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>View Prescription Orders</h1>
+
+    <!-- Form for filtering prescriptions -->
+    <form method="POST" action="{% url 'view_prescriptions' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Patient's First Name:</label>
+            <input type="text" name="first_name">
+        </div>
+        <div class="form-group">
+            <label>Patient's Last Name:</label>
+            <input type="text" name="last_name">
+        </div>
+        <div class="form-group">
+            <label>Patient ID:</label>
+            <input type="text" name="patient_id">
+        </div>
+        <button type="submit" class="filter-button">Filter</button>
+    </form>
+
+    <!-- Display filtered prescription orders -->
+    <div class="prescriptions-list">
+        {% if prescriptions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Allergies</th>
+                    <th>Address</th>
+                    <th>Third Party Code</th>
+                    <th>Conditions</th>
+                    <th>Drug Quantity</th>
+                    <th>Drug Code</th>
+                    <th>Directions</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prescription in prescriptions %}
+                <tr>
+                    <td>{{ prescription.medication }}</td>
+                    <td>{{ prescription.dosage }}</td>
+                    <td>{{ prescription.frequency }}</td>
+                    <td>{{ prescription.allergies }}</td>
+                    <td>{{ prescription.address }}</td>
+                    <td>{{ prescription.third_party_code }}</td>
+                    <td>{{ prescription.conditions }}</td>
+                    <td>{{ prescription.drug_quantity }}</td>
+                    <td>{{ prescription.drug_code }}</td>
+                    <td>{{ prescription.directions }}</td>
+                    <td>
+                        <!-- Generate Report for a Specific Prescription -->
+                        <button onclick="window.location.href='{% url 'generate_report' prescription.id %}'">
+                            Generate Report
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No prescriptions found.</p>
+        {% endif %}
+    </div>
+
+    <!-- Generate Report for All Prescriptions -->
+    <button onclick="window.location.href='{% url 'generate_report_all' %}'" class="generate-report-button">
+        Generate Report for All
+    </button>
+</div>
+{% endblock %}
