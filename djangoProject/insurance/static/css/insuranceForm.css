@@ -18,25 +18,14 @@ body, html {
     overflow: auto;
     width: 95vw;
     border-radius: 2%;
-    margin-top: 10vh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-}
-.select-background {
-    background-color: #cdb29e;
-    min-height: 30vh;
-    overflow: auto;
-    width: 95vw;
-    border-radius: 2%;
-    margin-top: 10vh;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    padding: 20px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .form-group p {
     font-weight: bold;
@@ -47,4 +36,47 @@ body, html {
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+#patient-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.details-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.details-table td:first-child {
+    font-weight: bold;
+    background-color: #f9f9f9;
+    width: 40%; /* Adjust width for the labels column */
+}
+
+.details-table tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.details-table tr:hover {
+    background-color: #e9e9e9;
+}
+h3 {
+    margin-top: 30px; /* Creates space above the heading */
+    font-size: 18px;
+    color: #333;
+}
+h1 {
+    padding: 10px;
 }
