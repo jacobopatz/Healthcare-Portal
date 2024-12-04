@@ -33,10 +33,12 @@
     <div class="vendor-background">
         <div class="vendor-title">Search By Vendor</div>
         <div class="vendor-input">
-            <input class="vendor-id" type="text" placeholder="Vendor ID">
-            <input class="vendor-name" type="text" placeholder="Vendor Name">
+            <form method="GET" action="{% url 'vendor_search' %}">
+                <input class="vendor-id" type="text" placeholder="Vendor ID">
+                <input class="vendor-name" type="text" placeholder="Vendor Name">
+                <button class="vendor-button">SEARCH</button>
+            </form>
         </div>
-        <button class="vendor-button">SEARCH</button>
     </div>
 
     <div class="inventory-background">

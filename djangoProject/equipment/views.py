@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from sharedModels.models import Equipment, Maintenance
+from sharedModels.models import Equipment, Maintenance, Vendor
 from django.shortcuts import redirect
 
 class ManageView(View):
@@ -73,7 +73,7 @@ class ProblemsView(View):
         # Redirect to a page that shows the equipment or maintenance list
 
 #Currently not used
-class AddProblemView(View):
+class AddProblemType(View):
     def post(self, request):
         # Add a new problem type
         new_problem_type = request.POST.get('type', '').strip()
@@ -91,6 +91,62 @@ class AddProblemView(View):
                 'error': 'Problem type cannot be empty.',
             })
 
+class VendorView(View):
+    def get(self, request):
+        # Retrieve the search query from the GET request
+        name_query = request.GET.get('name', '').strip()
+        address_query = request.GET.get('address', '').strip()
+
+        # Build the filter dictionary
+        filters = {}
+        if name_query:
+            filters['name__icontains'] = name_query  # Case-insensitive match for name
+        if address_query:
+            filters['address__icontains'] = address_query  # Case-insensitive match for address
+
+        # Fetch matching vendors
+        vendors = Vendor.objects.filter(**filters)
+
+        # Check if results found
+        if vendors.exists():
+            results = []
+            for vendor in vendors:
+                details = {
+                    'name': vendor.name,
+                    'address': vendor.address,
+                    'equipment_types': vendor.equipment_types,
+                    'preferred': vendor.preferred,
+                }
+                results.append(details)
+            context = {'results': results, 'query_name': name_query, 'query_address': address_query}
+        else:
+            # No results found
+            context = {'error': 'No vendors found matching the criteria.', 'query_name': name_query, 'query_address': address_query}
+
+        # Render the template with the context
+        return render(request, 'equipment', context)
+    
+    def post(self, request):
+        # Extract data from the form
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        equipment_types = request.POST.get('equipment_types')
+        preferred = request.POST.get('preferred') == 'on'  # Check if checkbox is checked
+
+        # Check if a vendor with the same name already exists
+        if Vendor.objects.filter(name=name).exists():
+            return render(request, 'vendor_add.html', {'error': 'Vendor with this name already exists.'})
+
+        # Create and save the vendor object
+        Vendor.objects.create(
+            name=name,
+            address=address,
+            equipment_types=equipment_types,
+            preferred=preferred
+        )
+
+        # Redirect to a success page or back to the vendor list
+        return redirect('manage_page')  # Assuming you have a list view for vendors
 
 class EquipmentView(View):
 
