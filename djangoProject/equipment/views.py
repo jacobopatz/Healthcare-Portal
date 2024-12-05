@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from sharedModels.models import Equipment, Maintenance, Vendor
+from equipment.models import Equipment, Maintenance, Vendor
 from django.shortcuts import redirect
 
 class ManageView(View):
@@ -37,7 +37,7 @@ class ManageView(View):
             warenty_info=warenty_info,
         )
         # Redirect to the same page after adding equipment
-        return render('manage_page.html')
+        return render(request, 'manage_page.html')
 
 class ProblemsView(View):
     def get(self, request):
@@ -109,7 +109,7 @@ class VendorView(View):
 
         # Check if results found
         if vendors.exists():
-            results = []
+            vendor_results = []
             for vendor in vendors:
                 details = {
                     'name': vendor.name,
@@ -117,17 +117,18 @@ class VendorView(View):
                     'equipment_types': vendor.equipment_types,
                     'preferred': vendor.preferred,
                 }
-                results.append(details)
-            context = {'results': results, 'query_name': name_query, 'query_address': address_query}
+                vendor_results.append(details)
+            context = {'vendor_results': vendor_results, 'query_name': name_query, 'query_address': address_query}
         else:
             # No results found
             context = {'error': 'No vendors found matching the criteria.', 'query_name': name_query, 'query_address': address_query}
 
         # Render the template with the context
-        return render(request, 'equipment', context)
+        return render(request, 'equipment.html', context)
     
     def post(self, request):
         # Extract data from the form
+        vendorid = request.POST.get('vendorid')
         name = request.POST.get('name')
         address = request.POST.get('address')
         equipment_types = request.POST.get('equipment_types')
@@ -139,6 +140,7 @@ class VendorView(View):
 
         # Create and save the vendor object
         Vendor.objects.create(
+            vendorid=vendorid,
             name=name,
             address=address,
             equipment_types=equipment_types,
@@ -169,7 +171,7 @@ class EquipmentView(View):
         #Check if results found
         if items.exists():
             #Now there can be multiple results, this stores them
-            results = []
+            equipment_results = []
             for item in items:
                 # Determine additional details based on 'Owned/Lease' flag for each model
                 if item.owned_lease == 'O':  # 'O' for Owned
@@ -193,11 +195,11 @@ class EquipmentView(View):
                     **extra_info
                 }
                 #Store results for each object in queryset
-                results.append(details)
-            context = {'results': results, 'query_id': inventory_query, 'query_type': type_query}
+                equipment_results.append(details)
+            context = {'equipment_results': equipment_results, 'query_id': inventory_query, 'query_type': type_query}
         else:
             #Show error message
-            context = {'error': 'No equipment found matching the criteria.', 'query_id': inventory_query, 'query_type': type_query}
+            context = {'error': 'No equipment', 'query_id': inventory_query, 'query_type': type_query}
 
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
