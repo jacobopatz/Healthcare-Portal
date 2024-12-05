@@ -1,0 +1,32 @@
+{% extends "baseTemplate.html" %}
+{% block content %}
+<h1>All Prescriptions</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Medication</th>
+            <th>Dosage</th>
+            <th>Date Issued</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prescription in prescriptions %}
+        <tr>
+            <td>{{ prescription.first_name }} {{ prescription.last_name }}</td>
+            <td>{{ prescription.medication }}</td>
+            <td>{{ prescription.dosage }}</td>
+            <td>{{ prescription.date_signed|date:"F j, Y" }}</td>
+            <td>
+                <a href="{% url 'generate_report' prescription.id %}">View Report</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No prescriptions available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/view_medications.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>View Medications</h1>
+
+    <!-- Filter and Search Form -->
+    <form method="GET" action="{% url 'view_medications' %}">
+        <div class="form-group">
+            <label for="search">Search by Medication Name:</label>
+            <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Enter medication name">
+        </div>
+
+        <div class="form-group">
+            <label for="condition1">Condition 1:</label>
+            <input type="checkbox" id="condition1" name="condition1" value="Condition 1" {% if condition1 %}checked{% endif %}>
+        </div>
+
+        <div class="form-group">
+            <label for="condition2">Condition 2:</label>
+            <input type="checkbox" id="condition2" name="condition2" value="Condition 2" {% if condition2 %}checked{% endif %}>
+        </div>
+
+        <div class="form-group">
+            <label for="med_type">Medication Type:</label>
+            <select id="med_type" name="med_type">
+                <option value="">All</option>
+                <option value="Type 1" {% if med_type == "Type 1" %}selected{% endif %}>Type 1</option>
+                <option value="Type 2" {% if med_type == "Type 2" %}selected{% endif %}>Type 2</option>
+            </select>
+        </div>
+
+        <button type="submit" class="filter-button">Apply Filters</button>
+    </form>
+
+    <!-- Medications List -->
+    <div class="medications-list">
+        {% if medications %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Dosage</th>
+                        <th>Frequency</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medication in medications %}
+                        <tr>
+                            <td>{{ medication.medication_name }}</td>
+                            <td>{{ medication.dosage }}</td>
+                            <td>{{ medication.frequency }}</td>
+                            <td>{{ medication.description }}</td>
+                            <td>{{ medication.start_date }}</td>
+                            <td>{{ medication.end_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No medications found matching your criteria.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

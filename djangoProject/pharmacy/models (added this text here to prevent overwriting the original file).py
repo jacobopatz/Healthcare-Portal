@@ -7,24 +7,13 @@ class Prescription(models.Model):
     patient_id = models.CharField(max_length=50)
     age = models.PositiveIntegerField()
 
-    # Contact Information
-    address = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=100, blank=True, null=True)
-    state = models.CharField(max_length=100, blank=True, null=True)
-
     # Treatment Information
     medication = models.TextField()  # Store medication details as a JSON or text (e.g., serialized data)
     dosage = models.TextField()
     frequency = models.TextField()
-    drug_quantity = models.PositiveIntegerField(default=0)  # Number of pills or units prescribed
-    drug_code = models.CharField(max_length=50, blank=True, null=True)  # Code for the drug prescribed
-    directions = models.TextField(blank=True, null=True)  # Additional directions for use
 
     # Additional Information
     date_signed = models.DateField()
-    allergies = models.TextField(blank=True, null=True)
-    conditions = models.TextField(blank=True, null=True)  # Health conditions the prescription addresses
-    third_party_code = models.CharField(max_length=50, blank=True, null=True)  # Insurance or third-party identifier
     signature = models.CharField(max_length=255)
 
     def __str__(self):

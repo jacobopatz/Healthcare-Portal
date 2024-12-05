@@ -1,0 +1,157 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #444;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    text-align: center;
+    color: #333;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased spacing for readability */
+    width: 100%;
+    max-width: 900px; /* Extended for a better layout */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.name-fields {
+    display: flex;
+    gap: 10px;
+}
+
+/* Treatment section header - Maintain as a grid for clarity */
+.treatment-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Updated Treatment Fields */
+.treatment-fields {
+    display: flex;
+    flex-direction: column; /* Arrange rows vertically */
+    gap: 15px; /* Space between rows */
+    background: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Individual Row Style */
+.treatment-row {
+    display: flex;
+    gap: 15px; /* Space between fields in a row */
+    width: 100%; /* Ensure rows span the full width */
+}
+
+/* Input and Text Area Styling */
+.treatment-row input,
+.treatment-row textarea {
+    flex: 1; /* Allow fields to stretch proportionally */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%; /* Ensure consistent width */
+    box-sizing: border-box; /* Maintain consistent sizing */
+}
+
+textarea {
+    resize: none; /* Disable resizing for consistent layout */
+}
+
+/* Add More Button */
+.add-more {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+}
+
+.add-more:hover {
+    background-color: #444;
+}
+
+/* Submit Button */
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto 0;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .name-fields {
+        flex-direction: column;
+    }
+
+    .treatment-row {
+        flex-direction: column; /* Stack fields in rows for smaller screens */
+    }
+
+    .treatment-header {
+        grid-template-columns: 1fr; /* Reduce to one column */
+        font-size: 12px;
+    }
+}
