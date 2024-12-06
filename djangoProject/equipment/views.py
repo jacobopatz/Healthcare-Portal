@@ -3,6 +3,8 @@ from django.views import View
 from equipment.models import Equipment, Maintenance, Vendor
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Count, Avg, F, ExpressionWrapper, DurationField
+from datetime import datetime, timedelta
+from django.utils.timezone import make_aware
 
 class ManageView(View):
     def get(self, request):
@@ -137,24 +139,28 @@ class StatisticalReportView(View):
     template_name = 'statistics_report.html'
 
     def get(self, request):
-        # Retrieve the start and end date from GET parameters
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
 
-        # Filter maintenance records within the specified period
+        if start_date:
+            start_date = make_aware(datetime.strptime(start_date, '%Y-%m-%d'))
+        if end_date:
+            # Include the entire day by adding one day and subtracting a microsecond
+            end_date = make_aware(datetime.strptime(end_date, '%Y-%m-%d')) + timedelta(days=1) - timedelta(microseconds=1)
+
+        # Filter maintenance records
         maintenance_records = Maintenance.objects.filter(
             created_at__range=[start_date, end_date]
         ) if start_date and end_date else Maintenance.objects.all()
 
-        # Annotate average time to close by calculating the duration between created_at and resolution
+        # Annotate and group records as before
         maintenance_data = maintenance_records.annotate(
             time_to_close=ExpressionWrapper(
-                F('resolution') - F('created_at'),
+                F('closed_at') - F('created_at'),
                 output_field=DurationField()
             )
         )
 
-        # Group by problem type and vendor with statistics
         summary_by_type_and_vendor = maintenance_data.values(
             'type', 'equipmentid__vendor__name'
         ).annotate(
@@ -162,11 +168,10 @@ class StatisticalReportView(View):
             avg_time_to_close=Avg('time_to_close')
         ).order_by('type', 'equipmentid__vendor__name')
 
-        # Pass the data to the template
         return render(request, self.template_name, {
             'summary_by_type_and_vendor': summary_by_type_and_vendor,
-            'start_date': start_date,
-            'end_date': end_date,
+            'start_date': request.GET.get('start_date'),
+            'end_date': request.GET.get('end_date'),
         })
 
 #Currently not used

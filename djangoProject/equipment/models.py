@@ -56,19 +56,15 @@ class Equipment(models.Model):
     class Meta:
         db_table = 'equipment_two'
 
-
-# Create your models here.
 class Maintenance(models.Model):
-    maintenanceid = models.IntegerField(db_column='MaintenanceID',
-                                        primary_key=True)  # Field name made lowercase. The composite primary key (MaintenanceID, EquipmentID) found, that is not supported. The first column is selected.
-    equipmentid = models.ForeignKey(Equipment, models.DO_NOTHING, db_column='EquipmentID')  # Field name made lowercase.
-    type = models.CharField(db_column='Type', max_length=45)  # Field name made lowercase.
-    description = models.CharField(db_column='Description', max_length=120, blank=True,
-                                   null=True)  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=45)  # Field name made lowercase.
-    resolution = models.CharField(db_column='Resolution', max_length=120, blank=True,
-                                  null=True)  # Field name made lowercase.
+    maintenanceid = models.IntegerField(db_column='MaintenanceID', primary_key=True)
+    equipmentid = models.ForeignKey(Equipment, models.DO_NOTHING, db_column='EquipmentID')
+    type = models.CharField(db_column='Type', max_length=45)
+    description = models.CharField(db_column='Description', max_length=120, blank=True, null=True)
+    status = models.CharField(db_column='Status', max_length=45)
+    resolution = models.CharField(db_column='Resolution', max_length=120, blank=True, null=True)
     created_at = models.DateTimeField(default=now, db_column='CreatedAt')
+    closed_at = models.DateTimeField(null=True, blank=True, db_column='ClosedAt')  # New field for closure time
 
     class Meta:
         db_table = 'maintenance_two'

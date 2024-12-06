@@ -170,3 +170,15 @@
     min-height: 5vh;
     width: 30%;
 }
+
+.department-background {
+    margin-right: 30px;
+    display: inline-block;
+    background-color: #CDB29E;
+    min-height: 25vh;
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
+    margin-top: 10vh;
+}
