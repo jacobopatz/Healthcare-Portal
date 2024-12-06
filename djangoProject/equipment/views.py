@@ -71,14 +71,20 @@ class ManageView(View):
 
 class ProblemsView(View):
     def get(self, request):
-        # Get all open problems (status not 'resolved' or other criteria for open)
-        open_problems = Maintenance.objects.filter(status='Open')  # Or use other criteria for open problems
+        # Get the status from the request; default to 'Open'
+        status = request.GET.get('status', 'Open')
         
-        # Pass the open problems and their corresponding equipment to the template
-        return render(request, 'problems_page.html', {'open_problems': open_problems})
+        # Filter problems based on the status
+        problems = Maintenance.objects.filter(status=status)
+        
+        # Pass the problems and the current status to the template
+        return render(request, 'problems_page.html', {
+            'problems': problems,
+            'current_status': status,
+        })
 
     def post(self, request):
-        # Get the data from the form
+        # Handle problem creation
         equipmentid = request.POST.get('equipmentid')
         problem_type = request.POST.get('problemtype')  # Correct field name
         description = request.POST.get('description', '')
@@ -100,16 +106,15 @@ class ProblemsView(View):
         else:
             return render(request, 'problems_page.html', {'error': 'Equipment not found.'})
 
-            # Redirect to a page that shows the equipment or maintenance list
 
 class CloseProblemsView(View):
     template_name = 'close_problem.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         # Render the close problem form
         return render(request, self.template_name)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         # Handle form submission
         maintenanceid = request.POST.get('maintenanceid')
         resolution = request.POST.get('resolution')
