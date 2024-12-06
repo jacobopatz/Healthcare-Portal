@@ -297,3 +297,22 @@ class EquipmentView(View):
 
         # Redirect to the same page after adding equipment
         return redirect('equipment')
+
+class DepartmentView(View):
+    def get(self, request):
+        # Retrieve department query from the GET request
+        department_query = request.GET.get('departmentleased', '')
+
+        # Filter equipment by department if provided
+        if department_query:
+            equipment_list = Equipment.objects.filter(departmentleased__icontains=department_query)
+        else:
+            equipment_list = Equipment.objects.all()
+
+        # Pass the filtered equipment list and query back to the template
+        context = {
+            'equipment_list': equipment_list,
+            'department_query': department_query,
+        }
+
+        return render(request, 'equipment.html', context)
