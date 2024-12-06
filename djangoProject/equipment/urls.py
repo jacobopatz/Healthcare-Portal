@@ -7,5 +7,5 @@ urlpatterns = [
      path('equipment/vendor/', VendorView.as_view(),name='vendor_search'),
      path('equipment/manage/', ManageView.as_view(),name='manage_page'),
      path('equipment/problems/', ProblemsView.as_view(),name='problems_page'),
-     path('equipment/problems/addProblem', AddProblemType.as_view(),name="'add_problem")
+     path('equipment/problems/addProblem', AddProblemType.as_view(),name='add_problem')
 ]

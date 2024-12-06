@@ -24,14 +24,6 @@ class ManageView(View):
         lease_start = request.POST.get('lease_start', None)
         lease_end = request.POST.get('lease_end', None)
         vendor_id = request.POST.get('vendor', '')
-    
-        #Fringe case compensation
-        if not vendor_id:
-            print("No vendor selected")
-            return render(request, 'manage_page.html', {
-                'error': 'Please select a vendor.',
-                'vendors': Vendor.objects.all(),
-            })
 
         #In case it already exists, be nice and tell them no can do
         if Equipment.objects.filter(equipmentid=equipmentid).exists():
@@ -131,54 +123,51 @@ class AddProblemType(View):
 
 class VendorView(View):
     def get(self, request):
-        # Retrieve the search query from the GET request
-        name_query = request.GET.get('name', '').strip()
-        address_query = request.GET.get('address', '').strip()
-        vendorid_query = request.GET.get('vendorid', '').strip()
+        # Retrieve search queries from the GET request
+        vendorid_query = request.GET.get('vendorid', '')
+        name_query = request.GET.get('name', '')
+        equipment_type_query = request.GET.get('equipment_type', '')  # New query parameter
 
-        # Initialize filter dictionary
         filters = {}
+        if vendorid_query:
+            filters['vendorid__icontains'] = vendorid_query
+        if name_query:
+            filters['name__icontains'] = name_query
+        if equipment_type_query:
+            filters['equipment_types__icontains'] = equipment_type_query  # Assuming equipment_types is a field on Vendor
 
-        # Check if any search query is provided (name, address, or vendorid)
-        if name_query or vendorid_query or address_query:
-            # Only apply the filter if there's a valid search input
-            if name_query:
-                filters['name__icontains'] = name_query  # Case-insensitive match for name
-            if address_query:
-                filters['address__icontains'] = address_query  # Case-insensitive match for address
-            if vendorid_query:
-                try:
-                    vendorid = int(vendorid_query)  # Convert the vendorid to an integer
-                    filters['vendorid'] = vendorid  # Filter by vendorid
-                except ValueError:
-                    filters['vendorid'] = None  # Optionally, handle invalid vendorid input
+        for f in filters:
+            print(f"Filters: {f}")
 
-            # Fetch matching vendors
-            vendors = Vendor.objects.filter(**filters)
+        # Based on the filters, fetch vendors
+        vendors = Vendor.objects.filter(**filters)
 
-            # Prepare the vendor details
-            if vendors.exists():
-                vendor_results = []
-                for vendor in vendors:
-                    details = {
-                        'name': vendor.name,
-                        'address': vendor.address,
-                        'equipment_types': vendor.equipment_types,
-                        'preferred': vendor.preferred,
-                        'vendorid': vendor.vendorid,
-                    }
-                    vendor_results.append(details)
-                context = {'vendor_results': vendor_results, 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
-            else:
-                # No results found
-                context = {'error': 'No vendors found matching the criteria.', 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
+        if vendors.exists():
+            vendor_results = []
+            for vendor in vendors:
+                vendor_details = {
+                    'name': vendor.name,
+                    'vendorid': vendor.vendorid,
+                    'address': vendor.address,
+                    'equipment_types': vendor.equipment_types,
+                    'preferred': vendor.preferred,
+                }
+                vendor_results.append(vendor_details)
+
+            context = {
+                'vendor_results': vendor_results,
+                'query_vendorid': vendorid_query,
+                'query_name': name_query,
+                'query_equipment_type': equipment_type_query,  # Pass the equipment_type to the template
+            }
         else:
-            # No search query, return an empty context
-            context = {'vendor_results': [], 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
-
-        # Render the template with the context
+            context = {
+                'error': 'No vendors found matching the criteria.',
+                'query_vendorid': vendorid_query,
+                'query_name': name_query,
+                'query_equipment_type': equipment_type_query,
+            }
         return render(request, 'equipment.html', context)
-
     
     def post(self, request):
         # Extract data from the form
@@ -215,50 +204,57 @@ class EquipmentView(View):
         if inventory_query:
             filters['equipmentid'] = inventory_query
         if type_query:
-            filters['type__icontains'] = type_query #icontains = case insensitive
+            filters['type__icontains'] = type_query  # case-insensitive search
 
-        for f in filters:
-            print(f"Filters: {f}")
-        #Based on filter, fetch equipment
-        items = Equipment.objects.filter(**filters)
+        equipment_results = []  # Default to an empty list in case no results are found
 
-        #Check if results found
-        if items.exists():
-            #Now there can be multiple results, this stores them
-            equipment_results = []
-            for item in items:
-                # Determine additional details based on 'Owned/Lease' flag for each model
-                if item.owned_lease == 'O':  # 'O' for Owned
-                    extra_info = {
-                        'purchasedate': item.purchasedate,
-                        'warenty_info': item.warenty_info
+        if inventory_query or type_query:  # Only search if either query is present
+            for f in filters:
+                print(f"Filters: {f}")
+            # Fetch equipment based on the filters
+            items = Equipment.objects.filter(**filters)
+
+            if items.exists():
+                for item in items:
+                    # Determine additional details based on 'Owned/Lease' flag for each model
+                    if item.owned_lease == 'O':  # 'O' for Owned
+                        extra_info = {
+                            'purchasedate': item.purchasedate,
+                            'warenty_info': item.warenty_info
+                        }
+                    elif item.owned_lease == 'L':  # 'L' for Leased
+                        extra_info = {
+                            'vendor': item.vendor,
+                            'lease_terms': item.lease_terms,
+                            'lease_start': item.lease_start,
+                            'lease_end': item.lease_end
+                        }
+                    else:
+                        extra_info = {}
+                    # Combine main and extra details
+                    details = {
+                        'equipmentid': item.equipmentid,
+                        'type': item.type,
+                        'description': item.description,
+                        'departmentleased': item.departmentleased,
+                        'owned_lease': item.owned_lease,
+                        **extra_info
                     }
-                elif item.owned_lease == 'L':  # 'L' for Leased
-                    extra_info = {
-                        'vendor': item.vendor,
-                        'lease_terms': item.lease_terms,
-                        'lease_start': item.lease_start,
-                        'lease_end': item.lease_end
-                    }
-                else:
-                    extra_info = {}
-                # Combine main and extra details
-                details = {
-                    'equipmentid': item.equipmentid,
-                    'type': item.type,
-                    'description': item.description,
-                    'departmentleased': item.departmentleased,
-                    'owned_lease': item.owned_lease,
-                    **extra_info
-                }
-                #Store results for each object in queryset
-                equipment_results.append(details)
-            context = {'equipment_results': equipment_results, 'query_id': inventory_query, 'query_type': type_query}
+                    equipment_results.append(details)
+
+            if not equipment_results:
+                # If no equipment found, set an error message
+                context = {'error': 'No equipment found matching your search criteria.',
+                           'query_id': inventory_query, 'query_type': type_query}
+            else:
+                context = {'equipment_results': equipment_results, 'query_id': inventory_query, 'query_type': type_query}
         else:
-            #Show error message
-            context = {'error': 'No equipment', 'query_id': inventory_query, 'query_type': type_query}
+            # Show an empty page or message if no search query is provided
+            context = {'query_id': inventory_query, 'query_type': type_query}
+
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
+
 
     #Post method below is done in manage_html, just scared to delete it
     def post(self, request):
@@ -301,6 +297,3 @@ class EquipmentView(View):
 
         # Redirect to the same page after adding equipment
         return redirect('equipment')
-
-
-#class EquipmentManage(View):

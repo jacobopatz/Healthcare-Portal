@@ -36,6 +36,7 @@
             <form method="GET" action="{% url 'vendor_search' %}">
                 <input class="vendor-id" type="text" name="vendorid" placeholder="Vendor ID" value="{{ query_vendorid }}">
                 <input class="vendor-name" type="text" name="name" placeholder="Vendor Name" value="{{ query_name }}">
+                <input class="vendor-name" type="text" name="equipment_type" placeholder="Equipment Type" value="{{ query_equipment_type }}">
                 <button class="vendor-button">SEARCH</button>
             </form>
         </div>
@@ -71,7 +72,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            {% if query_name or query_vendorid %}
+            {% if query_vendorid or query_name or query_equipment_type %}
                 <p>No vendors found matching the criteria.</p>
             {% endif %}
         {% endif %}
@@ -81,30 +82,30 @@
     <div class="inventory-background">
         <!-- Equipment Details -->
         {% if equipment_results %}
-        <h2>Equipment Details</h2>
-        <ul>
-            {% for item in equipment_results %}
-                <li>
-                    <p><strong>Equipment ID:</strong> {{ item.equipmentid }}</p>
-                    <p><strong>Type:</strong> {{ item.type }}</p>
-                    <p><strong>Description:</strong> {{ item.description }}</p>
-                    <p><strong>Department:</strong> {{ item.departmentleased }}</p>
-                    <p><strong>Owned/Leased:</strong> {{ item.owned_lease }}</p>
-                    {% if item.purchasedate %}
-                        <p><strong>Purchase Date:</strong> {{ item.purchasedate }}</p>
-                    {% endif %}
-                    {% if item.warenty_info %}
-                        <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
-                    {% endif %}
-                    {% if item.lease_start %}
-                        <p><strong>Lease Start:</strong> {{ item.lease_start }}</p>
-                        <p><strong>Lease End:</strong> {{ item.lease_end }}</p>
-                        <p><strong>Leasing Vendor:</strong> {{ item.vendor }}</p>
-                    {% endif %}
-                    <p><strong>-----------------------------</strong></p>
-                </li>
-            {% endfor %}
-        </ul>
+            <h2>Equipment Details</h2>
+            <ul>
+                {% for item in equipment_results %}
+                    <li>
+                        <p><strong>Equipment ID:</strong> {{ item.equipmentid }}</p>
+                        <p><strong>Type:</strong> {{ item.type }}</p>
+                        <p><strong>Description:</strong> {{ item.description }}</p>
+                        <p><strong>Department:</strong> {{ item.departmentleased }}</p>
+                        <p><strong>Owned/Leased:</strong> {{ item.owned_lease }}</p>
+                        {% if item.purchasedate %}
+                            <p><strong>Purchase Date:</strong> {{ item.purchasedate }}</p>
+                        {% endif %}
+                        {% if item.warenty_info %}
+                            <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
+                        {% endif %}
+                        {% if item.lease_start %}
+                            <p><strong>Lease Start:</strong> {{ item.lease_start }}</p>
+                            <p><strong>Lease End:</strong> {{ item.lease_end }}</p>
+                            <p><strong>Leasing Vendor:</strong> {{ item.vendor }}</p>
+                        {% endif %}
+                        <p><strong>-----------------------------</strong></p>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
             <p>No equipment found.</p>
         {% endif %}
