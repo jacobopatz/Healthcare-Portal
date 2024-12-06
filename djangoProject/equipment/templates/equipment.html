@@ -34,8 +34,8 @@
         <div class="vendor-title">Search By Vendor</div>
         <div class="vendor-input">
             <form method="GET" action="{% url 'vendor_search' %}">
-                <input class="vendor-id" type="text" placeholder="Vendor ID">
-                <input class="vendor-name" type="text" placeholder="Vendor Name">
+                <input class="vendor-id" type="text" name="vendorid" placeholder="Vendor ID" value="{{ query_vendorid }}">
+                <input class="vendor-name" type="text" name="name" placeholder="Vendor Name" value="{{ query_name }}">
                 <button class="vendor-button">SEARCH</button>
             </form>
         </div>
@@ -52,26 +52,31 @@
         </div>
     </div>
 </div>
+
 <div class="search-parent">
     <div class="inventory-background">
         <!-- Vendor Details -->
         {% if vendor_results %}
-        <h2>Vendor Details</h2>
-        <ul>
-            {% for vendor in vendor_results %}
-                <li>
-                    <p><strong>Vendor Name:</strong> {{ vendor.name }}</p>
-                    <p><strong>Address:</strong> {{ vendor.address }}</p>
-                    <p><strong>Equipment Types:</strong> {{ vendor.equipment_types }}</p>
-                    <p><strong>Preferred:</strong> {{ vendor.preferred|yesno:"Yes,No" }}</p>
-                    <p><strong>-----------------------------</strong></p>
-                </li>
-            {% endfor %}
-        </ul>
+            <h2>Vendor Details</h2>
+            <ul>
+                {% for vendor in vendor_results %}
+                    <li>
+                        <p><strong>Vendor Name:</strong> {{ vendor.name }}</p>
+                        <p><strong>Vendor ID:</strong> {{ vendor.vendorid }}</p>
+                        <p><strong>Address:</strong> {{ vendor.address }}</p>
+                        <p><strong>Equipment Types:</strong> {{ vendor.equipment_types }}</p>
+                        <p><strong>Preferred:</strong> {{ vendor.preferred|yesno:"Yes,No" }}</p>
+                        <p><strong>-----------------------------</strong></p>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
-            <p>No vendors found.</p>
+            {% if query_name or query_vendorid %}
+                <p>No vendors found matching the criteria.</p>
+            {% endif %}
         {% endif %}
     </div>
+
     
     <div class="inventory-background">
         <!-- Equipment Details -->
@@ -91,8 +96,10 @@
                     {% if item.warenty_info %}
                         <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
                     {% endif %}
-                    {% if item.lease_terms %}
-                        <p><strong>Lease Terms:</strong> {{ item.lease_terms }}</p>
+                    {% if item.lease_start %}
+                        <p><strong>Lease Start:</strong> {{ item.lease_start }}</p>
+                        <p><strong>Lease End:</strong> {{ item.lease_end }}</p>
+                        <p><strong>Leasing Vendor:</strong> {{ item.vendor }}</p>
                     {% endif %}
                     <p><strong>-----------------------------</strong></p>
                 </li>

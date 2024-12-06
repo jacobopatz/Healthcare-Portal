@@ -9,7 +9,6 @@ class ManageView(View):
         #Get all the available vendors the user can choose when creating
         #A new equipment table
         vendors = Vendor.objects.all()
-
         return render(request, 'manage_page.html', {'vendors': vendors})
     
     def post(self, request):
@@ -20,9 +19,19 @@ class ManageView(View):
         lease_terms = request.POST.get('lease_terms', '')
         departmentleased = request.POST.get('departmentleased', '')
         owned_lease = request.POST.get('owned_lease')
-        purchasedate = request.POST.get('purchasedate', None)
+        purchasedate = request.POST.get('purchasedate', None) #None values can be empty and not cause problems
         warenty_info = request.POST.get('warenty_info', '')
+        lease_start = request.POST.get('lease_start', None)
+        lease_end = request.POST.get('lease_end', None)
         vendor_id = request.POST.get('vendor', '')
+    
+        #Fringe case compensation
+        if not vendor_id:
+            print("No vendor selected")
+            return render(request, 'manage_page.html', {
+                'error': 'Please select a vendor.',
+                'vendors': Vendor.objects.all(),
+            })
 
         #In case it already exists, be nice and tell them no can do
         if Equipment.objects.filter(equipmentid=equipmentid).exists():
@@ -32,8 +41,17 @@ class ManageView(View):
                 'vendors': vendors,  # Include vendors for the dropdown
         })
 
-        vendor = Vendor.objects.filter(id=vendor_id).first() if vendor_id else None
+        #If provided, get vendor
+        vendor = Vendor.objects.filter(vendorid=vendor_id).first() if vendor_id else None
 
+        # Only occurs if equipment is being leased
+        if owned_lease == 'L':  # Leased equipment
+            if not lease_start or not lease_end:
+                vendors = Vendor.objects.all()
+                return render(request, 'manage_page.html', {
+                    'error': 'Both lease start and end dates are required for leased equipment.',
+                    'vendors': vendors,
+                })
         # Create and save a new Equipment object
         equipment = Equipment.objects.create(
             equipmentid=equipmentid,
@@ -42,8 +60,11 @@ class ManageView(View):
             lease_terms=lease_terms,
             departmentleased=departmentleased,
             owned_lease=owned_lease,
-            purchasedate=purchasedate,
-            warenty_info=warenty_info,
+            purchasedate=purchasedate if owned_lease == 'O' else None,
+            warenty_info=warenty_info if owned_lease == 'O' else '',
+            lease_start=lease_start if owned_lease == 'L' else None,
+            lease_end=lease_end if owned_lease == 'L' else None,
+            vendor=vendor,
         )
 
         if vendor:
@@ -113,35 +134,51 @@ class VendorView(View):
         # Retrieve the search query from the GET request
         name_query = request.GET.get('name', '').strip()
         address_query = request.GET.get('address', '').strip()
+        vendorid_query = request.GET.get('vendorid', '').strip()
 
-        # Build the filter dictionary
+        # Initialize filter dictionary
         filters = {}
-        if name_query:
-            filters['name__icontains'] = name_query  # Case-insensitive match for name
-        if address_query:
-            filters['address__icontains'] = address_query  # Case-insensitive match for address
 
-        # Fetch matching vendors
-        vendors = Vendor.objects.filter(**filters)
+        # Check if any search query is provided (name, address, or vendorid)
+        if name_query or vendorid_query or address_query:
+            # Only apply the filter if there's a valid search input
+            if name_query:
+                filters['name__icontains'] = name_query  # Case-insensitive match for name
+            if address_query:
+                filters['address__icontains'] = address_query  # Case-insensitive match for address
+            if vendorid_query:
+                try:
+                    vendorid = int(vendorid_query)  # Convert the vendorid to an integer
+                    filters['vendorid'] = vendorid  # Filter by vendorid
+                except ValueError:
+                    filters['vendorid'] = None  # Optionally, handle invalid vendorid input
 
-        # Check if results found
-        if vendors.exists():
-            vendor_results = []
-            for vendor in vendors:
-                details = {
-                    'name': vendor.name,
-                    'address': vendor.address,
-                    'equipment_types': vendor.equipment_types,
-                    'preferred': vendor.preferred,
-                }
-                vendor_results.append(details)
-            context = {'vendor_results': vendor_results, 'query_name': name_query, 'query_address': address_query}
+            # Fetch matching vendors
+            vendors = Vendor.objects.filter(**filters)
+
+            # Prepare the vendor details
+            if vendors.exists():
+                vendor_results = []
+                for vendor in vendors:
+                    details = {
+                        'name': vendor.name,
+                        'address': vendor.address,
+                        'equipment_types': vendor.equipment_types,
+                        'preferred': vendor.preferred,
+                        'vendorid': vendor.vendorid,
+                    }
+                    vendor_results.append(details)
+                context = {'vendor_results': vendor_results, 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
+            else:
+                # No results found
+                context = {'error': 'No vendors found matching the criteria.', 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
         else:
-            # No results found
-            context = {'error': 'No vendors found matching the criteria.', 'query_name': name_query, 'query_address': address_query}
+            # No search query, return an empty context
+            context = {'vendor_results': [], 'query_name': name_query, 'query_address': address_query, 'query_vendorid': vendorid_query}
 
         # Render the template with the context
         return render(request, 'equipment.html', context)
+
     
     def post(self, request):
         # Extract data from the form
@@ -163,12 +200,12 @@ class VendorView(View):
             equipment_types=equipment_types,
             preferred=preferred
         )
+        print(f"VendorID: {vendorid}, Name: {name}, Address: {address}")
 
         # Redirect to a success page or back to the vendor list
         return redirect('manage_page')  # Assuming you have a list view for vendors
 
 class EquipmentView(View):
-
     def get(self, request):
         # Retrieve the search query from the GET request
         inventory_query = request.GET.get('equipmentid', '')  # Default to empty string if not found
@@ -198,7 +235,10 @@ class EquipmentView(View):
                     }
                 elif item.owned_lease == 'L':  # 'L' for Leased
                     extra_info = {
-                        'lease_terms': item.lease_terms
+                        'vendor': item.vendor,
+                        'lease_terms': item.lease_terms,
+                        'lease_start': item.lease_start,
+                        'lease_end': item.lease_end
                     }
                 else:
                     extra_info = {}
@@ -217,7 +257,6 @@ class EquipmentView(View):
         else:
             #Show error message
             context = {'error': 'No equipment', 'query_id': inventory_query, 'query_type': type_query}
-
         # Render the template and pass the context
         return render(request, 'equipment.html', context)
 

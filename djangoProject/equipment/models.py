@@ -20,20 +20,42 @@ class Vendor(models.Model):
 class Equipment(models.Model):
     equipmentid = models.IntegerField(db_column='EquipmentID', primary_key=True)  # Field name made lowercase.
     type = models.CharField(db_column='Type', max_length=45)  # Field name made lowercase.
-    lease_terms = models.CharField(db_column='Lease Terms', max_length=45, blank=True,
-                                   null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    description = models.CharField(db_column='Description', max_length=120, blank=True,
-                                   null=True)  # Field name made lowercase.
-    departmentleased = models.CharField(db_column='DepartmentLeased', max_length=45, blank=True,
-                                        null=True)  # Field name made lowercase.
-    owned_lease = models.CharField(db_column='Owned/Lease',
-                                   max_length=1)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    lease_terms = models.CharField(
+        db_column='Lease Terms',
+        max_length=45,
+        blank=True,
+        null=True
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    description = models.CharField(
+        db_column='Description',
+        max_length=120,
+        blank=True,
+        null=True
+    )  # Field name made lowercase.
+    departmentleased = models.CharField(
+        db_column='DepartmentLeased',
+        max_length=45,
+        blank=True,
+        null=True
+    )  # Field name made lowercase.
+    owned_lease = models.CharField(
+        db_column='Owned/Lease',
+        max_length=1
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
     purchasedate = models.DateField(db_column='PurchaseDate', blank=True, null=True)  # Field name made lowercase.
-    warenty_info = models.CharField(db_column='Warenty Info', max_length=120, blank=True,
-                                    null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
+    warenty_info = models.CharField(
+        db_column='Warenty Info',
+        max_length=120,
+        blank=True,
+        null=True
+    )  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    lease_start = models.DateField(db_column='LeaseStart', blank=True, null=True)  # New field for lease start date.
+    lease_end = models.DateField(db_column='LeaseEnd', blank=True, null=True)  # New field for lease end date.
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True, db_column='VendorID')
+
     class Meta:
         db_table = 'equipment_two'
+
 
 # Create your models here.
 class Maintenance(models.Model):

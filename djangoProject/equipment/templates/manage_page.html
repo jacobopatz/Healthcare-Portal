@@ -17,12 +17,12 @@
     <!-- ADD EQUIPMENT -->
     <div class="add-background">
         <h1>Add Equipment</h1>
-            <!-- Display error message if it exists -->
-            {% if error %}
-                <div class="error-message" style="color: red; margin-bottom: 15px;">
-                    {{ error }}
-                </div>
-            {% endif %}
+        <!-- Display error message if it exists -->
+        {% if error %}
+            <div class="error-message" style="color: red; margin-bottom: 15px;">
+                {{ error }}
+            </div>
+        {% endif %}
         <form method="POST" action="">
             {% csrf_token %}
             <label for="equipmentid">Equipment ID:</label>
@@ -35,36 +35,48 @@
             <input type="text" name="description" id="description"><br>
                     
             <label for="owned_lease">Owned/Lease:</label>
-            <select name="owned_lease" id="owned_lease">
+            <select name="owned_lease" id="owned_lease" onchange="toggleFields()">
+                <option value="">Select</option>
                 <option value="O">Owned</option>
                 <option value="L">Leased</option>
             </select>
             <br>
-        
-            <label for="lease_terms">Lease Terms:</label>
-            <input type="text" name="lease_terms" id="lease_terms"><br>
-        
-            <label for="departmentleased">Which Department:</label>
-            <input type="text" name="departmentleased" id="departmentleased"><br>
 
-            <label for="vendor">Vendor:</label>
+            <!-- Fields for owned equipment -->
+            <div id="owned-fields" style="display: none;">
+                <label for="purchasedate">Purchase Date:</label>
+                <input type="date" name="purchasedate" id="purchasedate"><br>
+
+                <label for="warenty_info">Warranty Info:</label>
+                <input type="text" name="warenty_info" id="warenty_info"><br>
+            </div>
+
+            <!-- Fields for leased equipment -->
+            <div id="leased-fields" style="display: none;">
+                <label for="lease_start">Lease Start Date:</label>
+                <input type="date" name="lease_start" id="lease_start"><br>
+
+                <label for="lease_end">Lease End Date:</label>
+                <input type="date" name="lease_end" id="lease_end"><br>
+
+                <label for="vendor">Vendor:</label>
                 <select name="vendor" id="vendor">
+                    <option value="">Select</option>
                     {% for vendor in vendors %}
-                        <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+                        <option value="{{ vendor.vendorid }}">{{ vendor.name }} (ID: {{ vendor.vendorid }})</option>
                     {% empty %}
                         <option value="">No vendors available</option>
                     {% endfor %}
                 </select>
-
-            <label for="purchasedate">Purchase Date:</label>
-            <input type="date" name="purchasedate" id="purchasedate"><br>
+            </div>
         
-            <label for="warenty_info">Warranty Info:</label>
-            <input type="text" name="warenty_info" id="warenty_info"><br>
+            <label for="departmentleased">Which Department:</label>
+            <input type="text" name="departmentleased" id="departmentleased"><br>
         
-            <button class="add-button"type="submit">Add</button>
+            <button class="add-button" type="submit">Add</button>
         </form>
     </div>
+
     <!-- ADD VENDOR -->
     <div class="add-background">
         <h1>Add Vendor</h1>
@@ -90,4 +102,24 @@
         </form>
     </div>
 </div>
+
+<script>
+    function toggleFields() {
+        const ownedLeaseSelect = document.getElementById('owned_lease');
+        const ownedFields = document.getElementById('owned-fields');
+        const leasedFields = document.getElementById('leased-fields');
+        
+        if (ownedLeaseSelect.value === 'O') {
+            ownedFields.style.display = 'block';
+            leasedFields.style.display = 'none';
+        } else if (ownedLeaseSelect.value === 'L') {
+            ownedFields.style.display = 'none';
+            leasedFields.style.display = 'block';
+        } else {
+            ownedFields.style.display = 'none';
+            leasedFields.style.display = 'none';
+        }
+    }
+</script>
+
 {% endblock %}
