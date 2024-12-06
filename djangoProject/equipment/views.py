@@ -5,7 +5,12 @@ from django.shortcuts import redirect
 
 class ManageView(View):
     def get(self, request):
-        return render(request, 'manage_page.html')
+
+        #Get all the available vendors the user can choose when creating
+        #A new equipment table
+        vendors = Vendor.objects.all()
+
+        return render(request, 'manage_page.html', {'vendors': vendors})
     
     def post(self, request):
         # Handle the POST request for adding equipment
@@ -17,16 +22,20 @@ class ManageView(View):
         owned_lease = request.POST.get('owned_lease')
         purchasedate = request.POST.get('purchasedate', None)
         warenty_info = request.POST.get('warenty_info', '')
+        vendor_id = request.POST.get('vendor', '')
 
         #In case it already exists, be nice and tell them no can do
         if Equipment.objects.filter(equipmentid=equipmentid).exists():
-            return render(request, 'equipment.html', {
+            vendors = Vendor.objects.all() # After form submissions, vendor is repopulated
+            return render(request, 'manage_page.html', {
                 'error': f'Equipment ID {equipmentid} already exists.',
-                'query': request.GET.get('equipmentid', ''),
-                'query_type': request.GET.get('type', '')
+                'vendors': vendors,  # Include vendors for the dropdown
         })
+
+        vendor = Vendor.objects.filter(id=vendor_id).first() if vendor_id else None
+
         # Create and save a new Equipment object
-        Equipment.objects.create(
+        equipment = Equipment.objects.create(
             equipmentid=equipmentid,
             type=type,
             description=description,
@@ -36,8 +45,16 @@ class ManageView(View):
             purchasedate=purchasedate,
             warenty_info=warenty_info,
         )
+
+        if vendor:
+            equipment.vendor = vendor
+            equipment.save() # Save with vendor association if required
         # Redirect to the same page after adding equipment
-        return render(request, 'manage_page.html')
+        vendors = Vendor.objects.all() # Repopulate vendor dropdown
+        return render(request, 'manage_page.html', {
+            'success': f'Equipment {equipmentid} successfully added.',
+            'vendors': vendors,  # Include vendors for the dropdown
+        })
 
 class ProblemsView(View):
     def get(self, request):
@@ -215,6 +232,7 @@ class EquipmentView(View):
         owned_lease = request.POST.get('owned_lease')
         purchasedate = request.POST.get('purchasedate', None)
         warenty_info = request.POST.get('warenty_info', '')
+        vendor_id = request.POST.get('vendor')
 
         #In case it already exists, be nice and tell them no can do
         if Equipment.objects.filter(equipmentid=equipmentid).exists():
@@ -223,8 +241,11 @@ class EquipmentView(View):
                 'query': request.GET.get('equipmentid', ''),
                 'query_type': request.GET.get('type', '')
         })
+
+        vendor = Vendor.objects.filter(id=vendor_id).first() if vendor_id else None
+
         # Create and save a new Equipment object
-        Equipment.objects.create(
+        equipment = Equipment.objects.create(
             equipmentid=equipmentid,
             type=type,
             description=description,
@@ -234,6 +255,10 @@ class EquipmentView(View):
             purchasedate=purchasedate,
             warenty_info=warenty_info,
         )
+
+        if vendor:
+            equipment.vendor = vendor
+            equipment.save()  # Save with vendor association if required
 
         # Redirect to the same page after adding equipment
         return redirect('equipment')

@@ -4,6 +4,19 @@ import uuid
 
 #BE VERY CAUTIOUS OF META NAMES, THE SHAREDMODELS OF THESE AREN'T DELETED
 
+class Vendor(models.Model):
+    vendorid = models.IntegerField(db_column='VendorID', primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    address = models.TextField()
+    equipment_types = models.CharField(max_length=200, help_text="Comma-separated list of equipment types")
+    preferred = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'vendor'
+
+    def str(self):
+        return self.name
+
 class Equipment(models.Model):
     equipmentid = models.IntegerField(db_column='EquipmentID', primary_key=True)  # Field name made lowercase.
     type = models.CharField(db_column='Type', max_length=45)  # Field name made lowercase.
@@ -18,7 +31,7 @@ class Equipment(models.Model):
     purchasedate = models.DateField(db_column='PurchaseDate', blank=True, null=True)  # Field name made lowercase.
     warenty_info = models.CharField(db_column='Warenty Info', max_length=120, blank=True,
                                     null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
     class Meta:
         db_table = 'equipment_two'
 
@@ -38,19 +51,6 @@ class Maintenance(models.Model):
     class Meta:
         db_table = 'maintenance_two'
         unique_together = (('maintenanceid', 'equipmentid'),)
-
-class Vendor(models.Model):
-    vendorid = models.IntegerField(db_column='VendorID', primary_key=True)
-    name = models.CharField(max_length=100, unique=True)
-    address = models.TextField()
-    equipment_types = models.CharField(max_length=200, help_text="Comma-separated list of equipment types")
-    preferred = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = 'vendor'
-        
-    def str(self):
-        return self.name
 
 class ProblemType(models.Model):
     name = models.CharField(max_length=45, unique=True)

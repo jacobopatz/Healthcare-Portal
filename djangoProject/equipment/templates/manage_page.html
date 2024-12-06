@@ -14,25 +14,26 @@
 </a>
 
 <div class="add-parent">
+    <!-- ADD EQUIPMENT -->
     <div class="add-background">
         <h1>Add Equipment</h1>
+            <!-- Display error message if it exists -->
+            {% if error %}
+                <div class="error-message" style="color: red; margin-bottom: 15px;">
+                    {{ error }}
+                </div>
+            {% endif %}
         <form method="POST" action="">
             {% csrf_token %}
             <label for="equipmentid">Equipment ID:</label>
             <input type="text" name="equipmentid" id="equipmentid" required><br>
-        
+
             <label for="type">Type:</label>
             <input type="text" name="type" id="type" required><br>
         
             <label for="description">Description:</label>
             <input type="text" name="description" id="description"><br>
-        
-            <label for="lease_terms">Lease Terms:</label>
-            <input type="text" name="lease_terms" id="lease_terms"><br>
-        
-            <label for="departmentleased">Department Leased:</label>
-            <input type="text" name="departmentleased" id="departmentleased"><br>
-        
+                    
             <label for="owned_lease">Owned/Lease:</label>
             <select name="owned_lease" id="owned_lease">
                 <option value="O">Owned</option>
@@ -40,6 +41,21 @@
             </select>
             <br>
         
+            <label for="lease_terms">Lease Terms:</label>
+            <input type="text" name="lease_terms" id="lease_terms"><br>
+        
+            <label for="departmentleased">Which Department:</label>
+            <input type="text" name="departmentleased" id="departmentleased"><br>
+
+            <label for="vendor">Vendor:</label>
+                <select name="vendor" id="vendor">
+                    {% for vendor in vendors %}
+                        <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+                    {% empty %}
+                        <option value="">No vendors available</option>
+                    {% endfor %}
+                </select>
+
             <label for="purchasedate">Purchase Date:</label>
             <input type="date" name="purchasedate" id="purchasedate"><br>
         
@@ -49,11 +65,7 @@
             <button class="add-button"type="submit">Add</button>
         </form>
     </div>
-    <!--
-    This doesn't account for Vendor ID, because thats not in the model yet
-    When Vendor ID is added, delete all previous vendor tables
-    Then add vendorID to the views, the search function, and the add function
-    -->
+    <!-- ADD VENDOR -->
     <div class="add-background">
         <h1>Add Vendor</h1>
         <form method="POST" action="{% url 'vendor_search' %}">
