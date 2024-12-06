@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from equipment.models import Equipment, Maintenance, Vendor
 from django.shortcuts import redirect, get_object_or_404
+from django.db.models import Count, Avg, F, ExpressionWrapper, DurationField
 
 class ManageView(View):
     def get(self, request):
@@ -131,6 +132,42 @@ class CloseProblemsView(View):
             return render(request, 'problems_page.html', f"Error closing Problem: {e}")
 
         return render(request,'problems_page.html',{'success': 'Problem closed successfully.'}) 
+
+class StatisticalReportView(View):
+    template_name = 'statistics_report.html'
+
+    def get(self, request):
+        # Retrieve the start and end date from GET parameters
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+
+        # Filter maintenance records within the specified period
+        maintenance_records = Maintenance.objects.filter(
+            created_at__range=[start_date, end_date]
+        ) if start_date and end_date else Maintenance.objects.all()
+
+        # Annotate average time to close by calculating the duration between created_at and resolution
+        maintenance_data = maintenance_records.annotate(
+            time_to_close=ExpressionWrapper(
+                F('resolution') - F('created_at'),
+                output_field=DurationField()
+            )
+        )
+
+        # Group by problem type and vendor with statistics
+        summary_by_type_and_vendor = maintenance_data.values(
+            'type', 'equipmentid__vendor__name'
+        ).annotate(
+            total_problems=Count('maintenanceid'),
+            avg_time_to_close=Avg('time_to_close')
+        ).order_by('type', 'equipmentid__vendor__name')
+
+        # Pass the data to the template
+        return render(request, self.template_name, {
+            'summary_by_type_and_vendor': summary_by_type_and_vendor,
+            'start_date': start_date,
+            'end_date': end_date,
+        })
 
 #Currently not used
 class AddProblemType(View):

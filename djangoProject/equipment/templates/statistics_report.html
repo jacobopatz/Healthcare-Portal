@@ -1,0 +1,53 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Report</title>
+</head>
+<body>
+    <h1>Statistical Summary Report</h1>
+
+    <!-- Date Range Form -->
+    <form method="GET" action="{% url 'statistics' %}">
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
+
+        <button type="submit">Generate Report</button>
+    </form>
+
+    <!-- Display the Report -->
+    {% if summary_by_type_and_vendor %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Problem Type</th>
+                    <th>Vendor</th>
+                    <th>Total Problems</th>
+                    <th>Average Time to Close (days)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in summary_by_type_and_vendor %}
+                    <tr>
+                        <td>{{ record.type }}</td>
+                        <td>{{ record.equipmentid__vendor__name }}</td>
+                        <td>{{ record.total_problems }}</td>
+                        <td>{{ record.avg_time_to_close|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No data available for the selected period.</p>
+    {% endif %}
+</body>
+{% endblock %}
