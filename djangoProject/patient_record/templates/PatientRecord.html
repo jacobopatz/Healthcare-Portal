@@ -11,12 +11,21 @@
     <!-- Add Patient Section -->
     <div class="add_background">
         <h1>Add Patient</h1>
-        <form method="POST" action="{% url 'patientRecord' %}">
+        <form method="POST" action="{% url 'patientRecord' %}" class="input_field">
             {% csrf_token %}
             {{ add_form.as_p }}
             <input type="hidden" name="add_patient" value="True">
             <button type="submit">Submit</button>
         </form>
+            <div class="messages">
+            {% for message in messages %}
+                {% if "add_patient" in message.tags %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+            </div>
+
+
     </div>
 
     <!-- View and Edit Patient Section -->
@@ -37,26 +46,36 @@
                     <!-- Edit Mode: Editable Fields -->
                     {{ edit_form.as_p }}
 
+
                     <button type="submit" name="save_changes" value="True">Save Changes</button>
                     <button type="submit" name="delete" value = "True">Delete Patient</button>
                 {% else %}
                     <!-- View Mode: Read-Only Details -->
-                    <p><strong>Name:</strong> {{ selected_patient.firstname }} {{ selected_patient.lastname }}</p>
-                    <p><strong>ID:</strong> {{ selected_patient.patientid }}</p>
-                    <p><strong>Gender:</strong> {{ selected_patient.gender }}</p>
-                    <p><strong>Date of Birth:</strong> {{ selected_patient.dob }}</p>
-                    <p><strong>Phone:</strong> {{ selected_patient.phonenumber }}</p>
-                    <p><strong>Address:</strong> {{ selected_patient.address }}</p>
-                    <p><strong>Insurance:</strong> {{ selected_patient.insuranceid }}</p>
-                    <p><strong>Primary Physician:</strong> {{ selected_patient.primaryphysicianid }}</p>
+
+                    <p class="selected-details"><strong>Name:</strong> {{ selected_patient.firstname }} {{ selected_patient.lastname }}</p>
+                    <p class="selected-details"><strong>ID:</strong> {{ selected_patient.patientid }}</p>
+                    <p class="selected-details"><strong>Gender:</strong> {{ selected_patient.gender }}</p>
+                    <p class="selected-details"><strong>Date of Birth:</strong> {{ selected_patient.dob }}</p>
+                    <p class="selected-details"><strong>Phone:</strong> {{ selected_patient.phonenumber }}</p>
+                    <p class="selected-details"><strong>Address:</strong> {{ selected_patient.address }}</p>
+                    <p class="selected-details"><strong>Insurance:</strong> {{ selected_patient.insuranceid }}</p>
+                    <p class="selected-details"><strong>Primary Physician:</strong> {{ selected_patient.primaryphysicianid }}</p>
+
                 {% endif %}
 
                 <!-- Toggle Edit Mode Back Off-->
                 <input type="hidden" name="edit_mode" value="{% if edit_mode %}False{% else %}True{% endif %}">
                 <button type="submit">{{ edit_mode|yesno:"Cancel,Edit" }}</button>
             </form>
+            <div class="messages">
+            {% for message in messages %}
+                {% if "edit_patient" in message.tags %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+            </div>
         {% else %}
-            <p>No patient selected yet.</p>
+
         {% endif %}
     </div>
 </div>

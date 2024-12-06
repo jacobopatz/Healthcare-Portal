@@ -17,6 +17,15 @@
             <input type="hidden" name="add_encounter" value="True">
             <button type="submit">Submit</button>
         </form>
+        {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                {% if "add_encounter" in message.tags %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
     <!-- View and Edit Encounter Section -->
@@ -41,19 +50,26 @@
                     <button type="submit" name="delete" value = "True">Delete Encounter</button>
                 {% else %}
                     <!-- View Mode: Read-Only Details -->
-                    <p><strong>ID:</strong> {{ selected_encounter.encounterid }}</p>
-                    <p><strong>Patient Name:</strong> {{ selected_encounter.patientid }}</p>
-                    <p><strong>Physician Name:</strong> {{ selected_encounter.physicianid }}</p>
-                    <p><strong>Patient Complaints:</strong> {{ selected_encounter.patientcomplaints }}</p>
-                    <p><strong>Practitioner Notes</strong> {{ selected_encounter.practitionernotes }}</p>
+                    <p class="selected-details"><strong>ID:</strong> {{ selected_encounter.encounterid }}</p>
+                    <p class="selected-details"><strong>Patient Name:</strong> {{ selected_encounter.patientid }}</p>
+                    <p class="selected-details"><strong>Physician Name:</strong> {{ selected_encounter.physicianid }}</p>
+                    <p class="selected-details"><strong>Patient Complaints:</strong> {{ selected_encounter.patientcomplaints }}</p>
+                    <p class="selected-details"><strong>Practitioner Notes</strong> {{ selected_encounter.practitionernotes }}</p>
                 {% endif %}
 
                     <!-- Toggle Edit Mode Back Off-->
                     <input type="hidden" name="edit_mode" value="{% if edit_mode %}False{% else %}True{% endif %}">
                     <button type="submit">{{ edit_mode|yesno:"Cancel,Edit" }}</button>
             </form>
+            <div class="messages">
+            {% for message in messages %}
+                {% if "edit_encounter" in message.tags %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+            </div>
         {% else %}
-            <p>No encounter selected yet.</p>
+
         {% endif %}
     </div>
 </div>

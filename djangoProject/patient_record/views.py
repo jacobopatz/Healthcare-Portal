@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.contrib import messages
 from sharedModels.models import Employees, PatientRecord, Encounters, Insurance, LabOrders, PharmacyOrder
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PatientAddForm, PatientSearchForm, PatientEditForm, EncounterAddForm, EncounterSearchForm
@@ -58,7 +59,13 @@ class PatientRecordView(View):
         # Add Patient Code
         if request.POST.get('add_patient') and add_form.is_valid():
             add_form.save()
+            messages.success(request, "Patient added successfully!", extra_tags="add_patient")
             print("New patient added successfully.")
+            # Reinitialize the form to clear inputs
+            add_form = PatientAddForm()
+        else:
+            if add_form.errors:
+                messages.error(request, "Patient not added. Errors in the form.", extra_tags="add_patient")
 
         # View Record Code
 
@@ -86,14 +93,19 @@ class PatientRecordView(View):
             if edit_form.is_valid():
                 edit_form.save()
                 print("Patient updated successfully.")
+                messages.success(request, "Patient updated!", extra_tags="edit_patient")
                 edit_mode = False  # Exit edit mode
+                # Reinitialize the form to clear inputs
+                add_form = PatientAddForm()
             else:
                 print(f"Edit form errors: {edit_form.errors}")
+                messages.error(request, "Error in form, patient not updated.", extra_tags="edit_patient")
 
         # Remove a patient
         if request.POST.get('delete') and edit_form:
             print("Delete button pressed")
             PatientRecord.objects.filter(patientid=selected_patient_id).delete()
+            messages.success(request, "Patient deleted!", extra_tags="edit_patient")
             selected_patient = None
 
 
@@ -165,9 +177,13 @@ class EncounterRecordView(View):
         if request.POST.get('add_encounter') and add_form.is_valid():
             add_form.save()
             print("New encounter successfully.")
+            messages.success(request, "Encounter added successfully!", extra_tags="add_encounter")
+            # Reinitialize the form to clear inputs
+            add_form = EncounterAddForm()
         else:
             print("Encounter could not be added")
             print(add_form.errors)
+            messages.error(request, "Encounter not added. Errors in the form.", extra_tags="add_encounter" )
 
         # Retrieve the selected encounter
         if selected_encounter_id:
@@ -192,14 +208,17 @@ class EncounterRecordView(View):
             if edit_form.is_valid():
                 edit_form.save()
                 print("Patient updated successfully.")
+                messages.success(request, "Encounter added successfully", extra_tags="edit_encounter")
                 edit_mode = False  # Exit edit mode
             else:
                 print(f"Edit form errors: {edit_form.errors}")
+                messages.error(request, "Encounter not updated, error in form.")
 
         # Remove a patient
         if request.POST.get('delete') and edit_form:
             print("Delete button pressed")
             Encounters.objects.filter(encounterid=selected_encounter_id).delete()
+            messages.success(request, "Encounter deleted!", extra_tags="edit_encounter")
             selected_encounter = None
 
         # Render the template with the context

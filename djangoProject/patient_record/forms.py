@@ -6,7 +6,10 @@ class PatientAddForm(forms.ModelForm):
     firstname = forms.CharField(label="First Name", max_length=20)
     lastname = forms.CharField(label="Last Name", max_length=20)
     gender = forms.CharField(label="Gender", max_length=1)
-    dob = forms.DateField(label="Date of Birth")
+    dob = forms.DateField(label="Date of Birth", widget = forms.DateInput(
+                attrs={'placeholder': 'Select a date',
+                       'type': 'date'
+                       }),)
     phonenumber = forms.CharField(label="Phone Number", max_length=15)
     address = forms.CharField(label="Address", max_length=45)
     insuranceid = forms.ModelChoiceField(
@@ -20,6 +23,8 @@ class PatientAddForm(forms.ModelForm):
     class Meta:
         model = PatientRecord
         fields = ['firstname', 'lastname', 'gender', 'dob', 'phonenumber', 'address', 'insuranceid', 'primaryphysicianid']
+
+
 
     changed_time = -1
 
@@ -45,7 +50,10 @@ class PatientEditForm(forms.ModelForm):
     firstname = forms.CharField(label="First Name", max_length=20)
     lastname = forms.CharField(label="Last Name", max_length=20)
     gender = forms.CharField(label="Gender", max_length=1)
-    dob = forms.DateField(label="Date of Birth")
+    dob = forms.DateField(label="Date of Birth", widget = forms.DateInput(
+                attrs={'placeholder': 'Select a date',
+                       'type': 'date'
+                       }),)
     phonenumber = forms.CharField(label="Phone Number", max_length=15)
     address = forms.CharField(label="Address", max_length=45)
     insuranceid = forms.ModelChoiceField(
@@ -64,7 +72,10 @@ class PatientEditForm(forms.ModelForm):
 
 
 class EncounterAddForm(forms.ModelForm):
-    date = forms.DateTimeField(label='Date')
+    date = forms.DateTimeField(label='Date', widget = forms.DateInput(
+                attrs={'placeholder': 'Select a date',
+                       'type': 'date'
+                       }),)
     physicianid = forms.ModelChoiceField(
         label="Physician",
         queryset=Employees.objects.all()
