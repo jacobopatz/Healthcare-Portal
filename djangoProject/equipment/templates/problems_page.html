@@ -38,6 +38,7 @@
     {% for problem in open_problems %}
         <li>
             <strong>Equipment ID:</strong> {{ problem.equipmentid.equipmentid }} <br>
+            <strong>Equipment Type:</strong> {{ problem.equipmentid.type}}<br>
             <strong>Type:</strong> {{ problem.type }} <br>
             <strong>Description:</strong> {{ problem.description }} <br>
             <strong>Status:</strong> {{ problem.status }} <br>
