@@ -43,7 +43,7 @@
             <form method="POST" action="{% url 'schedule' %}" class="select-form">
                 {% csrf_token %}
                 <input type="hidden" name ='startTime' value = "{{startTime|date:'M. d, Y, H:i'}}">
-                <input type="hidden" name ='endTime' value = "{{startTime|date:'M. d, Y, H:i'}}">
+                <input type="hidden" name ='endTime' value = "{{endTime|date:'M. d, Y, H:i'}}">
                 <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
                 <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
                 <button type="submit">Book</button>

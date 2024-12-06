@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{% static 'css/labOrder.css' %}">
 {% endblock %}
 
+
+
 {% block content %}
 <h1>Lab Orders and Tests</h1>
 
@@ -30,6 +32,9 @@
             <p>Lab Test: {{ selected_order.teststypeid }}</p>
             <p>Lab Technician: {{ selected_order.technicianid }}</p>
             <p>Results: {{ selected_order.results }}</p>
+            <p>Date Ordered: {{ selected_order.dateordered }}</p>
+            <p>Date Performed: {{ selected_order.dateperfomed }}</p>
+
         {% else %}
             <h2>Select Lab Order:</h2>
         {% endif %}
@@ -46,6 +51,21 @@
             {{ add_order_form.as_p }}
             <button type="submit" name="add_order">Add Lab Order</button>
         </form>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="flex-container">
+    <h2>Update Lab Order</h2>
+    <div class="select-background">
+        <div class="select-center">
+            <form method="post">
+                {% csrf_token %}
+                {{ update_lab_form.as_p }}
+                <input type="hidden" name="orderid" value="{{ selected_order.orderid }}">
+                <button type="submit" name="update_order">Update Lab Order</button>
+            </form>
         </div>
     </div>
 </div>
