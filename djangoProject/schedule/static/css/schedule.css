@@ -153,4 +153,7 @@ p {
     transform: scale(1.05); 
     transition: all 0.2s ease-in-out; 
 }
+.selected-start {
+    background-color: #5392ac;
+}
 

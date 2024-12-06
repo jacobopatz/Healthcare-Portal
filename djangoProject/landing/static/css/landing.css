@@ -18,20 +18,21 @@ html, body {
 }
 .box {
     flex: 1 1 30vw;
-    background-color: #5392ac;
+    background-color: #000000;
     font-family: "source-serif-pro", serif;
     font-weight: 400;
     border-radius: 30px;
     height: 30vw;
     margin: 15px;
     font-size: x-large;
-    color:black;
+    color:rgb(241, 241, 241);
+
     
 
 }
 .box:hover {
     cursor: pointer;
-    background-color: #3b677a;
+    background-color: #0a1b22;
 }
 
 .header {
@@ -51,3 +52,4 @@ html, body {
     position: absolute;
     right:10vh;
 }
+
