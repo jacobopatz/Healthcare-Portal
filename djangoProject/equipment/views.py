@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from equipment.models import Equipment, Maintenance, Vendor
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 class ManageView(View):
     def get(self, request):
@@ -101,6 +101,31 @@ class ProblemsView(View):
             return render(request, 'problems_page.html', {'error': 'Equipment not found.'})
 
             # Redirect to a page that shows the equipment or maintenance list
+
+class CloseProblemsView(View):
+    template_name = 'close_problem.html'
+
+    def get(self, request, *args, **kwargs):
+        # Render the close problem form
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        # Handle form submission
+        maintenanceid = request.POST.get('maintenanceid')
+        resolution = request.POST.get('resolution')
+
+        try:
+            # Fetch the existing maintenance record
+            maintenance = get_object_or_404(Maintenance, maintenanceid=maintenanceid)
+            # Update the record
+            maintenance.status = "Closed"
+            maintenance.resolution = resolution
+            maintenance.save()
+
+        except Exception as e:
+            return render(request, 'problems_page.html', f"Error closing Problem: {e}")
+
+        return render(request,'problems_page.html',{'success': 'Problem closed successfully.'}) 
 
 #Currently not used
 class AddProblemType(View):

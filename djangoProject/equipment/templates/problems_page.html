@@ -39,10 +39,10 @@
         <li>
             <strong>Equipment ID:</strong> {{ problem.equipmentid.equipmentid }} <br>
             <strong>Equipment Type:</strong> {{ problem.equipmentid.type}}<br>
+            <strong>Maintenance ID:</strong> {{ problem.maintenanceid }}<br>
             <strong>Type:</strong> {{ problem.type }} <br>
             <strong>Description:</strong> {{ problem.description }} <br>
             <strong>Status:</strong> {{ problem.status }} <br>
-            <strong>Resolution:</strong> {{ problem.resolution }} <br>
             <p><strong>----------------------</strong></p>
         </li>
     {% endfor %}
@@ -51,6 +51,8 @@
     <p>No open problems found.</p>
 {% endif %}
 
+<!-- Open Problem Form -->
+<h3>Open a Problem</h3>
 <form method="POST" action="{% url 'problems_page' %}">
     {% csrf_token %}
     <label for="equipmentid">Equipment ID:</label>
@@ -66,19 +68,24 @@
     </select>
 
     <label for="description">Description:</label>
-    <input type="text" name="description" id="description">
+    <input type="text" name="description" id="description" required>
 
-    <label for="status">Status:</label>
-    <select name="status" id="status" required>
-        <option value="Open">Open</option>
-        <option value="Closed">Closed</option>
-    </select>
+    <input type="hidden" name="status" value="Open"> <!-- Status is always Open for this form -->
 
-    <label for="resolution">Resolution:</label>
-    <input type="text" name="resolution" id="resolution">
-
-    <button type="submit">Add Problem</button>
+    <button type="submit">Add Open Problem</button>
 </form>
 
+<!-- Close Problem Form -->
+<h3>Close a Problem</h3>
+<form method="POST" action="{% url 'close_problem' %}">
+    {% csrf_token %}
+    <label for="maintenanceid">Maintenance ID:</label>
+    <input type="number" name="maintenanceid" id="maintenanceid" required>
+    
+    <label for="resolution">Resolution:</label>
+    <input type="text" name="resolution" id="resolution" required>
+
+    <button type="submit">Close Problem</button>
+</form>
 
 {% endblock %}
