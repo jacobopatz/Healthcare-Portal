@@ -309,9 +309,17 @@ class DepartmentView(View):
         else:
             equipment_list = Equipment.objects.all()
 
-        # Pass the filtered equipment list and query back to the template
+        # Group equipment by departmentleased
+        grouped_equipment = {}
+        for item in equipment_list:
+            department = item.departmentleased
+            if department not in grouped_equipment:
+                grouped_equipment[department] = []
+            grouped_equipment[department].append(item)
+
+        # Pass the grouped equipment list and query back to the template
         context = {
-            'equipment_list': equipment_list,
+            'grouped_equipment': grouped_equipment,
             'department_query': department_query,
         }
 
