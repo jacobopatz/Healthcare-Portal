@@ -55,9 +55,15 @@
     {% csrf_token %}
     <label for="equipmentid">Equipment ID:</label>
     <input type="number" name="equipmentid" id="equipmentid" required>
-
+    
     <label for="type">Problem Type:</label>
-    <input type="text" name="type" id="type" required>
+    <select name="problemtype" id="problemtype" required>
+        <option value="">Select</option>
+        <option value="Technical">Technical</option>
+        <option value="Defective">Defective</option>
+        <option value="Compliance">Compliance</option>
+        <option value="Software">Software</option>
+    </select>
 
     <label for="description">Description:</label>
     <input type="text" name="description" id="description">

@@ -80,7 +80,7 @@ class ProblemsView(View):
     def post(self, request):
         # Get the data from the form
         equipmentid = request.POST.get('equipmentid')
-        type = request.POST.get('type')
+        problem_type = request.POST.get('problemtype')  # Correct field name
         description = request.POST.get('description', '')
         status = request.POST.get('status')
         resolution = request.POST.get('resolution', '')
@@ -90,17 +90,17 @@ class ProblemsView(View):
         if equipment:
             # Create a new maintenance problem entry
             Maintenance.objects.create(
-            equipmentid=equipment,
-            type=type,
-            description=description,
-            status=status,
-            resolution=resolution,
+                equipmentid=equipment,
+                type=problem_type,  # Correct variable name
+                description=description,
+                status=status,
+                resolution=resolution,
             )
             return render(request, 'problems_page.html', {'success': 'Problem added successfully.'})
         else:
             return render(request, 'problems_page.html', {'error': 'Equipment not found.'})
 
-        # Redirect to a page that shows the equipment or maintenance list
+            # Redirect to a page that shows the equipment or maintenance list
 
 #Currently not used
 class AddProblemType(View):
