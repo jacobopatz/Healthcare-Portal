@@ -8,19 +8,16 @@
 <h1>Patient's Insurance Billing</h1>
 <!-- Patient Search Form -->
 <div class="flex-container">
-    
     <div class="add_background">
         <form id="search-form">
-        <div class="form-group">
-            <h2>Patient Name</h2>
-            <select id="patient-dropdown" onchange="updateSearchBox()">
-                <option value="" selected disabled>Select a patient</option>
-                
-            </select>       
-            <button type="button" onclick="searchPatient()">Search</button>
-
-        </div>
-    </form>
+            <div class="form-group">
+                <h2>Search for patient</h2>
+                <select id="patient-dropdown" onchange="searchPatient()">
+                    <option value="" selected disabled>Select a patient</option>
+                </select>       
+            </div>
+        </form>
+        
         <!-- Simulated Patient Details, shown after search -->
         <div id="patient-details" style="display: none;">
             <h2>Patient Details</h2>
@@ -28,84 +25,101 @@
                 <tbody>
                     <tr>
                         <td><strong>Patient Name</strong></td>
-                        <td>John Doe</td>
+                        <td id="patient-name"></td>
                     </tr>
                     <tr>
                         <td><strong>Date of Birth</strong></td>
-                        <td>01/01/1990</td>
+                        <td id="patient-dob"></td>
                     </tr>
                     <tr>
                         <td><strong>Insurance Number</strong></td>
-                        <td>123456789</td>
+                        <td id="insurance-number"></td>
                     </tr>
                     <tr>
                         <td><strong>Carrier Name</strong></td>
-                        <td>City Community</td>
+                        <td id="carrier-name"></td>
                     </tr>
                 </tbody>
             </table>
-        
+
             <h3>Billing Information</h3>
-            <table class="details-table">
+            <table class="details-table" id="billing-table">
                 <tbody>
-                    <tr>
-                        <td><strong>Invoice Number</strong></td>
-                        <td>INV12345</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Invoice Date</strong></td>
-                        <td>2024-11-24</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Service ID</strong></td>
-                        <td>SVC12345</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Service Description</strong></td>
-                        <td>Example service provided to patient</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cost</strong></td>
-                        <td>100.00</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total Billed</strong></td>
-                        <td>100.00</td>
-                    </tr>
+                    <!-- Billing data will be populated dynamically -->
                 </tbody>
             </table>
         </div>
-        
-        
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const patients = ["John Doe"];
-    const dropdown = document.getElementById("patient-dropdown");
+    document.addEventListener("DOMContentLoaded", function() {
+        // Parse the JSON data passed from Django
+        const patientsWithBilling = JSON.parse('{{ patients_json|escapejs }}');
+        const dropdown = document.getElementById("patient-dropdown");
 
-    // Populate dropdown options
-    patients.forEach(patient => {
-        const option = document.createElement("option");
-        option.value = patient;
-        option.textContent = patient;
-        dropdown.appendChild(option);
+        // Populate dropdown options dynamically
+        patientsWithBilling.forEach(function(data) {
+            const option = document.createElement("option");
+            option.value = data.id;
+            option.textContent = `${data.first_name} ${data.last_name}`;
+            dropdown.appendChild(option);
+        });
     });
-});
 
-function searchPatient() {
-    const dropdown = document.getElementById("patient-dropdown");
-    const selectedPatient = dropdown.value;
+    function searchPatient() {
+        const dropdown = document.getElementById("patient-dropdown");
+        const selectedPatientId = dropdown.value;
 
-    if (selectedPatient) {
-        
-        document.getElementById("patient-details").style.display = "block";
-    } else {
-        alert("Please select a patient.");
+        // Find the selected patient's data
+        const patientData = JSON.parse('{{ patients_json|escapejs }}').find(function(data) {
+            return data.id == selectedPatientId;
+        });
+
+        if (patientData) {
+            document.getElementById("patient-details").style.display = "block";
+            // Display patient details
+            document.getElementById("patient-name").textContent = `${patientData.first_name} ${patientData.last_name}`;
+            document.getElementById("patient-dob").textContent = patientData.dob;  // Assuming dob is a field
+            document.getElementById("insurance-number").textContent = patientData.insurance_number;
+            document.getElementById("carrier-name").textContent = patientData.carrier_name;
+
+            // Display billing information
+            const billingTable = document.getElementById("billing-table");
+            billingTable.innerHTML = "";  // Clear previous billing entries
+            patientData.billings.forEach(function(billing) {
+                const rowInvoiceNumber = document.createElement("tr");
+                rowInvoiceNumber.innerHTML = `
+                    <td><strong>Invoice Number</strong></td>
+                    <td>${billing.invoice_number}</td>
+                `;
+                billingTable.appendChild(rowInvoiceNumber);
+
+                const rowInvoiceDate = document.createElement("tr");
+                rowInvoiceDate.innerHTML = `
+                    <td><strong>Invoice Date</strong></td>
+                    <td>${billing.invoice_date}</td>
+                `;
+                billingTable.appendChild(rowInvoiceDate);
+
+                const rowServiceDescription = document.createElement("tr");
+                rowServiceDescription.innerHTML = `
+                    <td><strong>Service Description</strong></td>
+                    <td>${billing.service_description}</td>
+                `;
+                billingTable.appendChild(rowServiceDescription);
+
+                const rowTotalBilled = document.createElement("tr");
+                rowTotalBilled.innerHTML = `
+                    <td><strong>Total Billed</strong></td>
+                    <td>${billing.total_billed}</td>
+                `;
+                billingTable.appendChild(rowTotalBilled);
+            });
+        } else {
+            alert("Patient not found.");
+        }
     }
-}
-
 </script>
 
 {% endblock %}
