@@ -11,12 +11,28 @@ import uuid
 
 
 class Appointments(models.Model):
+    ROUTINE = 'routine'
+    URGENT_CARE = 'urgent_care'
+    FOLLOW_UP = 'follow_up_visit'
+    NA = 'N/A'
+    APT_TYPE_CHOICES = [
+        (ROUTINE, 'Routine'),
+        (URGENT_CARE, 'Urgent Care'),
+        (FOLLOW_UP, 'Follow-Up Visit'),
+        (NA,'N/A')
+    ]
     appointmentid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Field name made lowercase.
     date = models.DateTimeField(db_column='Date')
     enddate = models.DateTimeField(db_column='enddate', null=True)
     physcianid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='PhyscianID')  # Field name made lowercase.
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING,
                                   db_column='PatientID')  # Field name made lowercase.
+    
+    aptType = aptType = models.CharField(
+        max_length=20,
+        choices=APT_TYPE_CHOICES,
+        default=NA,  # You can set the default to one of the choices
+    )
 
     class Meta:
         db_table = 'appointments'
