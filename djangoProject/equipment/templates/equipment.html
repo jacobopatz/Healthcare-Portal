@@ -22,39 +22,44 @@
 </div>
 
 <!-- DEPARTMENT SEARCH DISPLAY -->
-<div class="department-background">
+<div class="department-search-container">
     {% if grouped_equipment %}
-        <h2>Equipment Details</h2>
-        {% for department, items in grouped_equipment.items %}
-            <h3>{{ department }}</h3>
-            <ul>
-                {% for item in items %}
-                    <li>
-                        <p><strong>Equipment ID:</strong> {{ item.equipmentid }}</p>
-                        <p><strong>Type:</strong> {{ item.type }}</p>
-                        <p><strong>Description:</strong> {{ item.description }}</p>
-                        <p><strong>Department:</strong> {{ item.departmentleased }}</p>
-                        <p><strong>Owned/Leased:</strong> {{ item.owned_lease }}</p>
-                        {% if item.purchasedate %}
-                            <p><strong>Purchase Date:</strong> {{ item.purchasedate }}</p>
-                        {% endif %}
-                        {% if item.warenty_info %}
-                            <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
-                        {% endif %}
-                        {% if item.lease_start %}
-                            <p><strong>Lease Start:</strong> {{ item.lease_start }}</p>
-                            <p><strong>Lease End:</strong> {{ item.lease_end }}</p>
-                            <p><strong>Leasing Vendor:</strong> {{ item.vendor }}</p>
-                        {% endif %}
-                        <p><strong>-----------------------------</strong></p>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
+        <div class="department-background">
+            <h2 style="font-size: 32px;"></h2style>Equipment Details</h2>
+            {% for department, items in grouped_equipment.items %}
+                <h3><div class="department-label">{{ department }}</class></h3>
+                <ul>
+                    {% for item in items %}
+                        <li>
+                            <p><strong>Equipment ID:</strong> {{ item.equipmentid }}</p>
+                            <p><strong>Type:</strong> {{ item.type }}</p>
+                            <p><strong>Description:</strong> {{ item.description }}</p>
+                            <p><strong>Department:</strong> {{ item.departmentleased }}</p>
+                            <p><strong>Owned/Leased:</strong> {{ item.owned_lease }}</p>
+                            {% if item.purchasedate %}
+                                <p><strong>Purchase Date:</strong> {{ item.purchasedate }}</p>
+                            {% endif %}
+                            {% if item.warenty_info %}
+                                <p><strong>Warranty Info:</strong> {{ item.warenty_info }}</p>
+                            {% endif %}
+                            {% if item.lease_start %}
+                                <p><strong>Lease Start:</strong> {{ item.lease_start }}</p>
+                                <p><strong>Lease End:</strong> {{ item.lease_end }}</p>
+                                <p><strong>Leasing Vendor:</strong> {{ item.vendor }}</p>
+                            {% endif %}
+                            <p><strong>-----------------------------</strong></p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
     {% else %}
-        <p>No equipment found.</p>
+        {% if search_query %}
+            <p>No equipment found.</p>
+        {% endif %}
     {% endif %}
 </div>
+
 
 <div class="search-parent">  
     <div class="vendor-background">
