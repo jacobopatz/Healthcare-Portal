@@ -45,7 +45,7 @@
                         <td>{{ entry.type }}</td>
                         <td>{{ entry.equipmentid__vendor__name }}</td>
                         <td>{{ entry.total_problems }}</td>
-                        <td>{{ entry.avg_time_to_close|default:"N/A" }}</td>
+                        <td>{{ entry.avg_time_to_close|default:"Problem is still open" }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
