@@ -28,10 +28,14 @@ class Appointments(models.Model):
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING,
                                   db_column='PatientID')  # Field name made lowercase.
     
-    aptType = aptType = models.CharField(
+    aptType = models.CharField(
         max_length=20,
         choices=APT_TYPE_CHOICES,
         default=NA,  # You can set the default to one of the choices
+    )
+    description = models.CharField(
+        max_length=500,
+        default='N/A',  # You can set the default to one of the choices
     )
 
     class Meta:
