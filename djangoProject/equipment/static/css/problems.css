@@ -34,6 +34,40 @@
     padding: 20px;
 }
 
+.statistics-container {
+    background-color: #CDB29E; /* Background color */
+    min-height: 50vh; /* Adjusted for better centering */
+    width: 60vw; /* Adjusted for content size */
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 5%; /* Rounded corners */
+    margin: 10vh auto; /* Center horizontally and add top spacing */
+    padding: 20px;
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 20px; /* Space between the child elements */
+}
+
+.summary-table {
+    width: 100%; /* Ensure table spans the container width */
+    border-collapse: collapse; /* Avoid double borders */
+}
+
+.summary-table th, .summary-table td {
+    border: 1px solid #032838; /* Add borders to table cells */
+    padding: 10px;
+    text-align: center; /* Center text in the cells */
+}
+
+.no-data {
+    font-size: 16px;
+    color: #032838;
+    text-align: center;
+    margin-top: 20px;
+}
+
 .button-container {
     text-align: center; /* Center buttons */
     margin-bottom: 20px; /* Add space between buttons and list */

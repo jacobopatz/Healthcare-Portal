@@ -13,48 +13,57 @@
 
 <body>
     <h1 class="manage-title">Statistical Summary Report</h1>
-
+    
+    <!-- Redirect Button -->
     <div class="redirect-container">
         <a href="{% url 'problems_page' %}">
             <button class="redirect-button">Back</button>
         </a>
     </div>
 
-    <!-- Date Range Form -->
-    <form method="GET" action="{% url 'statistics' %}">
-        <label for="start_date">Start Date:</label>
-        <input type="date" name="start_date" id="start_date" value="{{ start_date|date:'Y-m-d' }}">
+    <div class="problems-container">
 
-        <label for="end_date">End Date:</label>
-        <input type="date" name="end_date" id="end_date" value="{{ end_date|date:'Y-m-d' }}">
-
-        <button type="submit">Generate Report</button>
-    </form>
-
-    <!-- Check for empty data -->
-    {% if summary_by_type_and_vendor %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Problem Type</th>
-                    <th>Vendor</th>
-                    <th>Total Problems</th>
-                    <th>Average Time to Close</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry in summary_by_type_and_vendor %}
-                    <tr>
-                        <td>{{ entry.type }}</td>
-                        <td>{{ entry.equipmentid__vendor__name }}</td>
-                        <td>{{ entry.total_problems }}</td>
-                        <td>{{ entry.avg_time_to_close|default:"Problem is still open" }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No data available for the selected period.</p>
-    {% endif %}
-</body>
+        <!-- Date Range Form -->
+        <div class="statInput-container">
+            <h3 class="form-title">Generate Report</h3>
+            <form method="GET" action="{% url 'statistics' %}">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" value="{{ start_date|date:'Y-m-d' }}">
+    
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" value="{{ end_date|date:'Y-m-d' }}">
+    
+                <button type="submit" class="form-button">Generate Report</button>
+            </form>
+        </div>
+    
+        <!-- Summary Table -->
+        <div class="summary-container">
+            {% if summary_by_type_and_vendor %}
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Problem Type</th>
+                            <th>Vendor</th>
+                            <th>Total Problems</th>
+                            <th>Average Time to Close</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in summary_by_type_and_vendor %}
+                            <tr>
+                                <td>{{ entry.type }}</td>
+                                <td>{{ entry.equipmentid__vendor__name }}</td>
+                                <td>{{ entry.total_problems }}</td>
+                                <td>{{ entry.avg_time_to_close|default:"Problem is still open" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-data">No data available for the selected period.</p>
+            {% endif %}
+        </div>
+    </div>
+    
 {% endblock %}
