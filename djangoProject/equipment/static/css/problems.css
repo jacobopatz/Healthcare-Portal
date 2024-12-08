@@ -1,25 +1,26 @@
 .manage-title {
     color:#032838;
-    font-size: 64px; 
+    font-size: 40px; 
     text-align: center;
 }
 
 .redirect-container {
     text-align: center; /* Center the buttons horizontally */
     margin-top: 20px; /* Add spacing above the container */
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .redirect-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 18px;
-    border-radius: 15%;
-    outline-width: medium;
-    background-color: #f9f4ed;
+    font-size: 14px;
+    background-color: white;
     height: auto;
-    margin-bottom: 10px;
     width: auto; /* Let the button size based on its content */
-    padding: 10px 20px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .problems-container {
@@ -28,7 +29,7 @@
     width: 40vw; /* Width of the container */
     box-sizing: border-box;
     overflow: hidden;
-    border-radius: 15%; /* Rounded corners */
+    border-radius: 5%; /* Rounded corners */
     margin: 10vh auto; /* Center the container with a top margin */
     padding: 20px;
 }
@@ -39,12 +40,15 @@
 }
 
 .status-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
     font-size: 18px;
-    border-radius: 15%;
+    border-radius: 10px;
     background-color: #f9f4ed;
-    padding: 10px 20px;
-    margin: 10px;
     cursor: pointer;
+    margin-bottom: 2px;
+    
 }
 
 .problem-list {
@@ -74,13 +78,13 @@
     min-height: 30vh; /* Minimum height of the container */
     width: 45%; /* Make the form take up 45% of the container width */
     box-sizing: border-box;
-    border-radius: 15%; /* Rounded corners */
+    border-radius: 5%; /* Rounded corners */
     padding: 20px;
 }
 
 .form-title {
     color: #032838;
-    font-size: 24px;
+    font-size: 30px;
     text-align: center;
     margin-bottom: 1cm;
 }

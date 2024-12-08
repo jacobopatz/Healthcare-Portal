@@ -18,17 +18,19 @@
 .type-parent {
     display: flex;
     flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
+    align-items: stretch; /* Center children horizontally */
     justify-content: center; /* Center children vertically */
     text-align: center;
     background-color: #CDB29E;
     height: auto; /* Reduced height */
     width: 35vw;
-    box-sizing: border-box;
-    overflow: hidden;
-    border-radius: 15%;
+    border-radius: 20px;
     margin: 3vh auto; /* Reduced margin */
+    padding: 10px;
+
 }
+
+
 
 .type-left {
     font-size: 28px; /* Reduced font size */
@@ -49,33 +51,36 @@
 
 .type-button {
     display: inline-block; /* Makes the button size itself properly */
-    font-size: 18px;
-    border-radius: 15%;
+    font-size: 15px;
+    border-radius: 15px;
+    border:none;
     outline-width: medium;
     background-color: #f9f4ed;
     height: auto;
     margin-bottom: 10px;
     width: auto; /* Let the button size based on its content */
-    padding: 10px 20px; /* Add padding for better appearance */
+    padding: 5px 10px; /* Add padding for better appearance */
     text-align: center; /* Center text inside the button */
+    margin-top: 10px;
 }
 
 .redirect-container {
     text-align: center; /* Center the buttons horizontally */
     margin-top: 20px; /* Add spacing above the container */
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .redirect-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 18px;
-    border-radius: 15%;
-    outline-width: medium;
-    background-color: #f9f4ed;
+    font-size: 14px;
+    background-color: white;
     height: auto;
-    margin-bottom: 10px;
     width: auto; /* Let the button size based on its content */
-    padding: 10px 20px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .type-dropdown {
@@ -97,11 +102,8 @@
 .search-parent {
     display: flex; /* Enable flexbox */
     justify-content: center; /* Horizontally center the items */
-    align-items: center; /* Vertically center the items */
-    flex-wrap: wrap; /* Allow wrapping if there are multiple items */
-    margin: auto;
+    align-items: stretch; /* Vertically center the items */
     text-align: center; /* Centers text content inside child elements */
-    height: 25vh; /* Example height for centering vertically */
     margin-bottom: 10px;
 }
 
@@ -110,11 +112,10 @@
     margin-right: 30px;
     display: inline-block;
     background-color: #CDB29E;
-    height: auto; /* Reduced height */
-    width: 35vw;
     box-sizing: border-box;
+    width: 35vw;
     overflow: hidden;
-    border-radius: 15%;
+    border-radius: 20px;
     margin-top: 5vh; /* Reduced margin-top */
 }
 
@@ -168,18 +169,34 @@
     overflow: hidden;
 }
 
-.vendor-button,
-.inventory-button {
+.vendor-button {
     display: inline-block; /* Makes the button size itself properly */
-    font-size: 18px;
-    border-radius: 15%;
+    font-size: 15px;
+    border-radius: 15px;
+    border: none;
     outline-width: medium;
     background-color: #f9f4ed;
     height: auto;
     margin-bottom: 10px;
     width: auto; /* Let the button size based on its content */
-    padding: 10px 20px; /* Add padding for better appearance */
+    padding: 5px 10px; /* Add padding for better appearance */
     text-align: center; /* Center text inside the button */
+
+}
+.inventory-button {
+    display: inline-block; /* Makes the button size itself properly */
+    font-size: 15px;
+    border-radius: 15px;
+    border: none;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    height: auto;
+    margin-bottom: 10px;
+    width: auto; /* Let the button size based on its content */
+    padding: 5px 10px; /* Add padding for better appearance */
+    text-align: center; /* Center text inside the button */
+    margin-top: 32px
+    
 }
 
 .department-search-container {

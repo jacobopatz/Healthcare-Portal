@@ -1,124 +1,198 @@
 {% extends "baseTemplate.html" %}
 {% load static %}
+
 {% block page_css %}
-    <link rel="stylesheet" href="{% static 'css/insuranceForm.css' %}">
+<link rel="stylesheet" href="{% static 'css/insuranceForm.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>Patient's Insurance Billing</h1>
-<!-- Patient Search Form -->
-<div class="flex-container">
-    <div class="add_background">
-        <form id="search-form">
-            <div class="form-group">
-                <h2>Search for patient</h2>
-                <select id="patient-dropdown" onchange="searchPatient()">
-                    <option value="" selected disabled>Select a patient</option>
-                </select>       
-            </div>
-        </form>
-        
-        <!-- Simulated Patient Details, shown after search -->
-        <div id="patient-details" style="display: none;">
-            <h2>Patient Details</h2>
-            <table class="details-table">
-                <tbody>
-                    <tr>
-                        <td><strong>Patient Name</strong></td>
-                        <td id="patient-name"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Date of Birth</strong></td>
-                        <td id="patient-dob"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Insurance Number</strong></td>
-                        <td id="insurance-number"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Carrier Name</strong></td>
-                        <td id="carrier-name"></td>
-                    </tr>
-                </tbody>
-            </table>
+<h1>Insurance Billing Management</h1>
 
-            <h3>Billing Information</h3>
-            <table class="details-table" id="billing-table">
+<!-- Carrier Information -->
+<div class="container">
+    <!-- Search Patient Section -->
+    <h1>Search for Patient</h1>
+    <form method="GET" action="">
+        <label for="search">Enter Patient Name or Insurance Number:</label>
+        <input type="text" id="search" name="search" required placeholder="Search by name or insurance number">
+        <button type="submit" class="btn">Search</button>
+    </form>
+
+    <!-- Display Patient Data (if any patient is selected) -->
+    {% if patients_json %}
+        <h2>Patient Information</h2>
+        <div class="patient-details">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Insurance Number</th>
+                        <th>Carrier Name</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <!-- Billing data will be populated dynamically -->
+                    {% for patient in patients_json %}
+                        <tr>
+                            <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                            <td>{{ patient.dob }}</td>
+                            <td>{{ patient.insurance_number }}</td>
+                            <td>{{ patient.carrier_name }}</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-    </div>
+
+        <!-- Carrier Info Section -->
+        <div class="carrier-details">
+            <h3>Insurance Carrier Information</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Carrier Name</th>
+                        <th>Payment Reliability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients_json %}
+                        <tr>
+                            <td>{{ patient.carrier_name }}</td>
+                            <td>{{ patient.carrier_payment_reliability }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Service Details Section -->
+        <div class="service-table">
+            <h3>Services Provided</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service Description</th>
+                        <th>Billable Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients_json %}
+                        {% for billing in patient.billings %}
+                            <tr>
+                                <td>{{ billing.service_description }}</td>
+                                <td>${{ billing.total_billed }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Billing Info Section -->
+        <div class="billing-table">
+            <h3>Invoice History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Service Description</th>
+                        <th>Amount Billed</th>
+                        <th>Amount Paid</th>
+                        <th>Balance Due</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients_json %}
+                        {% for billing in patient.billings %}
+                            <tr>
+                                <td>{{ billing.invoice_number }}</td>
+                                <td>{{ billing.service_description }}</td>
+                                <td>${{ billing.total_billed }}</td>
+                                <td>${{ billing.amount_paid }}</td>
+                                <td>${{ billing.total_billed|add:billing.amount_paid }}</td>
+                                <td>{{ billing.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Parse the JSON data passed from Django
-        const patientsWithBilling = JSON.parse('{{ patients_json|escapejs }}');
-        const dropdown = document.getElementById("patient-dropdown");
+    // Sample JSON Data (Replace with Django context data via template tags)
+    const carriers = JSON.parse('{{ carriers_json|escapejs }}');
+    const services = JSON.parse('{{ services_json|escapejs }}');
+    const invoices = JSON.parse('{{ invoices_json|escapejs }}');
 
-        // Populate dropdown options dynamically
-        patientsWithBilling.forEach(function(data) {
-            const option = document.createElement("option");
-            option.value = data.id;
-            option.textContent = `${data.first_name} ${data.last_name}`;
-            dropdown.appendChild(option);
-        });
+    // Populate Service Table
+    const serviceTable = document.getElementById("service-table").querySelector("tbody");
+    services.forEach(service => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${service.id}</td>
+            <td>${service.description}</td>
+            <td>$${service.billable_cost.toFixed(2)}</td>
+        `;
+        serviceTable.appendChild(row);
     });
 
-    function searchPatient() {
-        const dropdown = document.getElementById("patient-dropdown");
-        const selectedPatientId = dropdown.value;
+    // Populate Invoice Table
+    const invoiceTable = document.getElementById("invoice-table").querySelector("tbody");
+    invoices.forEach(invoice => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${invoice.id}</td>
+            <td>${invoice.patient_name}</td>
+            <td>${invoice.carrier_name}</td>
+            <td>$${invoice.total_amount.toFixed(2)}</td>
+            <td>${invoice.payment_status}</td>
+            <td><button onclick="viewInvoice(${invoice.id})">View</button></td>
+        `;
+        invoiceTable.appendChild(row);
+    });
 
-        // Find the selected patient's data
-        const patientData = JSON.parse('{{ patients_json|escapejs }}').find(function(data) {
-            return data.id == selectedPatientId;
-        });
+    // Generate Reports
+    function generateDelinquentReport() {
+        const delinquentInvoices = invoices.filter(invoice => invoice.payment_status === 'Unpaid');
+        displayReport(delinquentInvoices, "Delinquent Invoices Report");
+    }
 
-        if (patientData) {
-            document.getElementById("patient-details").style.display = "block";
-            // Display patient details
-            document.getElementById("patient-name").textContent = `${patientData.first_name} ${patientData.last_name}`;
-            document.getElementById("patient-dob").textContent = patientData.dob;  // Assuming dob is a field
-            document.getElementById("insurance-number").textContent = patientData.insurance_number;
-            document.getElementById("carrier-name").textContent = patientData.carrier_name;
+    function generateLastIssuedReport() {
+        const lastIssuedInvoices = invoices.slice(-10); // Last 10 invoices
+        displayReport(lastIssuedInvoices, "Last Issued Invoices Report");
+    }
 
-            // Display billing information
-            const billingTable = document.getElementById("billing-table");
-            billingTable.innerHTML = "";  // Clear previous billing entries
-            patientData.billings.forEach(function(billing) {
-                const rowInvoiceNumber = document.createElement("tr");
-                rowInvoiceNumber.innerHTML = `
-                    <td><strong>Invoice Number</strong></td>
-                    <td>${billing.invoice_number}</td>
-                `;
-                billingTable.appendChild(rowInvoiceNumber);
-
-                const rowInvoiceDate = document.createElement("tr");
-                rowInvoiceDate.innerHTML = `
-                    <td><strong>Invoice Date</strong></td>
-                    <td>${billing.invoice_date}</td>
-                `;
-                billingTable.appendChild(rowInvoiceDate);
-
-                const rowServiceDescription = document.createElement("tr");
-                rowServiceDescription.innerHTML = `
-                    <td><strong>Service Description</strong></td>
-                    <td>${billing.service_description}</td>
-                `;
-                billingTable.appendChild(rowServiceDescription);
-
-                const rowTotalBilled = document.createElement("tr");
-                rowTotalBilled.innerHTML = `
-                    <td><strong>Total Billed</strong></td>
-                    <td>${billing.total_billed}</td>
-                `;
-                billingTable.appendChild(rowTotalBilled);
-            });
-        } else {
-            alert("Patient not found.");
-        }
+    function displayReport(data, title) {
+        const reportOutput = document.getElementById("report-output");
+        reportOutput.innerHTML = `<h3>${title}</h3>`;
+        const table = document.createElement("table");
+        table.className = "details-table";
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Patient Name</th>
+                    <th>Carrier</th>
+                    <th>Total Amount</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.map(invoice => `
+                    <tr>
+                        <td>${invoice.id}</td>
+                        <td>${invoice.patient_name}</td>
+                        <td>${invoice.carrier_name}</td>
+                        <td>$${invoice.total_amount.toFixed(2)}</td>
+                        <td>${invoice.payment_status}</td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        `;
+        reportOutput.appendChild(table);
     }
 </script>
 

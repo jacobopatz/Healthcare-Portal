@@ -8,44 +8,51 @@
 .add-parent {
     margin: auto;
     text-align: center;
+    display: flex;
+    flex-direction: row;
 }
 
 .add-background {
-    margin-right: 30px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     background-color: #CDB29E;
-    min-height: 25vh;
     width: 35vw;
+    border-radius: 20px;
+    margin: 3vh auto;
+    padding: 10px;
     box-sizing: border-box;
-    overflow: hidden;
-    border-radius: 15%;
-    margin-top: 5vh;
 }
 
 .add-button {
     display: inline;
     font-size: 20px;
-    border-radius: 15%;
+    border-radius: 15px;
+    border: none;
     outline-width: medium;
     background-color: #f9f4ed;
     min-height: 5vh;
-    width: 30%;
+    width: 20%;
+    margin-top: 3px;
 }
 
 .redirect-container {
     text-align: center; /* Center the buttons horizontally */
     margin-top: 20px; /* Add spacing above the container */
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .redirect-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 18px;
-    border-radius: 15%;
-    outline-width: medium;
-    background-color: #f9f4ed;
+    font-size: 14px;
+    background-color: white;
     height: auto;
-    margin-bottom: 10px;
     width: auto; /* Let the button size based on its content */
-    padding: 10px 20px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
 }
