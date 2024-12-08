@@ -6,12 +6,14 @@
 
 {% block content %}
 <h1 class="manage-title">Equipment Manager</h1>
-<a href="{% url 'equipment' %}">
-    <button>Equipment Search</button>
-</a>
-<a href="{% url 'problems_page' %}">
-    <button>Report and Search Problems</button>
-</a>
+<div class="redirect-container">
+    <a href="{% url 'equipment' %}">
+        <button class="redirect-button">Equipment Search</button>
+    </a>
+    <a href="{% url 'problems_page' %}">
+        <button class="redirect-button">Report and Search Problems</button>
+    </a>
+</div>
 
 <div class="add-parent">
     <!-- ADD EQUIPMENT -->

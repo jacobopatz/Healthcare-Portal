@@ -7,12 +7,14 @@
 
 {% block content %}
 <h1 class="equipment-title">Equipment Inventory and Maintenance</h1>
-<a href="{% url 'manage_page' %}">
-    <button class="type-button">Manage Equipment and Vendors</button>
-</a>
-<a href="{% url 'problems_page' %}">
-    <button class="type-button">Report and Search Problems</button>
-</a>
+<div class="redirect-container">
+    <a href="{% url 'manage_page' %}">
+        <button class="redirect-button">Manage Equipment and Vendors</button>
+    </a>
+    <a href="{% url 'problems_page' %}">
+        <button class="redirect-button">Report and Search Problems</button>
+    </a>
+</div>
 
 <div class="type-parent">
     <h1>List all Equipment by Department</h1>
@@ -55,7 +57,7 @@
         </div>
     {% else %}
         {% if search_query %}
-            <p>No equipment found.</p>
+            <p><b>No equipment found.</b></p>
         {% endif %}
     {% endif %}
 </div>
@@ -105,7 +107,7 @@
             </ul>
         {% else %}
             {% if query_vendorid or query_name or query_equipment_type %}
-                <p>No vendors found matching the criteria.</p>
+                <p><b>No vendors found matching the criteria.</b></p>
             {% endif %}
         {% endif %}
     </div>
@@ -138,7 +140,9 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>No equipment found.</p>
+            {% if query_inventory or query_type %}
+                <p><b>No equipment found.</b></p>
+            {% endif %}
         {% endif %}
     </div>
 </div>

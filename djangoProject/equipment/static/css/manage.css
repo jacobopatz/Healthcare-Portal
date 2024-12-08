@@ -31,3 +31,21 @@
     min-height: 5vh;
     width: 30%;
 }
+
+.redirect-container {
+    text-align: center; /* Center the buttons horizontally */
+    margin-top: 20px; /* Add spacing above the container */
+}
+
+.redirect-button {
+    display: inline-block; /* Makes the button size itself properly */
+    font-size: 18px;
+    border-radius: 15%;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    height: auto;
+    margin-bottom: 10px;
+    width: auto; /* Let the button size based on its content */
+    padding: 10px 20px; /* Add padding for better appearance */
+    text-align: center; /* Center text inside the button */
+}
