@@ -6,12 +6,17 @@
 
 {% block content %}
 <h1 class="manage-title">Problems Manager</h1>
-<a href="{% url 'equipment' %}">
-    <button>Equipment Search</button>
-</a>
-<a href="{% url 'manage_page' %}">
-    <button>Add Equipment and Vendors</button>
-</a>
+<div class="redirect-container">
+    <a href="{% url 'equipment' %}">
+        <button class="redirect-button">Equipment Search</button>
+    </a>
+    <a href="{% url 'manage_page' %}">
+        <button class="redirect-button">Add Equipment and Vendors</button>
+    </a>
+    <a href="{% url 'statistics' %}">
+        <button class="redirect-button">Statistics Report</button>
+    </a>
+</div>
 
 <!-- Success and Error Messages -->
 {% if success %}
@@ -25,76 +30,83 @@
     </div>
 {% endif %}
 
-<a href="{% url 'statistics' %}">
-    <button>Statistics Report</button>
-</a>
+<!-- Container for the forms -->
+<div class="forms-container">
+    <!-- Open Problem Form -->
+    <div class="form-container">
+        <h3 class="form-title">Open a Problem</h3>
+        <form method="POST" action="{% url 'problems_page' %}">
+            {% csrf_token %}
+            <label for="equipmentid">Equipment ID:</label>
+            <input type="number" name="equipmentid" id="equipmentid" required>
 
-<h2>Open Problems</h2>
+            <label for="type">Problem Type:</label>
+            <select name="problemtype" id="problemtype" required>
+                <option value="">Select</option>
+                <option value="Technical">Technical</option>
+                <option value="Defective">Defective</option>
+                <option value="Compliance">Compliance</option>
+                <option value="Software">Software</option>
+            </select>
 
-<!-- Button to trigger the display of open problems -->
-<form method="GET" action="{% url 'problems_page' %}">
-    <button type="submit" name="status" value="Open">Show Open Problems</button>
-    <button type="submit" name="status" value="Closed">Show Closed Problems</button>
-</form>
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description" required>
 
-<!-- Display Problems Based on Status -->
-{% if problems %}
-    <h3>{{ status }} Problems</h3>
-    <ul>
-        {% for problem in problems %}
-            <li>
-                <strong>Equipment ID:</strong> {{ problem.equipmentid.equipmentid }} <br>
-                <strong>Equipment Type:</strong> {{ problem.equipmentid.type }} <br>
-                <strong>Maintenance ID:</strong> {{ problem.maintenanceid }} <br>
-                <strong>Type:</strong> {{ problem.type }} <br>
-                <strong>Description:</strong> {{ problem.description }} <br>
-                <strong>Status:</strong> {{ problem.status }} <br>
-                {% if problem.status == "Closed" %}
-                    <strong>Resolution:</strong> {{ problem.resolution }} <br>
-                {% endif %}
-                <p><strong>----------------------</strong></p>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No {{ current_status|lower }} problems found.</p>
-{% endif %}
+            <input type="hidden" name="status" value="Open"> <!-- Status is always Open for this form -->
 
-<!-- Open Problem Form -->
-<h3>Open a Problem</h3>
-<form method="POST" action="{% url 'problems_page' %}">
-    {% csrf_token %}
-    <label for="equipmentid">Equipment ID:</label>
-    <input type="number" name="equipmentid" id="equipmentid" required>
-    
-    <label for="type">Problem Type:</label>
-    <select name="problemtype" id="problemtype" required>
-        <option value="">Select</option>
-        <option value="Technical">Technical</option>
-        <option value="Defective">Defective</option>
-        <option value="Compliance">Compliance</option>
-        <option value="Software">Software</option>
-    </select>
+            <button type="submit" class="form-button">Add Open Problem</button>
+        </form>
+    </div>
 
-    <label for="description">Description:</label>
-    <input type="text" name="description" id="description" required>
+    <!-- Close Problem Form -->
+    <div class="form-container">
+        <h3 class="form-title">Close a Problem</h3>
+        <form method="POST" action="{% url 'close_problem' %}">
+            {% csrf_token %}
+            <label for="maintenanceid">Maintenance ID:</label>
+            <input type="number" name="maintenanceid" id="maintenanceid" required>
 
-    <input type="hidden" name="status" value="Open"> <!-- Status is always Open for this form -->
+            <label for="resolution">Resolution:</label>
+            <input type="text" name="resolution" id="resolution" required>
 
-    <button type="submit">Add Open Problem</button>
-</form>
+            <button type="submit" class="form-button">Close Problem</button>
+        </form>
+    </div>
+</div>
 
-<!-- Close Problem Form -->
-<h3>Close a Problem</h3>
-<form method="POST" action="{% url 'close_problem' %}">
-    {% csrf_token %}
-    <label for="maintenanceid">Maintenance ID:</label>
-    <input type="number" name="maintenanceid" id="maintenanceid" required>
-    
-    <label for="resolution">Resolution:</label>
-    <input type="text" name="resolution" id="resolution" required>
+<div class="problems-container">
+    <h2 class="manage-title">Open Problems</h2>
 
-    <button type="submit">Close Problem</button>
-</form>
+    <!-- Button to trigger the display of open problems -->
+    <form method="GET" action="{% url 'problems_page' %}">
+        <div class="button-container">
+            <button type="submit" name="status" value="Open" class="status-button">Show Open Problems</button>
+            <button type="submit" name="status" value="Closed" class="status-button">Show Closed Problems</button>
+        </div>
+    </form>
+
+    <!-- Display Problems Based on Status -->
+    {% if problems %}
+        <h3>{{ status }} Problems</h3>
+        <ul class="problem-list">
+            {% for problem in problems %}
+                <li>
+                    <strong>Equipment ID:</strong> {{ problem.equipmentid.equipmentid }} <br>
+                    <strong>Equipment Type:</strong> {{ problem.equipmentid.type }} <br>
+                    <strong>Maintenance ID:</strong> {{ problem.maintenanceid }} <br>
+                    <strong>Type:</strong> {{ problem.type }} <br>
+                    <strong>Description:</strong> {{ problem.description }} <br>
+                    <strong>Status:</strong> {{ problem.status }} <br>
+                    {% if problem.status == "Closed" %}
+                        <strong>Resolution:</strong> {{ problem.resolution }} <br>
+                    {% endif %}
+                    <p><strong>----------------------</strong></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No {{ current_status|lower }} problems found.</p>
+    {% endif %}
+</div>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "baseTemplate.html" %}
 {% load static %}
 {% block page_css %}
-    <link rel="stylesheet" href="{% static 'css/manage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/problems.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -10,12 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistical Report</title>
 </head>
-<a href="{% url 'problems_page' %}">
-    <button>Back</button>
-</a>
 
 <body>
-    <h1>Statistical Summary Report</h1>
+    <h1 class="manage-title">Statistical Summary Report</h1>
+
+    <div class="redirect-container">
+        <a href="{% url 'problems_page' %}">
+            <button class="redirect-button">Back</button>
+        </a>
+    </div>
 
     <!-- Date Range Form -->
     <form method="GET" action="{% url 'statistics' %}">
