@@ -26,4 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+    
 });
+
+function openDiv(slotTime) {
+    const SelectedDiv = document.getElementById(slotTime);
+    SelectedDiv.style.display = "block";
+}
+function closeDiv(slotTime) {
+    const SelectedDiv = document.getElementById(slotTime);
+    SelectedDiv.style.display = "none";
+}

@@ -17,7 +17,7 @@ body, html {
     min-height: 80vh;
     overflow: auto;
     width: 95vw;
-    border-radius: 2%;
+    border-radius: 10px; /* Updated */
     margin-top: 10vh;
     display: flex;
     flex-direction: column;
@@ -28,7 +28,7 @@ body, html {
     min-height: 80vh;
     overflow: auto;
     width: 95vw;
-    border-radius: 2%;
+    border-radius: 10px; /* Updated */
     margin-top: 10vh;
     display: flex;
     flex-direction: row;
@@ -38,7 +38,6 @@ body, html {
 .select-left {
     flex: 1 1;
     display: flex;
-    
     border-right: 2px solid #032838;
     justify-content: center;
     flex-direction: column;
@@ -58,27 +57,32 @@ body, html {
     font-weight: bold;
     font-size: x-large;
     color: #032838;
-    
 }
 .select-right p {
     color: #5392ac;
 }
 
-.select-left button, .select-right button {
+.select-left button, .select-right button, .nav-button {
     background-color: #5392ac;
     width: 10vh;  
     height: 5vh;  
-    border-radius: 10px;
+    border-radius: 20px; /* Updated */
     font-size: 16px;
     margin: 10px;  
 }
 
-select {
+select, input {
     height: 5vh;
     width: 40vh;
-    border-radius: 10px;
+    border-radius: 20px; /* Updated */
     border: none;
     margin: 2%;
+    overflow-y: auto;
+    resize: vertical;
+}
+input {
+    height: 10vh;
+    rows: 4;
 }
 p {
     display: flex;
@@ -90,9 +94,7 @@ p {
     height: 100%;
     border-collapse: collapse;
     align-self: center;
-    border-radius: 1000px;
-
-    border-radius: 15px; /* Adjust radius as needed */
+    border-radius: 20px; /* Updated */
     overflow: hidden; /* Ensures corners apply to child elements */
     background-color: #032838;
     color: #f9f4ed;
@@ -104,12 +106,10 @@ p {
 }
 
 .calendar-table th {
-    height:10vh
+    height: 10vh;
 }
 
-.calendar-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
+
 
 .calendar-table li {
     flex: 1 1;
@@ -133,17 +133,18 @@ p {
 
 .appointment-time.booked {
     flex: 1 1;
-    background-color:  #5392ac;
+    background-color: #5392ac;
     height: 100%;
     width: 100%;
+    border-radius: 10px; /* Updated */
 }
 
 .appointment-time.available {
     flex: 1 1;
-    background-color:  #f9f4ed;
+    background-color: #f9f4ed;
     height: 100%;
     width: 100%;
-    
+    border-radius: 10px; /* Updated */
 }
 .appointment-time.available:hover {
     background-color: #c3af93; 
@@ -157,3 +158,42 @@ p {
     background-color: #5392ac;
 }
 
+.show-appointment {
+    color:#032838;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #cdb29e;
+    border: 2px solid #032838;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+.exit-div {
+    cursor:pointer;
+    background-color: transparent;
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    height: 5vh;
+    width: 5vh;
+    padding: 0;
+    border: none;
+    resize: vertical;
+}
+
+.exit-div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

@@ -6,100 +6,112 @@
 {% block title %} Scheduler {% endblock %}
 
 {% block content %}
-<h1>Physician Scheduler</h1>
-<form id="apt-form" method ="GET" action="{% url 'schedule'%}">
-    {% csrf_token %}
-    <input type="hidden" name="date" id="date">
-    <input type="hidden" name="enddate" id="enddate">
-    <input type="hidden" name="physician" value="{{ physician.employeeid}}">
-    <input type="hidden" name="patient" value="{{patient.patientid}}">
-</form>
-<div class="sub-nav">
-    <form method="GET" action="{%url 'findPhysician'%}" class="select-form">
-        <button type="submit">Find Physician</button>
+<div class="container">
+    <h1 class="page-title">Physician Scheduler</h1>
+    <form id="apt-form" method="GET" action="{% url 'schedule' %}">
+        {% csrf_token %}
+        <input type="hidden" name="date" id="date">
+        <input type="hidden" name="enddate" id="enddate">
+        <input type="hidden" name="physician" value="{{ physician.employeeid }}">
+        <input type="hidden" name="patient" value="{{ patient.patientid }}">
     </form>
-</div>
-<div class="flex-container">
-    <div class="select-background">
-        <div class="select-left">
-        <form method="GET" action="{% url 'schedule' %}" class="select-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
+    <div class="sub-nav">
+        <form method="GET" action="{% url 'findPhysician' %}" class="select-form">
+            <button type="submit" class="nav-button">Find Physician</button>
         </form>
-        
     </div>
-    <div class="select-right">
-        {% if endTime %}
-            <h2>Appointment Found!</h2>
-            <h3>When?: </h3>
-            <p>{{startTime}}</p>
-            <p>To</p>
-            <P>{{endTime}}</P>
-            <h3>Provider:</h3>
-            <p>{{physician.firstname}} {{physician.lastname}}</p>
-            <h3>Patient: </h3>
-            <p>{{patient.lastname}}, {{patient.firstname}}</p>
-            <form method="POST" action="{% url 'schedule' %}" class="select-form">
-                {% csrf_token %}
-                <input type="hidden" name ='startTime' value = "{{startTime|date:'M. d, Y, H:i'}}">
-                <input type="hidden" name ='endTime' value = "{{endTime|date:'M. d, Y, H:i'}}">
-                <input type="hidden" name ='physicianid' value = "{{physician.employeeid}}">
-                <input type ="hidden" name ='patientid' value ="{{patient.patientid}}">
-                <button type="submit">Book</button>
-            </form>
-        {% else %}
-            <h2>Select Physician and Patient to View available appointments:</h2>
-            
-        {% endif %}
-    </div>
-    
-</div>
-    <div class="sched_background">
-        <table class="calendar-table">
-            <thead>
-                <tr>
-                    <th><h2>Date</h2></th>
-                    <th><h2>Available Slots</h2></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for day, slots in available_slots.items %}
-                    <tr>
-                        <td>{{ day|date:"Y-m-d" }}</td>
-                        <td>
-                            {% if slots %}
-                            <ul>
-                                {% for slot in slots %}
-                                <li class="test">
-                                    
-                                        
-                                        {% if slot.is_booked %}
-                                        <button type="button" class="appointment-time booked" 
-                                                data-time="{{ slot.time|date:"M. d, Y, H:i" }}">
-                                            {{ slot.time|time:"H:i" }} - Booked
-                                        </button>
-                                        {% else %}
-                                        
-                                        <button type="button" class="appointment-time available" 
-                                        data-time="{{ slot.time|date:"M. d, Y, H:i" }}">
-                                            {{ slot.time|time:"H:i" }} - Available
-                                    </button>
-                                    {% endif %}
-                                
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>No available slots</p>
-                        {% endif %}
+    <div class="flex-container">
+        <div class="select-background">
+            <div class="select-left">
+                <form method="GET" action="{% url 'schedule' %}" class="select-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="submit-button">Submit</button>
+                </form>
+            </div>
+            <div class="select-right">
+                {% if appointment_form %}
+                    <h2>Appointment Found!</h2>
+                    <div class="appointment-details">
+                        <form method="POST" action="{% url 'schedule' %}" class="select-form">
+                            {% csrf_token %}
+                        <h3>When?: </h3>
+                            <p>{{ appointment_form.date.value }}</p>
+                            <input type="hidden" name="date" value="{{ appointment_form.date.initial|date:'M. d, Y, H:i'}}">
+                            <h3>To</h3>
+                            <p>{{ appointment_form.enddate.value }}</p>
+                            <input type="hidden" name="enddate" value="{{ appointment_form.enddate.initial|date:'M. d, Y, H:i' }}">
+                            <h3>Provider:</h3>
+                            <p>{{ physician.firstname }} {{ physician.lastname }}</p>
+                            <input type="hidden" name="physician" value="{{ physician.employeeid}}">
+                            <h3>Patient: </h3>
+                            <p>{{ appointment_form.patientid }}</p>
+                            <h3>Appointment Type: </h3>
+                            <p>{{ appointment_form.aptType }}</p>
+                            <h3>Description: </h3>
+                            <p>{{ appointment_form.description }}</p>
+                        <button type="submit" class="book-button">Book</button>
+                        </form>
+                    </div>
+                    
                         
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-   <script src="{% static 'js/schedule.js' %}"></script> 
+                        
     
+                {% else %}
+                    <h2>Select Physician and Patient to View available appointments:</h2>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="sched_background">
+            <table class="calendar-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Available Slots</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day, slots in available_slots.items %}
+                        <tr>
+                            <td>{{ day|date:"Y-m-d" }}</td>
+                            <td>
+                                {% if slots %}
+                                    <ul>
+                                        {% for slot in slots %}
+                                            <li>
+                                                {% if slot.is_booked %}
+                                                    <button type="button" onclick="openDiv('{{slot.time}}')" class="appointment-time booked" data-time="{{ slot.time|date:'M. d, Y, H:i' }}" >
+                                                        {{ slot.time|time:"H:i" }} - Booked
+                                                    </button>
+                                                    <div onclick ="closeDiv('{{slot.time}}')" style ='display: none' class="show-appointment" id = '{{slot.time}}'> 
+                                                        <button class="exit-div" id="menu-exit" >
+                                                            <img src="{% static 'img/exit.png' %}">
+                                                        </button>
+                                                        <h3>Appointment Details</h3>
+                                                        <b>Physician:</b> <p> {{ slot.appt.physcianid }}</p>
+                                                        <b>Patient: </b> <p>{{ slot.appt.patientid }}</p>
+                                                        <b>Appointment Type:</b> <p> {{ slot.appt.aptType }}</p>
+                                                        <b>Description:</b> <p>Description: {{ slot.appt.description }}</p>
+                                                    </div>
+                                                {% else %}
+                                                    <button type="button" class="appointment-time available" data-time="{{ slot.time|date:'M. d, Y, H:i' }}">
+                                                        {{ slot.time|time:"H:i" }} - Available
+                                                    </button>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>No available slots</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/schedule.js' %}"></script>
 {% endblock %}

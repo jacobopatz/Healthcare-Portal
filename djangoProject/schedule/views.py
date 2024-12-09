@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from sharedModels.models import Appointments, Employees, PatientRecord
-from .forms import PhysicianSelectionForm, MakeAppointmentForm, viewPhysicianForm
+from .forms import PhysicianSelectionForm, AppointmentForm, viewPhysicianForm
 from datetime import datetime, timedelta
 from django.shortcuts import redirect
 
@@ -18,13 +18,14 @@ class ScheduleView(View):
             day = current_date + timedelta(days=i)
             available_slots[day] = [
         {'time': datetime.combine(day, datetime.min.time()) + timedelta(hours=hour, minutes=minute),
-            'is_booked': False
+            'is_booked': False,
+            'appt': None
         }
         for hour in range(9, 17)  # Hours from 9 AM to 5 PM
         for minute in (0, 30)    # Half-hour increments (0 and 30 minutes past each hour)
     ]
         #list of appointment start and end times 
-        apptIntervals= [{'start':(appt.date.date(),appt.date.time()), 'end':(appt.enddate.date(), appt.enddate.time())} for appt in appointments]
+        apptIntervals= [{'start':(appt.date.date(),appt.date.time()), 'end':(appt.enddate.date(), appt.enddate.time()), 'appt': appt} for appt in appointments]
         
         # mark slots inbetween start and end times as booked 
         for day, slots in available_slots.items():
@@ -36,6 +37,7 @@ class ScheduleView(View):
                             if(slot['time'].date() <= interval['end'][0]):
                                 if(slot['time'].time() <= interval['end'][1]):
                                     slot['is_booked'] = True
+                                    slot['appt'] = interval['appt']
 
 
                         # if(slot['time'].time < interval['end']):
@@ -47,19 +49,27 @@ class ScheduleView(View):
        
         
     def get(self, request):  # `request` is passed correctly here
+        
         form = PhysicianSelectionForm()
-        postForm = MakeAppointmentForm()
+        
         available_slots = {}
 
         #if loaded with no info passed
         if( request.GET.get('physician') == None):
-            return render(request, 'SCHED.html', {'form': form, 'postForm': postForm, 'available_slots': available_slots})
+            return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots})
        
         #get request info
         physician_ID = request.GET.get('physician')
         physician = Employees.objects.get(employeeid = physician_ID)
-        patient_ID = request.GET.get('patient')
-        patient = PatientRecord.objects.get(patientid=patient_ID)
+        
+
+        #set Appointment form with physician and patient info
+        appointment_Form = AppointmentForm()
+        appointment_Form.fields['physcianid'].initial = physician_ID
+        
+
+
+
         
         available_slots= self.getAppointments(physician)
        
@@ -68,29 +78,47 @@ class ScheduleView(View):
         if(request.GET.get('date') != None):
             startTime= datetime.strptime(request.GET.get('date').strip(), '%b. %d, %Y, %H:%M')
             endTime = datetime.strptime(request.GET.get('enddate').strip(), '%b. %d, %Y, %H:%M')
+            print(startTime)
         else:
-            return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots,'physician':physician, 'patient':patient})
-    
-            
+            return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots,'physician':physician})
+         #get request info
+         #get request info
+        appointment_Form.fields['date'].initial = startTime
+        appointment_Form.fields['enddate'].initial = endTime
+        print(type(appointment_Form.fields['date'].initial))
 
+        print(appointment_Form.fields['physcianid'].initial)
+        return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots,'appointment_form': appointment_Form, 'physician':physician })    
 
-        return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'startTime': startTime, 'endTime': endTime,'physician':physician, 'patient':patient})
-    
-    def post(self,request):
-          # Get data from the form (hidden inputs)
-        startTime = request.POST.get('startTime')  # This is the time selected for the appointment
-        print(startTime)
-        endTime = request.POST.get('endTime')
-        print(endTime)
+    def post(self, request):
+        # Get data from the form (hidden inputs)
+        date_string = request.POST.get('date')
+        enddate_string = request.POST.get('enddate')
+        physician_id = request.POST.get('physician')
+        patient_id = request.POST.get('patientid')
+        aptType = request.POST.get('aptType')
+        description = request.POST.get('description')
+
+        # Convert date strings to datetime objects
         
-        physician_id = request.POST.get('physicianid')  # Physician ID
-        patient_id = request.POST.get('patientid')  # Patient ID
+        startTime = datetime.strptime(request.POST.get('date').strip(), '%b. %d, %Y, %H:%M')
+        endTime = datetime.strptime(request.POST.get('enddate').strip(), '%b. %d, %Y, %H:%M')
 
-        startTime =datetime.strptime(startTime.strip(), '%b. %d, %Y, %H:%M')
-        endTime = datetime.strptime(endTime.strip(), '%b. %d, %Y, %H:%M')
+        # Retrieve physician and patient objects
         physician = Employees.objects.get(employeeid=physician_id)
-        patient = PatientRecord.objects.get(patientid =  patient_id )
-        
+        patient = PatientRecord.objects.get(patientid=patient_id)
+
+        # Create a new appointment
+        appointment = Appointments.objects.create(
+            date=startTime,
+            enddate=endTime,
+            physcianid=physician,
+            patientid=patient,
+            aptType=aptType,
+            description=description
+        )
+
+        return redirect(f"/schedule/?physician={physician_id}&patient={patient_id}")
 
         # try:
         #     physician = Employees.objects.get(employeeid=physician_id)
@@ -103,12 +131,12 @@ class ScheduleView(View):
         #     return render(request, 'SCHED.html', {'error': 'Patient not found'})
         # parsed_datetime = datetime.strptime(selected_time.replace("a.m.", "AM").replace("p.m.", "PM").replace("noon","12:00 PM"), "%b. %d, %Y, %I:%M %p")
          # Create a new appointment
-        appointment = Appointments.objects.create(
-            date= startTime ,
-            enddate = endTime,
-            physcianid= physician,
-            patientid= patient
-        )
+        # appointment = Appointments.objects.create(
+        #     date= startTime ,
+        #     enddate = endTime,
+        #     physcianid= physician,
+        #     patientid= patient
+        # )
         
         return redirect(f"/schedule/?physician={physician_id}&patient={patient_id}")
 class findPhysicianView(View):
@@ -122,6 +150,8 @@ class findPhysicianView(View):
        return render(request, 'findPhysician.html', {'select':viewPhysicianForm, 'physician':physicianObject})
     
 
-
+class popUpView(View):
+    def get(self, request):
+        return render(request, 'popUp.html')
 
 

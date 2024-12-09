@@ -33,7 +33,7 @@ class Appointments(models.Model):
         choices=APT_TYPE_CHOICES,
         default=NA,  # You can set the default to one of the choices
     )
-    description = models.CharField(
+    description = models.TextField(
         max_length=500,
         default='N/A',  # You can set the default to one of the choices
     )
@@ -261,5 +261,4 @@ class ProblemType(models.Model):
     def str(self):
         return self.name
     
-
 
