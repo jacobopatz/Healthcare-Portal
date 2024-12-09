@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="page-title">Physician Scheduler</h1>
+    <h1 class="page-title center-text">Physician Scheduler</h1>
     <form id="apt-form" method="GET" action="{% url 'schedule' %}">
         {% csrf_token %}
         <input type="hidden" name="date" id="date">
@@ -15,7 +15,7 @@
         <input type="hidden" name="physician" value="{{ physician.employeeid }}">
         <input type="hidden" name="patient" value="{{ patient.patientid }}">
     </form>
-    <div class="sub-nav">
+    <div class="sub-nav center-text">
         <form method="GET" action="{% url 'findPhysician' %}" class="select-form">
             <button type="submit" class="nav-button">Find Physician</button>
         </form>
@@ -35,7 +35,7 @@
                     <div class="appointment-details">
                         <form method="POST" action="{% url 'schedule' %}" class="select-form">
                             {% csrf_token %}
-                        <h3>When?: </h3>
+                            <h3>When?: </h3>
                             <p>{{ appointment_form.date.value }}</p>
                             <input type="hidden" name="date" value="{{ appointment_form.date.initial|date:'M. d, Y, H:i'}}">
                             <h3>To</h3>
@@ -50,19 +50,15 @@
                             <p>{{ appointment_form.aptType }}</p>
                             <h3>Description: </h3>
                             <p>{{ appointment_form.description }}</p>
-                        <button type="submit" class="book-button">Book</button>
+                            <button type="submit" class="book-button">Book</button>
                         </form>
                     </div>
-                    
-                        
-                        
-    
                 {% else %}
                     <h2>Select Physician and Patient to View available appointments:</h2>
                 {% endif %}
             </div>
         </div>
-
+        {% if available_slots %}
         <div class="sched_background">
             <table class="calendar-table">
                 <thead>
@@ -81,18 +77,29 @@
                                         {% for slot in slots %}
                                             <li>
                                                 {% if slot.is_booked %}
+                                                    {% if slot.appt.aptType == 'N/A' %}
+                                                    <button type="button" onclick="openDiv('{{slot.time}}')" class="appointment-time OOO" data-time="{{ slot.time|date:'M. d, Y, H:i' }}" >
+                                                        {{ slot.time|time:"H:i" }} - Out of Office
+                                                    </button>
+                                                    {% else %}
                                                     <button type="button" onclick="openDiv('{{slot.time}}')" class="appointment-time booked" data-time="{{ slot.time|date:'M. d, Y, H:i' }}" >
                                                         {{ slot.time|time:"H:i" }} - Booked
                                                     </button>
+                                                    {% endif %}
                                                     <div onclick ="closeDiv('{{slot.time}}')" style ='display: none' class="show-appointment" id = '{{slot.time}}'> 
                                                         <button class="exit-div" id="menu-exit" >
                                                             <img src="{% static 'img/exit.png' %}">
                                                         </button>
                                                         <h3>Appointment Details</h3>
+                                                        <b>Time: </b> <p> {{ slot.appt.date}} - {{ slot.appt.enddate }}</p>
                                                         <b>Physician:</b> <p> {{ slot.appt.physcianid }}</p>
                                                         <b>Patient: </b> <p>{{ slot.appt.patientid }}</p>
                                                         <b>Appointment Type:</b> <p> {{ slot.appt.aptType }}</p>
                                                         <b>Description:</b> <p>Description: {{ slot.appt.description }}</p>
+                                                        <form method="POST" action="{% url 'cancel_appointment' slot.appt.appointmentid %}">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="cancel-button">Cancel Appointment</button>
+                                                        </form>
                                                     </div>
                                                 {% else %}
                                                     <button type="button" class="appointment-time available" data-time="{{ slot.time|date:'M. d, Y, H:i' }}">
@@ -111,6 +118,7 @@
                 </tbody>
             </table>
         </div>
+        {% endif %}
     </div>
 </div>
 <script src="{% static 'js/schedule.js' %}"></script>

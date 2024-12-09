@@ -1,0 +1,40 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block page_css %}
+    <link rel="stylesheet" href="{% static 'css/findPhysician.css' %}">
+{% endblock %}
+{% block title %} Find Physician {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title center-text">Find Physician</h1>
+    <form method="GET" action="{% url 'findPhysician' %}" class="select-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Search</button>
+    </form>
+    {% if physicians %}
+    <div class="results-container">
+        <h2 class="results-title">Available Physicians</h2>
+        <ul class="physician-list">
+            {% for physician in physicians %}
+            <li class="physician-item">
+                <div class="physician-details">
+                    <p><strong>Name:</strong> {{ physician.firstname }} {{ physician.lastname }}</p>
+                    <p><strong>Specialty:</strong> {{ physician.specialty }}</p>
+                    <p><strong>Location:</strong> {{ physician.location }}</p>
+                </div>
+                <form method="POST" action="{% url 'schedule' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="physician" value="{{ physician.employeeid }}">
+                    <button type="submit" class="select-button">Select</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p class="no-results">No physicians found. Please adjust your search criteria.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; /* Updated */
+    background-color: #f4f4f9; /* Updated */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2em;
+    color: #032838;
+    margin-bottom: 20px;
+}
+
+.select-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.select-form input, .select-form select {
+    height: 5vh;
+    width: 40vh;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
+    margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
+}
+
+.submit-button {
+    background-color: #5392ac;
+    width: 12vh; /* Updated */
+    height: 6vh; /* Updated */
+    border-radius: 25px; /* Updated */
+    font-size: 16px;
+    margin: 10px;
+    color: white; /* Updated */
+    border: none; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+}
+
+.submit-button:hover {
+    background-color: #417a8c; /* Updated */
+}
+
+.results-container {
+    background-color: #e0e0e0; /* Updated */
+    min-height: 50vh;
+    width: 95vw;
+    border-radius: 15px; /* Updated */
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated */
+    padding: 20px;
+}
+
+.results-title {
+    font-size: 1.5em;
+    color: #032838;
+    margin-bottom: 20px;
+}
+
+.physician-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.physician-item {
+    background-color: #f9f4ed;
+    border-radius: 15px; /* Updated */
+    margin: 10px 0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated */
+}
+
+.physician-details {
+    text-align: left;
+    color: #032838;
+}
+
+.select-button {
+    background-color: #5392ac;
+    width: 12vh; /* Updated */
+    height: 6vh; /* Updated */
+    border-radius: 25px; /* Updated */
+    font-size: 16px;
+    color: white; /* Updated */
+    border: none; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+}
+
+.select-button:hover {
+    background-color: #417a8c; /* Updated */
+}
+
+.no-results {
+    font-size: 1.2em;
+    color: #032838;
+    margin-top: 20px;
+}

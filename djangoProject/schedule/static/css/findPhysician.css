@@ -45,3 +45,7 @@ select {
     border: none;
     margin: 2%;
 }
+
+.center-text {
+    text-align: center;
+}

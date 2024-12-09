@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!startTime) {
                 // First click: Set the start time
                 startTime = dateValue;
-                button.classList.add("selected-start");
+                button.classList.add("selected");
             } else {
                 // Second click: Set the end time and submit the form
                 const endTime = dateValue;
-                button.classList.add("selected-end");
+                button.classList.add("selected");
 
                 dateInput.value = startTime;
                 endDateInput.value = endTime;
