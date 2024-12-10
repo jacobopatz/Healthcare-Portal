@@ -1,91 +1,202 @@
+/* General Reset */
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef2f3; /* Soft light background */
 }
 
-.flex-container {
+/* General Layout */
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+h1, h2 {
+    font-weight: bold;
+    color: #064663; /* Dark blue for headings */
+    text-align: center;
+    margin-bottom: 20px;
+}
+.search-box {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: start;
+    font-weight: bold;
+    color: #064663; /* Dark blue for headings */
+    margin-bottom: 20px;
+}
+/* Heading Styles */
+
+.search-bar {
+    display: flex; /* Ensures the children are aligned in a row */
+    flex-direction: row; /* Optional, row is the default */
+    align-items: center; /* Vertically centers items */
+    gap: 10px; /* Adds spacing between the input and button */
+    margin-top: 10px;
+    justify-content: flex-start;
+}
+
+.search-bar input {
+    flex:1;/* Allows the input to grow and take up available space */
+    padding: 8px; /* Adds padding inside the input field */
+    border: 1px solid #ccc; /* Optional: adds a border */
+    border-radius: 4px; /* Optional: rounds the corners */
+}
+
+.search-bar button {
+    padding: 8px 16px; /* Adds padding to the button */
+    background-color: #5392ac; /* Optional: sets button background color */
+    color: white; /* Ensures text is readable */
+    border: none; /* Removes default border */
+    flex: 0 0 15%;
+    border-radius: 4px; /* Matches input border radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.search-bar button:hover {
+    background-color: #0056b3; /* Darkens button on hover */
+}
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #5392ac; /* Light teal-blue */
+    color: white;
+    text-transform: uppercase;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f7f9fa;
+}
+
+table tbody tr:hover {
+    background-color: #e9f1f4;
+    transition: background-color 0.3s ease;
+}
+
+/* Form Styling */
+form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 15px;
     align-items: center;
 }
 
-.add_background {
-    background-color: #cdb29e;
-    min-height: 80vh;
-    overflow: auto;
-    width: 95vw;
-    border-radius: 2%;
+input[type="text"], button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    width: 80%;
+}
+
+button {
+    background-color: #5392ac;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #417a8c;
+}
+
+/* Flexbox Utility Classes */
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.flex-column {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    padding: 20px;
+    gap: 10px;
 }
 
-.form-group {
-    margin-bottom: 10px;
-}
-.form-group p {
-    font-weight: bold;
-}
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-#patient-dropdown {
-    width: 50%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-.search-box{
-    width: 80px;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-
-}
+/* Report and Details Section */
 .details-table {
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #333;
+}
+
+.details-table th {
+    background-color: #064663;
+    color: white;
+    padding: 10px;
 }
 
 .details-table td {
-    border: 1px solid #ddd;
     padding: 10px;
 }
 
-.details-table td:first-child {
+/* Buttons */
+.report-button {
+    background-color: #5392ac;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.report-button:hover {
+    background-color: #417a8c;
+}
+
+/* Additional Utilities */
+.center-text {
+    text-align: center;
+}
+
+.text-highlight {
+    color: #417a8c;
     font-weight: bold;
-    background-color: #f9f9f9;
-    width: 40%; /* Adjust width for the labels column */
+}
+.dropdown {
+    position: absolute;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width:80%;
+    z-index: 999;
 }
 
-.details-table tr:nth-child(even) {
-    background-color: #f4f4f4;
+.dropdown-item {
+    padding: 8px;
+    cursor: pointer;
 }
 
-.details-table tr:hover {
-    background-color: #e9e9e9;
-}
-h3 {
-    margin-top: 30px; /* Creates space above the heading */
-    font-size: 18px;
-    color: #333;
-}
-h1 {
-    padding: 10px;
+.dropdown-item:hover {
+    background-color: #f1f1f1;
 }

@@ -1,7 +1,8 @@
 from . import views
 from django.urls import path
-from .views import patient_billing_view
+from .views import insurance_billing_management
 
 urlpatterns = [
-     path('insurance/',patient_billing_view,name='insurance'),
+     path('insurance/',insurance_billing_management,name='insurance'),
+
 ]
