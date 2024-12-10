@@ -61,7 +61,7 @@ class Employees(models.Model):
 
 
 class Encounters(models.Model):
-    encounterid = models.AutoField(db_column='EncounterID', default=0, primary_key=True)
+    encounterid = models.AutoField(db_column='EncounterID', primary_key=True)
     date = models.DateTimeField(db_column='Date')  # Field name made lowercase. The composite primary key (Date, PhysicianID) found, that is not supported. The first column is selected.
     physicianid = models.ForeignKey(Employees, models.DO_NOTHING, db_column='PhysicianID')  # Field name made lowercase.
     patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING, db_column='PatientID')  # Field name made lowercase.
@@ -77,6 +77,10 @@ class Encounters(models.Model):
     class Meta:
         db_table = 'encounters'
         unique_together = (('date', 'physicianid'),)
+    def __str__(self):
+        formatted_date = self.date.strftime('%m/%d/%Y')  # Format the date as month/day/year
+        return f"{formatted_date}- {self.patientid}"  # Display first and last name
+
 
 
 class Equipment(models.Model):

@@ -53,7 +53,7 @@ body {
     flex-direction: column;
     height: 100vh;
     width: 20vw;
-    background-color: #cdb29e;
+    background-color: #e0e0e0;
     transition: left 0.3s ease;
     border-right: 2px solid #3e3e3e;
 }
@@ -90,10 +90,8 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    border-radius: 0 25% 25% 0; /* Rounded top corners */
 }
 
 .menu-item:hover {
-    background-color: #cbac97;
-    color: #5392ac;
+    background-color: #bcbcbc;
 }

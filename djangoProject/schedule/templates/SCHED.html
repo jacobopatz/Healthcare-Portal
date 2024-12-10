@@ -54,7 +54,7 @@
                         </form>
                     </div>
                 {% else %}
-                    <h2>Select Physician and Patient to View available appointments:</h2>
+                    <h2>Select Physician to view available appointments:</h2>
                 {% endif %}
             </div>
         </div>
@@ -95,8 +95,8 @@
                                                         <b>Physician:</b> <p> {{ slot.appt.physcianid }}</p>
                                                         <b>Patient: </b> <p>{{ slot.appt.patientid }}</p>
                                                         <b>Appointment Type:</b> <p> {{ slot.appt.aptType }}</p>
-                                                        <b>Description:</b> <p>Description: {{ slot.appt.description }}</p>
-                                                        <form method="POST" action="{% url 'cancel_appointment' slot.appt.appointmentid %}">
+                                                        <b>Description:</b> <p>{{ slot.appt.description }}</p>
+                                                        <form method="POST" class="infoForm" action="{% url 'cancel_appointment' slot.appt.appointmentid %}">
                                                             {% csrf_token %}
                                                             <button type="submit" class="cancel-button">Cancel Appointment</button>
                                                         </form>

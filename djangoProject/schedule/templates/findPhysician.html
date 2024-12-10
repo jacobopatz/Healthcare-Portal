@@ -24,6 +24,7 @@
                 </form>
             </div>
             <div class='right-block'>
+                {% if physician %}
                 <h2>Name: </h2>
                 <p>{{physician.firstname}} {{physician.lastname}}</p>
                 <h3>Employee ID: </h3>
@@ -32,6 +33,7 @@
                 <p>{{physician.phonenumber}}</p>
                 <h3>Working Days</h3>
                 <p>{{physician.workdays}}</p>
+                {% endif %}
             </div>
         </div>
     </div>

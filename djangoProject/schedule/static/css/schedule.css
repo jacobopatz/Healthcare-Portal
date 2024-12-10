@@ -43,7 +43,7 @@ body, html {
     color: #5392ac;
 }
 
-.select-left button, .select-right button, .nav-button {
+.select-left button, .select-right button, .nav-button, .cancel-button {
     background-color: #5392ac;
     width: 12vh; /* Updated */
     height: 6vh; /* Updated */
@@ -54,12 +54,20 @@ body, html {
     border: none; /* Updated */
     cursor: pointer; /* Updated */
     transition: background-color 0.3s ease; /* Updated */
+
+}
+.cancel-button {
+    width: 40%; /* Updated */
 }
 
-.select-left button:hover, .select-right button:hover, .nav-button:hover {
+.select-left button:hover, .select-right button:hover, .nav-button:hover,.cancel-button:hover {
     background-color: #417a8c; /* Updated */
 }
-
+.infoForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 select, input {
     height: 5vh;
     width: 40vh;

@@ -5,7 +5,7 @@ import uuid
 #BE VERY CAUTIOUS OF META NAMES, THE SHAREDMODELS OF THESE AREN'T DELETED
 
 class Vendor(models.Model):
-    vendorid = models.IntegerField(db_column='VendorID', primary_key=True)
+    vendorid = models.AutoField(primary_key=True, db_column='VendorID') 
     name = models.CharField(max_length=100, unique=True)
     address = models.TextField()
     equipment_types = models.CharField(max_length=200, help_text="Comma-separated list of equipment types")
@@ -18,7 +18,7 @@ class Vendor(models.Model):
         return self.name
 
 class Equipment(models.Model):
-    equipmentid = models.IntegerField(db_column='EquipmentID', primary_key=True)  # Field name made lowercase.
+    equipmentid =  models.AutoField(primary_key=True, db_column='EquipmentID')
     type = models.CharField(db_column='Type', max_length=45)  # Field name made lowercase.
     lease_terms = models.CharField(
         db_column='Lease Terms',
@@ -57,7 +57,7 @@ class Equipment(models.Model):
         db_table = 'equipment_two'
 
 class Maintenance(models.Model):
-    maintenanceid = models.IntegerField(db_column='MaintenanceID', primary_key=True)
+    maintenanceid = models.AutoField(primary_key=True, db_column='MaintenanceID')
     equipmentid = models.ForeignKey(Equipment, models.DO_NOTHING, db_column='EquipmentID')
     type = models.CharField(db_column='Type', max_length=45)
     description = models.CharField(db_column='Description', max_length=120, blank=True, null=True)
