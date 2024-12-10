@@ -31,7 +31,7 @@ class ScheduleView(View):
             for interval in apptIntervals:
                 for slot in slots:
                     if (slot['time'] >= interval['start']):
-                        if (slot['time'] <= interval['end']):
+                        if (slot['time'] < interval['end']):
                             slot['is_booked'] = True
                             slot['appt'] = interval['appt']
 
@@ -66,6 +66,7 @@ class ScheduleView(View):
             return render(request, 'SCHED.html', {'form': form, 'available_slots': available_slots, 'physician': physician})
         # get request info
         # get request info
+
         appointment_Form.fields['date'].initial = startTime
         appointment_Form.fields['enddate'].initial = endTime
         print(type(appointment_Form.fields['date'].initial))
@@ -89,17 +90,27 @@ class ScheduleView(View):
 
         # Retrieve physician and patient objects
         physician = Employees.objects.get(employeeid=physician_id)
-        patient = PatientRecord.objects.get(patientid=patient_id)
+        if (patient_id):
+            patient = PatientRecord.objects.get(patientid=patient_id)
 
         # Create a new appointment
-        appointment = Appointments.objects.create(
-            date=startTime,
-            enddate=endTime,
-            physcianid=physician,
-            patientid=patient,
-            aptType=aptType,
-            description=description
-        )
+        if (patient_id):
+            appointment = Appointments.objects.create(
+                date=startTime,
+                enddate=endTime,
+                physcianid=physician,
+                patientid=patient,
+                aptType=aptType,
+                description=description
+            )
+        else:
+            appointment = Appointments.objects.create(
+                date=startTime,
+                enddate=endTime,
+                physcianid=physician,
+                aptType=aptType,
+                description=description
+            )
 
         return redirect(f"/schedule/?physician={physician_id}&patient={patient_id}")
 

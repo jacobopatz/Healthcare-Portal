@@ -156,12 +156,18 @@ input {
 }
 
 button {
+    color: white;
     background-color: #5392ac;
     width: 10vh;  
     height: 5vh;  
     border-radius: 10px;
     font-size: 16px;
     margin: 10px;  
+    border-color: transparent;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #417a8c;
 }
 
 .department-search-container {
