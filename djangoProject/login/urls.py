@@ -2,13 +2,13 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
-from .views import register,process_text
+from .views import register,process_text, custRegister
 
 urlpatterns = [
     path('login/',views.customLogin.as_view(),name='login'),
     path('submit/', views.process_text, name='process_text'),
      path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', register, name='register'),
+    path('register/', custRegister.as_view(), name='register'),
     # Built-in logout view
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 

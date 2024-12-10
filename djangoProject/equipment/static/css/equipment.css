@@ -21,7 +21,7 @@
     align-items: stretch; /* Center children horizontally */
     justify-content: center; /* Center children vertically */
     text-align: center;
-    background-color: #CDB29E;
+    background-color: #e0e0e0;
     height: auto; /* Reduced height */
     width: 35vw;
     border-radius: 20px;
@@ -45,24 +45,9 @@
     font-size: 24px; /* Reduced font size */
     color: #032838;
     text-align: center;
-    background-color: transparent;
     display: inline-block;
 }
 
-.type-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 15px;
-    border-radius: 15px;
-    border:none;
-    outline-width: medium;
-    background-color: #f9f4ed;
-    height: auto;
-    margin-bottom: 10px;
-    width: auto; /* Let the button size based on its content */
-    padding: 5px 10px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
-    margin-top: 10px;
-}
 
 .redirect-container {
     text-align: center; /* Center the buttons horizontally */
@@ -72,23 +57,13 @@
     gap: 5px;
 }
 
-.redirect-button {
-    font-size: 14px;
-    background-color: white;
-    height: auto;
-    width: auto; /* Let the button size based on its content */
-    padding: 10px;
-    border: 2px solid black;
-    border-radius: 4px;
-    cursor: pointer;
-}
+
 
 .type-dropdown {
     font-size: 24px; /* Reduced font size */
     color: #032838;
     text-align: center;
     outline: dashed;
-    background-color: transparent;
     display: inline-block;
     overflow: hidden; /* Hide any overflow */
     text-overflow: ellipsis;
@@ -109,10 +84,11 @@
 
 .vendor-background,
 .inventory-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-right: 30px;
-    display: inline-block;
-    background-color: #CDB29E;
-    box-sizing: border-box;
+    background-color: #e0e0e0;
     width: 35vw;
     overflow: hidden;
     border-radius: 20px;
@@ -129,7 +105,7 @@
     color: #032838;
 }
 
-.vendor-input,
+
 .vendor-id {
     text-align: center;
     margin-bottom: 10px; /* Reduced bottom margin */
@@ -138,6 +114,18 @@
     background-color: transparent;
     display: inline-block;
     overflow: hidden;
+    background-color: white;
+}
+
+input {
+    background-color: white;
+    height: 5vh;
+    width: 40vh;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
+    margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
 }
 
 .vendor-name {
@@ -145,7 +133,6 @@
     margin-bottom: 10px; /* Reduced bottom margin */
     font-size: 18px; /* Reduced font size */
     color: #000000;
-    background-color: transparent;
     display: flex;
     overflow: hidden;
 }
@@ -164,39 +151,17 @@
     font-size: 18px; /* Reduced font size */
     color: #000000;
     margin-bottom: 10px;
-    background-color: transparent;
     display: flex;
     overflow: hidden;
 }
 
-.vendor-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 15px;
-    border-radius: 15px;
-    border: none;
-    outline-width: medium;
-    background-color: #f9f4ed;
-    height: auto;
-    margin-bottom: 10px;
-    width: auto; /* Let the button size based on its content */
-    padding: 5px 10px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
-
-}
-.inventory-button {
-    display: inline-block; /* Makes the button size itself properly */
-    font-size: 15px;
-    border-radius: 15px;
-    border: none;
-    outline-width: medium;
-    background-color: #f9f4ed;
-    height: auto;
-    margin-bottom: 10px;
-    width: auto; /* Let the button size based on its content */
-    padding: 5px 10px; /* Add padding for better appearance */
-    text-align: center; /* Center text inside the button */
-    margin-top: 32px
-    
+button {
+    background-color: #5392ac;
+    width: 10vh;  
+    height: 5vh;  
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 10px;  
 }
 
 .department-search-container {

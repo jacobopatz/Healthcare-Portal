@@ -23,7 +23,7 @@ from . import views
 
 urlpatterns = [
     path('', views.load, name='home'),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name ='admin'),
     path('', include('login.urls')),  # Include URLs from `myapp`
     path('',include('landing.urls')),
     path('',include('schedule.urls')),

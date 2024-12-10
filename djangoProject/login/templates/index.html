@@ -19,7 +19,10 @@
                 <input type="text" id="usr" name="username" placeholder="username">
                 <input type="password" id="pwd" name="password" placeholder="password">
                 <button id="myb" class="my-button">Submit</button>
-                <button id="myb" class="my-button">Create an account</button>
+                
+                </form>
+                <form method="get" action ="{% url 'register' %}">
+                    <button id="myb" class="my-button">Create an account</button>
                 </form>
             </div>
         </div>

@@ -26,6 +26,14 @@ class customLogin(View):
 
 
 # Registration view
+class custRegister(View):
+    def get(self, request):
+        return render(request, 'registration/register.html', {'form': RegistrationForm()})
+    def post(self, request):
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new user
+        return redirect('login')  # Redirect to login page after registration
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)

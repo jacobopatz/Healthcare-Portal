@@ -77,13 +77,24 @@ html, body {
     color: white; /* Updated */
     border: none; /* Updated */
     border-radius: 25px; /* Updated */
-    padding: 10px 20px; /* Updated */
+    height: 5vh; /* Updated */
+    width:15vh;
     cursor: pointer; /* Updated */
     transition: background-color 0.3s ease; /* Updated */
-    position: absolute; /* Updated */
-    right: 10vh; /* Updated */
+
 }
 .logout:hover {
     background-color: #417a8c; /* Updated */
 }
+.buttonOptions {
+    position:absolute;
+    right: 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 75%;
+    width: 10vw;
+    text-align: center;
+    justify-content: space-between;
 
+}

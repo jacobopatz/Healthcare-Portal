@@ -1,16 +1,29 @@
-<!-- templates/registration/register.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    
+    <!-- Link to your CSS file directly -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
 </head>
-<body>
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+<body style="background-color: #f9f4ed;">
+    <header></header>
+    <div class="flex-container">
+        <div class="flex-child left">
+            <div class="box"> 
+                <form method="POST" action="{% url 'register' %}">  <!-- Change to your login URL -->
+                    {% csrf_token %}  <!-- CSRF token for security -->
+                    {{ form.as_p }} 
+                    <button type="submit" id="myb" class="my-button">Register</button>
+                </form>
+            </div>
+        </div>
+        <div class="flex-child right"> 
+            <img style="height:40vh" src="{% static 'img/Logo.png' %}">
+        </div>
+    </div>
 </body>
 </html>
-

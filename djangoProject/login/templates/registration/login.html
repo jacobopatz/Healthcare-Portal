@@ -24,7 +24,10 @@
                     <input type="password" id="pwd" name="password" placeholder="password" required>
                     <button class='flex-child' type="submit" id="myb" class="my-button">Submit</button>
                 </form>
-                <button id="myb" class="my-button"><a href="{% url 'register' %}">Create an account</a></button>
+                <form method="GET" action="{% url 'register' %}">
+                    <button class='flex-child' type="submit" id="myb" class="my-button">Register</button>
+                </form>
+                
             </div>
         </div>
         
