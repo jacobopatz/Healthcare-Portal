@@ -77,7 +77,7 @@
                                         {% for slot in slots %}
                                             <li>
                                                 {% if slot.is_booked %}
-                                                    {% if slot.appt.aptType == 'N/A' %}
+                                                    {% if  not slot.appt.patientid %}
                                                     <button type="button" onclick="openDiv('{{slot.time}}')" class="appointment-time OOO" data-time="{{ slot.time|date:'M. d, Y, H:i' }}" >
                                                         {{ slot.time|time:"H:i" }} - Out of Office
                                                     </button>

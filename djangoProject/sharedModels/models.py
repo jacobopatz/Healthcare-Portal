@@ -25,7 +25,7 @@ class Appointments(models.Model):
     date = models.DateTimeField(db_column='Date')
     enddate = models.DateTimeField(db_column='enddate', null=True)
     physcianid = models.ForeignKey('Employees', models.DO_NOTHING, db_column='PhyscianID')  # Field name made lowercase.
-    patientid = models.ForeignKey('PatientRecord', models.DO_NOTHING,
+    patientid = models.ForeignKey('PatientRecord', null=True, blank=True, on_delete= models.DO_NOTHING,
                                   db_column='PatientID')  # Field name made lowercase.
     
     aptType = models.CharField(
@@ -100,7 +100,7 @@ class Equipment(models.Model):
 
     class Meta:
         db_table = 'equipment'
-
+    
 
 class Insurance(models.Model):
     carrierid = models.AutoField(db_column='CarrierID', primary_key=True)  # Field name made lowercase.
@@ -111,7 +111,8 @@ class Insurance(models.Model):
     class Meta:
         db_table = 'insurance'
 
-
+    def __str__(self):
+        return f"{self.name}"  # Display first and last name
 class Invoice(models.Model):
     lineitemid = models.AutoField(db_column='LineItemID', primary_key=True)  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=120)  # Field name made lowercase.
@@ -203,6 +204,8 @@ class PatientRecord(models.Model):
         db_table = 'patient record'
 
     def __str__(self):
+        if self.firstname == 'N/A':
+            return f"{self.lastname}"
         return f"{self.lastname}, {self.firstname}"
 
 
