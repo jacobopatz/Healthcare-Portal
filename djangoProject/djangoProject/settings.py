@@ -25,7 +25,7 @@ STATICFILES_DIRS = [
 ]
 
 # This setting collects static files from each app's 'static' folder when you run `collectstatic`
-STATIC_ROOT = BASE_DIR / "staticfiles"  # Where static files will be collected in production
+STATIC_ROOT = BASE_DIR / "static"  # Where static files will be collected in production
 
 
 
