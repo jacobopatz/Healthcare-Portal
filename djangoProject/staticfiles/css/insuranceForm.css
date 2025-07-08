@@ -1,0 +1,202 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef2f3; /* Soft light background */
+}
+
+/* General Layout */
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+h1, h2 {
+    font-weight: bold;
+    color: #064663; /* Dark blue for headings */
+    text-align: center;
+    margin-bottom: 20px;
+}
+.search-box {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: start;
+    font-weight: bold;
+    color: #064663; /* Dark blue for headings */
+    margin-bottom: 20px;
+}
+/* Heading Styles */
+
+.search-bar {
+    display: flex; /* Ensures the children are aligned in a row */
+    flex-direction: row; /* Optional, row is the default */
+    align-items: center; /* Vertically centers items */
+    gap: 10px; /* Adds spacing between the input and button */
+    margin-top: 10px;
+    justify-content: flex-start;
+}
+
+.search-bar input {
+    flex:1;/* Allows the input to grow and take up available space */
+    padding: 8px; /* Adds padding inside the input field */
+    border: 1px solid #ccc; /* Optional: adds a border */
+    border-radius: 4px; /* Optional: rounds the corners */
+}
+
+.search-bar button {
+    padding: 8px 16px; /* Adds padding to the button */
+    background-color: #5392ac; /* Optional: sets button background color */
+    color: white; /* Ensures text is readable */
+    border: none; /* Removes default border */
+    flex: 0 0 15%;
+    border-radius: 4px; /* Matches input border radius */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.search-bar button:hover {
+    background-color: #0056b3; /* Darkens button on hover */
+}
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #5392ac; /* Light teal-blue */
+    color: white;
+    text-transform: uppercase;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f7f9fa;
+}
+
+table tbody tr:hover {
+    background-color: #e9f1f4;
+    transition: background-color 0.3s ease;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+input[type="text"], button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    width: 80%;
+}
+
+button {
+    background-color: #5392ac;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #417a8c;
+}
+
+/* Flexbox Utility Classes */
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Report and Details Section */
+.details-table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.details-table th {
+    background-color: #064663;
+    color: white;
+    padding: 10px;
+}
+
+.details-table td {
+    padding: 10px;
+}
+
+/* Buttons */
+.report-button {
+    background-color: #5392ac;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.report-button:hover {
+    background-color: #417a8c;
+}
+
+/* Additional Utilities */
+.center-text {
+    text-align: center;
+}
+
+.text-highlight {
+    color: #417a8c;
+    font-weight: bold;
+}
+.dropdown {
+    position: absolute;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width:80%;
+    z-index: 999;
+}
+
+.dropdown-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}

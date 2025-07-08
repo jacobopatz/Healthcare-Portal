@@ -12,16 +12,46 @@ body, html {
     align-items: center;
 }
 
+form input{
+    height: 5vh;
+    width: 40vh;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
+    margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
+}
+
+label {
+    font-weight: bold;
+}
+button {
+    background-color: #5392ac;
+    width: 12vh; /* Updated */
+    height: 6vh; /* Updated */
+    border-radius: 25px; /* Updated */
+    font-size: 16px;
+    margin: 10px;
+    color: white; /* Updated */
+    border: none; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+}
+
 .add_background {
+    display: flex;
+    
     background-color: #e0e0e0;
     min-height: 80vh;
     overflow: auto;
-    width: 95vw;
+    width: 50%;
     border-radius: 2%;
+    margin: 0 auto;
     margin-top: 10vh;
+    margin-bottom: 10vh;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
 }
 .select-background {
     background-color: #cdb29e;
@@ -34,6 +64,12 @@ body, html {
     flex-direction: row;
     align-items: stretch;
 }
+
+
+.selected-details{
+    margin-bottom: 10px;
+}
+
 
 .select-left {
     flex: 1 1;

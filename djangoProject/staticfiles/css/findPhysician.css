@@ -1,5 +1,13 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; /* Updated */
+    background-color: #f4f4f9; /* Updated */
+}
 .user-module {
-    background-color: #cdb29e;
+    background-color: #e0e0e0;
     height: 80vh;
     overflow: auto;
     width: 95vw;
@@ -32,11 +40,18 @@
 
 button {
     background-color: #5392ac;
-    width: 10vh;  
-    height: 5vh;  
-    border-radius: 10px;
+    width: 12vh; /* Updated */
+    height: 6vh; /* Updated */
+    border-radius: 25px; /* Updated */
     font-size: 16px;
-    margin: 10px;  
+    margin: 10px;
+    color: white; /* Updated */
+    border: none; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+}
+button:hover {
+    background-color: #417a8c; /* Updated */
 }
 select {
     height: 5vh;
@@ -44,4 +59,8 @@ select {
     border-radius: 10px;
     border: none;
     margin: 2%;
+}
+
+.center-text {
+    text-align: center;
 }

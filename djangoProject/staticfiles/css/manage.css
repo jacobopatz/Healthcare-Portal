@@ -1,0 +1,58 @@
+.manage-title {
+    color:#032838;
+    font-size: 64px; 
+    text-align: center;
+    margin-bottom: 1cm;
+}
+
+.add-parent {
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.add-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #CDB29E;
+    width: 35vw;
+    border-radius: 20px;
+    margin: 3vh auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.add-button {
+    display: inline;
+    font-size: 20px;
+    border-radius: 15px;
+    border: none;
+    outline-width: medium;
+    background-color: #f9f4ed;
+    min-height: 5vh;
+    width: 20%;
+    margin-top: 3px;
+}
+
+.redirect-container {
+    text-align: center; /* Center the buttons horizontally */
+    margin-top: 20px; /* Add spacing above the container */
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.redirect-button {
+    font-size: 14px;
+    background-color: white;
+    height: auto;
+    width: auto; /* Let the button size based on its content */
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}

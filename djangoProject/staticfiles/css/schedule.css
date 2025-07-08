@@ -3,6 +3,8 @@ body, html {
     padding: 0;
     height: 100%;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; /* Updated */
+    background-color: #f4f4f9; /* Updated */
 }
 
 .flex-container {
@@ -12,74 +14,75 @@ body, html {
     align-items: center;
 }
 
-.sched_background {
-    background-color: #cdb29e;
+.sched_background, .select-background {
+    background-color: #e0e0e0; /* Updated */
     min-height: 80vh;
     overflow: auto;
     width: 95vw;
-    border-radius: 2%;
+    border-radius: 15px; /* Updated */
     margin-top: 10vh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-}
-.select-background {
-    background-color: #cdb29e;
-    min-height: 80vh;
-    overflow: auto;
-    width: 95vw;
-    border-radius: 2%;
-    margin-top: 10vh;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated */
 }
 
-.select-left {
-    flex: 1 1;
-    display: flex;
-    
-    border-right: 2px solid #032838;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: x-large;
-}
-
-.select-right {
+.select-left, .select-right {
     flex: 1 1;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Updated */
     font-weight: bold;
-    font-size: x-large;
+    font-size: large; /* Updated */
     color: #032838;
-    
 }
+
 .select-right p {
     color: #5392ac;
 }
 
-.select-left button, .select-right button {
+.select-left button, .select-right button, .nav-button, .cancel-button {
     background-color: #5392ac;
-    width: 10vh;  
-    height: 5vh;  
-    border-radius: 10px;
+    width: 12vh; /* Updated */
+    height: 6vh; /* Updated */
+    border-radius: 25px; /* Updated */
     font-size: 16px;
-    margin: 10px;  
+    margin: 10px;
+    color: white; /* Updated */
+    border: none; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+
+}
+.cancel-button {
+    width: 40%; /* Updated */
 }
 
-select {
+.select-left button:hover, .select-right button:hover, .nav-button:hover,.cancel-button:hover {
+    background-color: #417a8c; /* Updated */
+}
+.infoForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+select, input {
     height: 5vh;
     width: 40vh;
-    border-radius: 10px;
-    border: none;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
     margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
 }
+
+input {
+    height: 10vh;
+    rows: 4;
+}
+
 p {
     display: flex;
     flex-direction: column;
@@ -90,38 +93,24 @@ p {
     height: 100%;
     border-collapse: collapse;
     align-self: center;
-    border-radius: 1000px;
-
-    border-radius: 15px; /* Adjust radius as needed */
+    border-radius: 15px; /* Updated */
     overflow: hidden; /* Ensures corners apply to child elements */
     background-color: #032838;
     color: #f9f4ed;
 }
 
-.calendar-table td {
+.calendar-table td, .calendar-table th {
     border: 1px solid #ddd;
     text-align: left;
+    padding: 10px; /* Updated */
 }
 
 .calendar-table th {
-    height:10vh
+    height: 10vh;
+    background-color: #5392ac; /* Updated */
+    color: white; /* Updated */
 }
 
-.calendar-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.calendar-table li {
-    flex: 1 1;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-}
-.change-form {
-    flex: 1 1;
-    display: flex;
-}
 .calendar-table ul {
     list-style-type: none;
     padding: 0;
@@ -131,20 +120,43 @@ p {
     height: 10vh;
 }
 
-.appointment-time.booked {
+.calendar-table li {
     flex: 1 1;
-    background-color:  #5392ac;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.appointment-time.booked, .appointment-time.OOO, .appointment-time.available {
+    flex: 1 1;
     height: 100%;
     width: 100%;
+    border-radius: 10px; /* Updated */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Updated */
+    cursor: pointer; /* Updated */
+    transition: transform 0.2s ease-in-out; /* Updated */
+}
+
+.appointment-time.booked {
+    background-color: #5392ac;
+}
+
+.appointment-time.OOO {
+    background-color: #ac6b53; /* Complementary color to #5392ac */
 }
 
 .appointment-time.available {
-    flex: 1 1;
-    background-color:  #f9f4ed;
-    height: 100%;
-    width: 100%;
-    
+    background-color: #f9f4ed;
+    color: #032838; /* Updated */
 }
+.appointment-time.available.selected {
+    background-color: #c3af93;
+}
+
 .appointment-time.available:hover {
     background-color: #c3af93; 
     color: white; 
@@ -152,5 +164,50 @@ p {
     cursor: pointer; 
     transform: scale(1.05); 
     transition: all 0.2s ease-in-out; 
+}
+
+.show-appointment {
+    color: #032838;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0e0e0; /* Updated */
+    border: 2px solid #032838;
+    border-radius: 15px; /* Updated */
+    padding: 20px;
+    margin: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Updated */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.exit-div {
+    cursor: pointer;
+    background-color: transparent;
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    height: 5vh;
+    width: 5vh;
+    padding: 0;
+    border: none;
+    resize: vertical;
+}
+
+.exit-div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.center-text {
+    text-align: center;
 }
 
