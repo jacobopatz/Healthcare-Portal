@@ -1,0 +1,100 @@
+html, body {
+    height: 100%;
+    background-color: #f4f4f9; /* Updated */
+    font-family: 'Roboto', sans-serif; /* Updated */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+.welcome-message {
+    font-size: 2em;
+    color: #032838;
+    margin-bottom: 20px;
+}
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.box {
+    flex: 1 1 30vw;
+    background-color: #5392ac; /* Updated */
+    font-family: 'Roboto', sans-serif; /* Updated */
+    font-weight: bold;
+    border-radius: 15px; /* Updated */
+    height: 30vw;
+    max-height: 200px; /* Updated */
+    margin: 15px;
+    font-size: large; /* Updated */
+    color: white; /* Updated */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out; /* Updated */
+    cursor: pointer; /* Updated */
+    border: none; /* Updated */
+}
+.box:hover {
+    background-color: #417a8c; /* Updated */
+    transform: scale(1.05); /* Updated */
+}
+.header {
+    background-color: #032838;
+    width: 100vw;
+    height: 15vh;
+    margin-bottom: 3vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;   /* Vertical alignment */
+    justify-content: center; /* Center the logo */
+    position: relative; /* Updated */
+}
+.header img {
+    max-height: 100%;
+}
+.logout {
+    background-color: #5392ac; /* Updated */
+    color: white; /* Updated */
+    border: none; /* Updated */
+    border-radius: 25px; /* Updated */
+    height: 5vh; /* Updated */
+    width:15vh;
+    cursor: pointer; /* Updated */
+    transition: background-color 0.3s ease; /* Updated */
+
+}
+.logout:hover {
+    background-color: #417a8c; /* Updated */
+}
+.buttonOptions {
+    position:absolute;
+    right: 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 75%;
+    width: 10vw;
+    text-align: center;
+    justify-content: space-between;
+
+}

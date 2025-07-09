@@ -1,0 +1,209 @@
+.text-box {
+    border: 2px solid #007BFF; /* Blue border */
+    padding: 5px; /* Reduced space inside the box */
+    margin: 5px; /* Reduced space outside the box */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light gray background */
+    font-family: Arial, sans-serif; /* Clean font */
+    color: #333; /* Dark text color */
+}
+
+.equipment-title {
+    color:#032838;
+    font-size: 48px; /* Reduced font size */
+    text-align: center;
+    margin-bottom: 0.5cm; /* Reduced bottom margin */
+}
+
+.type-parent {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: stretch; /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    text-align: center;
+    background-color: #e0e0e0;
+    height: auto; /* Reduced height */
+    width: 35vw;
+    border-radius: 20px;
+    margin: 3vh auto; /* Reduced margin */
+    padding: 10px;
+
+}
+
+
+
+.type-left {
+    font-size: 28px; /* Reduced font size */
+    color: #032838;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 15px; /* Reduced margin-right */
+    margin-bottom: 3px; /* Reduced margin-bottom */
+}
+
+.type-input {
+    font-size: 24px; /* Reduced font size */
+    color: #032838;
+    text-align: center;
+    display: inline-block;
+}
+
+
+.redirect-container {
+    text-align: center; /* Center the buttons horizontally */
+    margin-top: 20px; /* Add spacing above the container */
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+
+
+.type-dropdown {
+    font-size: 24px; /* Reduced font size */
+    color: #032838;
+    text-align: center;
+    outline: dashed;
+    display: inline-block;
+    overflow: hidden; /* Hide any overflow */
+    text-overflow: ellipsis;
+}
+
+.type-label {
+    font-size: 14px; /* Reduced font size */
+    color: #4a412a;
+}
+
+.search-parent {
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Horizontally center the items */
+    align-items: stretch; /* Vertically center the items */
+    text-align: center; /* Centers text content inside child elements */
+    margin-bottom: 10px;
+}
+
+.vendor-background,
+.inventory-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+    background-color: #e0e0e0;
+    width: 35vw;
+    overflow: hidden;
+    border-radius: 20px;
+    margin-top: 5vh; /* Reduced margin-top */
+}
+
+.vendor-title, .inventory-title {
+    margin-top: 10px; /* Reduced margin-top */
+    margin-bottom: 10px; /* Reduced margin-bottom */
+    text-align: center;
+    font-size: 32px; /* Reduced font size */
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    color: #032838;
+}
+
+
+.vendor-id {
+    text-align: center;
+    margin-bottom: 10px; /* Reduced bottom margin */
+    font-size: 18px; /* Reduced font size */
+    color: #000000;
+    background-color: transparent;
+    display: inline-block;
+    overflow: hidden;
+    background-color: white;
+}
+
+input {
+    background-color: white;
+    height: 5vh;
+    width: 40vh;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
+    margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
+}
+
+.vendor-name {
+    text-align: center;
+    margin-bottom: 10px; /* Reduced bottom margin */
+    font-size: 18px; /* Reduced font size */
+    color: #000000;
+    display: flex;
+    overflow: hidden;
+}
+
+.inventory-interact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px; /* Reduced gap */
+    justify-content: center;
+}
+
+.inventory-id {
+    text-align: center;
+    font-size: 18px; /* Reduced font size */
+    color: #000000;
+    margin-bottom: 10px;
+    display: flex;
+    overflow: hidden;
+}
+
+button {
+    color: white;
+    background-color: #5392ac;
+    width: 10vh;  
+    height: 5vh;  
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 10px;  
+    border-color: transparent;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #417a8c;
+}
+
+.department-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Reduced height */
+    width: 100%;
+    padding: 15px; /* Reduced padding */
+}
+
+.department-background {
+    background-color: #CDB29E;
+    height: auto; /* Reduced height */
+    width: 35vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 15%;
+    padding: 10px; /* Reduced padding */
+    display: block; /* Change from inline-block to block */
+    text-align: center; /* Ensure text is centered within the block */
+}
+
+.department-search-container p,
+.department-background h2,
+.department-background h3,
+.department-background li {
+    text-align: center; /* Center text for headings and list items */
+}
+
+.department-search-container p {
+    font-size: 1rem; /* Reduced font size */
+}
+
+.department-label {
+    color:#032838;
+    font-size: 20px; /* Reduced font size */
+    text-decoration: underline;
+}

@@ -1,0 +1,113 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sched_background {
+    background-color: #e0e0e0;
+    min-height: 80vh;
+    overflow: auto;
+    width: 95vw;
+    border-radius: 2%;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.select-background {
+    background-color: #e0e0e0;
+    min-height: 80vh;
+    overflow: auto;
+    width: 95vw;
+    border-radius: 2%;
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+input {
+    height: 5vh;
+    width: 40vh;
+    border-radius: 25px; /* Updated */
+    border: 1px solid #ccc; /* Updated */
+    margin: 2%;
+    padding: 10px; /* Updated */
+    font-size: 16px; /* Updated */
+}
+
+.select-left {
+    flex: 1 1;
+    display: flex;
+    
+    border-right: 2px solid #032838;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.select-right {
+    flex: 1 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: x-large;
+    color: #032838;
+    
+}
+.select-right p {
+    color: #5392ac;
+}
+
+.select-left button, .select-right button, .select-center button {
+    background-color: #5392ac;
+    width: 10vh;  
+    height: 5vh;  
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 10px;  
+}
+
+select {
+    height: 5vh;
+    width: 40vh;
+    border-radius: 10px;
+    border: none;
+    margin: 2%;
+}
+p {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-center {
+    flex: 1 1;
+    display: flex;
+    border-right: 2px solid #032838;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: x-large;
+    text-align: center; 
+}
