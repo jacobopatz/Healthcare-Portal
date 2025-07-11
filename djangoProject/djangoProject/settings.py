@@ -38,7 +38,7 @@ SECRET_KEY = "django-insecure-pqt^2-hh9l@^bwufrq0)ej6+uoat_4qq4qf*u+safw9htwx8jg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1',  'healthcare-portal-zkt4.onrender.com']
 
 
 # Application definition
